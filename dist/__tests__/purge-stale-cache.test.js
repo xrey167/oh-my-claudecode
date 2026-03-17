@@ -229,7 +229,7 @@ describe('purgeStalePluginCacheVersions', () => {
         expect(mockedRmSync).not.toHaveBeenCalled();
     });
     // --- C3 fix: recently modified directories are skipped ---
-    it('skips recently modified directories (race condition guard)', () => {
+    function setupFreshNonActiveCache() {
         const cacheDir = '/mock/.claude/plugins/cache';
         mockedExistsSync.mockReturnValue(true);
         mockedReadFileSync.mockReturnValue(JSON.stringify({
@@ -246,9 +246,24 @@ describe('purgeStalePluginCacheVersions', () => {
                 return [dirent('1.0.0')];
             return [];
         });
-        // Directory was just modified (fresh) — should be skipped
         mockedStatSync.mockReturnValue(freshStats());
+    }
+    it('skips recently modified directories (race condition guard)', () => {
+        setupFreshNonActiveCache();
         const result = purgeStalePluginCacheVersions();
+        expect(result.removed).toBe(0);
+        expect(mockedRmSync).not.toHaveBeenCalled();
+    });
+    // --- skipGracePeriod option ---
+    it('removes fresh directories when skipGracePeriod is true', () => {
+        setupFreshNonActiveCache();
+        const result = purgeStalePluginCacheVersions({ skipGracePeriod: true });
+        expect(result.removed).toBe(1);
+        expect(mockedRmSync).toHaveBeenCalled();
+    });
+    it('still respects grace period when skipGracePeriod is false', () => {
+        setupFreshNonActiveCache();
+        const result = purgeStalePluginCacheVersions({ skipGracePeriod: false });
         expect(result.removed).toBe(0);
         expect(mockedRmSync).not.toHaveBeenCalled();
     });

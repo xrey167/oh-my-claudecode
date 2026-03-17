@@ -10,8 +10,8 @@
  *
  * @see https://github.com/Yeachan-Heo/oh-my-claudecode/issues/1130
  */
-import type { PipelineConfig, PipelineStageAdapter, PipelineTracking, PipelinePhase, PipelineStageId } from './pipeline-types.js';
-import type { AutopilotState, AutopilotConfig } from './types.js';
+import type { PipelineConfig, PipelineStageAdapter, PipelineTracking, PipelinePhase, PipelineStageId } from "./pipeline-types.js";
+import type { AutopilotState, AutopilotConfig } from "./types.js";
 /**
  * Resolve a PipelineConfig from user-provided partial config, merging with defaults.
  *
@@ -101,7 +101,7 @@ export declare function generatePipelinePrompt(directory: string, sessionId?: st
 /**
  * Generate a stage transition prompt when advancing between stages.
  */
-export declare function generateTransitionPrompt(fromStage: PipelineStageId, toStage: PipelineStageId | 'complete'): string;
+export declare function generateTransitionPrompt(fromStage: PipelineStageId, toStage: PipelineStageId | "complete"): string;
 /**
  * Get a summary of the pipeline's current status for display.
  */

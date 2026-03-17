@@ -20,6 +20,7 @@ describe('worker-bootstrap', () => {
             expect(generateMailboxTriggerMessage('test-team', 'worker-1', 2)).toContain('act now');
             expect(generateMailboxTriggerMessage('test-team', 'worker-1', 2)).toContain('concrete progress');
             expect(generateMailboxTriggerMessage('test-team', 'worker-1', 2)).toContain('ACK-only');
+            expect(generateMailboxTriggerMessage('test-team', 'worker-1', 2)).toContain('next feasible work');
         });
         it('supports state-root placeholders for worktree-backed trigger paths', () => {
             expect(generateTriggerMessage('test-team', 'worker-1', '$OMC_TEAM_STATE_ROOT'))
@@ -70,6 +71,12 @@ describe('worker-bootstrap', () => {
             expect(overlay).toContain('You are a **team worker**, not the team leader');
             expect(overlay).toContain('Do NOT create tmux panes/sessions');
             expect(overlay).toContain('Do NOT run team spawning/orchestration commands');
+        });
+        it('tells workers to keep executing after ACK or progress replies', () => {
+            const overlay = generateWorkerOverlay(baseParams);
+            expect(overlay).toContain('ACK/progress messages are not a stop signal');
+            expect(overlay).toContain('next feasible work');
+            expect(overlay).not.toContain('Exit** immediately after transitioning');
         });
         it('injects agent-type-specific guidance section', () => {
             const geminiOverlay = generateWorkerOverlay({ ...baseParams, agentType: 'gemini' });

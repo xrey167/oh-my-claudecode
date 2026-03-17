@@ -3,7 +3,7 @@ import { execFileSync } from 'child_process';
 import { readFileSync } from 'fs';
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
-import { KEYWORD_DETECTOR_SCRIPT_NODE, getHookScripts } from '../hooks.js';
+import { KEYWORD_DETECTOR_SCRIPT_NODE } from '../hooks.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const packageRoot = join(__dirname, '..', '..', '..');
@@ -22,9 +22,7 @@ function runKeywordHook(scriptPath, prompt) {
 }
 describe('keyword-detector packaged artifacts', () => {
     it('does not ship stale pipeline keyword handling in installer templates', () => {
-        const hookScripts = getHookScripts();
-        const template = hookScripts['keyword-detector.mjs'];
-        expect(template).toBe(KEYWORD_DETECTOR_SCRIPT_NODE);
+        const template = KEYWORD_DETECTOR_SCRIPT_NODE;
         for (const snippet of STALE_PIPELINE_SNIPPETS) {
             expect(template).not.toContain(snippet);
         }

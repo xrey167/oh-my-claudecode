@@ -8,19 +8,20 @@
  * When planning='ralplan', uses consensus-driven planning with Planner/Architect/Critic.
  * When planning='direct', uses the simpler Architect+Critic approach.
  */
-import { getExpansionPrompt, getDirectPlanningPrompt } from '../prompts.js';
-export const RALPLAN_COMPLETION_SIGNAL = 'PIPELINE_RALPLAN_COMPLETE';
+import { resolveAutopilotPlanPath } from "../../../config/plan-output.js";
+import { getExpansionPrompt, getDirectPlanningPrompt } from "../prompts.js";
+export const RALPLAN_COMPLETION_SIGNAL = "PIPELINE_RALPLAN_COMPLETE";
 export const ralplanAdapter = {
-    id: 'ralplan',
-    name: 'Planning (RALPLAN)',
+    id: "ralplan",
+    name: "Planning (RALPLAN)",
     completionSignal: RALPLAN_COMPLETION_SIGNAL,
     shouldSkip(config) {
         return config.planning === false;
     },
     getPrompt(context) {
-        const specPath = context.specPath || '.omc/autopilot/spec.md';
-        const planPath = context.planPath || '.omc/plans/autopilot-impl.md';
-        if (context.config.planning === 'ralplan') {
+        const specPath = context.specPath || ".omc/autopilot/spec.md";
+        const planPath = context.planPath || resolveAutopilotPlanPath();
+        if (context.config.planning === "ralplan") {
             return `## PIPELINE STAGE: RALPLAN (Consensus Planning)
 
 Your task: Expand the idea into a detailed spec and implementation plan using consensus-driven planning.

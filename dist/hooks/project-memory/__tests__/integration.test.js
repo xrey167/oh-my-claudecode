@@ -106,6 +106,42 @@ describe('Project Memory Integration', () => {
             expect(registered).toBe(false);
         });
     });
+    describe('Rescan preserves user-contributed data', () => {
+        it('should preserve customNotes and userDirectives after rescan', async () => {
+            const packageJson = { name: 'test', scripts: { build: 'tsc' }, devDependencies: { typescript: '^5.0.0' } };
+            await fs.writeFile(path.join(tempDir, 'package.json'), JSON.stringify(packageJson));
+            await fs.writeFile(path.join(tempDir, 'tsconfig.json'), '{}');
+            // Initial scan
+            const sessionId = 'test-session-rescan';
+            await registerProjectMemoryContext(sessionId, tempDir);
+            // Add custom notes and directives to the persisted memory
+            let memory = await loadProjectMemory(tempDir);
+            expect(memory).not.toBeNull();
+            memory.customNotes = [
+                { timestamp: Date.now(), source: 'manual', category: 'deploy', content: 'Uses Docker' },
+            ];
+            memory.userDirectives = [
+                { timestamp: Date.now(), directive: 'Always use strict mode', context: '', source: 'explicit', priority: 'high' },
+            ];
+            // Set lastScanned to 25 hours ago to trigger rescan
+            memory.lastScanned = Date.now() - 25 * 60 * 60 * 1000;
+            const memoryPath = getMemoryPath(tempDir);
+            await fs.writeFile(memoryPath, JSON.stringify(memory, null, 2));
+            // Clear session cache and re-register (triggers rescan)
+            clearProjectMemorySession(sessionId);
+            await registerProjectMemoryContext(sessionId, tempDir);
+            // Verify user-contributed data survived
+            const updated = await loadProjectMemory(tempDir);
+            expect(updated).not.toBeNull();
+            expect(updated.customNotes).toHaveLength(1);
+            expect(updated.customNotes[0].content).toBe('Uses Docker');
+            expect(updated.userDirectives).toHaveLength(1);
+            expect(updated.userDirectives[0].directive).toBe('Always use strict mode');
+            // Verify lastScanned was updated (rescan happened)
+            const age = Date.now() - updated.lastScanned;
+            expect(age).toBeLessThan(5000);
+        });
+    });
     describe('End-to-end PostToolUse learning flow', () => {
         it('should learn build command from Bash execution', async () => {
             // Create initial project

@@ -9,17 +9,17 @@
  */
 /** The canonical stage execution order */
 export const STAGE_ORDER = [
-    'ralplan',
-    'execution',
-    'ralph',
-    'qa',
+    "ralplan",
+    "execution",
+    "ralph",
+    "qa",
 ];
 /** Default pipeline configuration (matches current autopilot behavior) */
 export const DEFAULT_PIPELINE_CONFIG = {
-    planning: 'ralplan',
-    execution: 'solo',
+    planning: "ralplan",
+    execution: "solo",
     verification: {
-        engine: 'ralph',
+        engine: "ralph",
         maxIterations: 100,
     },
     qa: true,
@@ -33,11 +33,11 @@ export const DEFAULT_PIPELINE_CONFIG = {
  */
 export const DEPRECATED_MODE_ALIASES = {
     ultrawork: {
-        config: { execution: 'team' },
+        config: { execution: "team" },
         message: 'ultrawork is deprecated. Use /autopilot with execution: "team" instead.',
     },
     ultrapilot: {
-        config: { execution: 'team' },
+        config: { execution: "team" },
         message: 'ultrapilot is deprecated. Use /autopilot with execution: "team" instead.',
     },
 };

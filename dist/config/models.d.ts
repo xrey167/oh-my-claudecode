@@ -50,6 +50,20 @@ export declare function getBuiltinExternalDefaultModel(provider: 'codex' | 'gemi
  */
 export declare function isBedrock(): boolean;
 /**
+ * Check whether a model ID is a provider-specific identifier that should NOT
+ * be normalized to a bare alias (sonnet/opus/haiku).
+ *
+ * Provider-specific IDs include:
+ *   - Bedrock prefixed: us.anthropic.claude-*, global.anthropic.claude-*, anthropic.claude-*
+ *   - Bedrock ARN: arn:aws:bedrock:...
+ *   - Vertex AI: vertex_ai/...
+ *
+ * These IDs must be passed through to the CLI as-is because normalizing them
+ * to aliases like "sonnet" causes Claude Code to expand them to Anthropic API
+ * model names (e.g. claude-sonnet-4-6) which are invalid on Bedrock/Vertex.
+ */
+export declare function isProviderSpecificModelId(modelId: string): boolean;
+/**
  * Detect whether Claude Code is running on Google Vertex AI.
  *
  * Claude Code sets CLAUDE_CODE_USE_VERTEX=1 when configured for Vertex AI.

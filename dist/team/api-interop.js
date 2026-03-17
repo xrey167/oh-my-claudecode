@@ -6,7 +6,7 @@ import { queueBroadcastMailboxMessage, queueDirectMailboxMessage } from './mcp-c
 import { injectToLeaderPane, sendToWorker } from './tmux-session.js';
 import { listDispatchRequests, markDispatchRequestDelivered, markDispatchRequestNotified } from './dispatch-queue.js';
 import { generateMailboxTriggerMessage } from './worker-bootstrap.js';
-import { resolveLifecycleProfile } from './governance.js';
+import { shutdownTeam } from './runtime.js';
 import { shutdownTeamV2 } from './runtime-v2.js';
 const TEAM_UPDATE_TASK_MUTABLE_FIELDS = new Set(['subject', 'description', 'blocked_by', 'requires_code_change']);
 const TEAM_UPDATE_TASK_REQUEST_FIELDS = new Set(['team_name', 'task_id', 'workingDirectory', ...TEAM_UPDATE_TASK_MUTABLE_FIELDS]);
@@ -126,6 +126,35 @@ export function resolveTeamApiCliCommand(env = process.env) {
     if (hasOmxContext)
         return 'omx team api';
     return 'omc team api';
+}
+function isRuntimeV2Config(config) {
+    return !!config && typeof config === 'object' && Array.isArray(config.workers);
+}
+function isLegacyRuntimeConfig(config) {
+    return !!config && typeof config === 'object' && Array.isArray(config.agentTypes);
+}
+async function executeTeamCleanupViaRuntime(teamName, cwd) {
+    const config = await teamReadConfig(teamName, cwd);
+    if (!config) {
+        await teamCleanup(teamName, cwd);
+        return;
+    }
+    if (isRuntimeV2Config(config)) {
+        await shutdownTeamV2(teamName, cwd);
+        return;
+    }
+    if (isLegacyRuntimeConfig(config)) {
+        const legacyConfig = config;
+        const sessionName = typeof legacyConfig.tmuxSession === 'string' && legacyConfig.tmuxSession.trim() !== ''
+            ? legacyConfig.tmuxSession.trim()
+            : `omc-team-${teamName}`;
+        const leaderPaneId = typeof legacyConfig.leaderPaneId === 'string' && legacyConfig.leaderPaneId.trim() !== ''
+            ? legacyConfig.leaderPaneId.trim()
+            : undefined;
+        await shutdownTeam(teamName, sessionName, cwd, 30_000, undefined, leaderPaneId, legacyConfig.tmuxOwnsWindow === true);
+        return;
+    }
+    await teamCleanup(teamName, cwd);
 }
 function readTeamStateRootFromFile(path) {
     if (!existsSync(path))
@@ -666,16 +695,7 @@ export async function executeTeamApiOperation(operation, args, fallbackCwd) {
                 const teamName = String(args.team_name || '').trim();
                 if (!teamName)
                     return { ok: false, operation, error: { code: 'invalid_input', message: 'team_name is required' } };
-                // Lifecycle-aware routing: linked_ralph profile uses graceful shutdown
-                const config = await teamReadConfig(teamName, cwd);
-                const manifest = await teamReadManifest(teamName, cwd);
-                const profile = resolveLifecycleProfile(config, manifest);
-                if (profile === 'linked_ralph') {
-                    await shutdownTeamV2(teamName, cwd);
-                }
-                else {
-                    await teamCleanup(teamName, cwd);
-                }
+                await executeTeamCleanupViaRuntime(teamName, cwd);
                 return { ok: true, operation, data: { team_name: teamName } };
             }
             case 'orphan-cleanup': {

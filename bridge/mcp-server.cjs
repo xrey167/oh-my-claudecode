@@ -43,9 +43,9 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
   mod
 ));
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/compile/codegen/code.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/compile/codegen/code.js
 var require_code = __commonJS({
-  "../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/compile/codegen/code.js"(exports2) {
+  "../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/compile/codegen/code.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.regexpCode = exports2.getEsmExportName = exports2.getProperty = exports2.safeStringify = exports2.stringify = exports2.strConcat = exports2.addCodeArg = exports2.str = exports2._ = exports2.nil = exports2._Code = exports2.Name = exports2.IDENTIFIER = exports2._CodeOrName = void 0;
@@ -197,9 +197,9 @@ var require_code = __commonJS({
   }
 });
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/compile/codegen/scope.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/compile/codegen/scope.js
 var require_scope = __commonJS({
-  "../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/compile/codegen/scope.js"(exports2) {
+  "../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/compile/codegen/scope.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.ValueScope = exports2.ValueScopeName = exports2.Scope = exports2.varKinds = exports2.UsedValueState = void 0;
@@ -342,9 +342,9 @@ var require_scope = __commonJS({
   }
 });
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/compile/codegen/index.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/compile/codegen/index.js
 var require_codegen = __commonJS({
-  "../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/compile/codegen/index.js"(exports2) {
+  "../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/compile/codegen/index.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.or = exports2.and = exports2.not = exports2.CodeGen = exports2.operators = exports2.varKinds = exports2.ValueScopeName = exports2.ValueScope = exports2.Scope = exports2.Name = exports2.regexpCode = exports2.stringify = exports2.getProperty = exports2.nil = exports2.strConcat = exports2.str = exports2._ = void 0;
@@ -1062,9 +1062,9 @@ var require_codegen = __commonJS({
   }
 });
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/compile/util.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/compile/util.js
 var require_util = __commonJS({
-  "../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/compile/util.js"(exports2) {
+  "../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/compile/util.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.checkStrictMode = exports2.getErrorPath = exports2.Type = exports2.useFunc = exports2.setEvaluated = exports2.evaluatedPropsToName = exports2.mergeEvaluated = exports2.eachItem = exports2.unescapeJsonPointer = exports2.escapeJsonPointer = exports2.escapeFragment = exports2.unescapeFragment = exports2.schemaRefOrVal = exports2.schemaHasRulesButRef = exports2.schemaHasRules = exports2.checkUnknownRules = exports2.alwaysValidSchema = exports2.toHash = void 0;
@@ -1229,9 +1229,9 @@ var require_util = __commonJS({
   }
 });
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/compile/names.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/compile/names.js
 var require_names = __commonJS({
-  "../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/compile/names.js"(exports2) {
+  "../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/compile/names.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -1268,9 +1268,9 @@ var require_names = __commonJS({
   }
 });
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/compile/errors.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/compile/errors.js
 var require_errors = __commonJS({
-  "../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/compile/errors.js"(exports2) {
+  "../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/compile/errors.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.extendErrors = exports2.resetErrorsCount = exports2.reportExtraError = exports2.reportError = exports2.keyword$DataError = exports2.keywordError = void 0;
@@ -1390,9 +1390,9 @@ var require_errors = __commonJS({
   }
 });
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/compile/validate/boolSchema.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/compile/validate/boolSchema.js
 var require_boolSchema = __commonJS({
-  "../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/compile/validate/boolSchema.js"(exports2) {
+  "../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/compile/validate/boolSchema.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.boolOrEmptySchema = exports2.topBoolOrEmptySchema = void 0;
@@ -1441,9 +1441,9 @@ var require_boolSchema = __commonJS({
   }
 });
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/compile/rules.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/compile/rules.js
 var require_rules = __commonJS({
-  "../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/compile/rules.js"(exports2) {
+  "../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/compile/rules.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.getRules = exports2.isJSONType = void 0;
@@ -1472,9 +1472,9 @@ var require_rules = __commonJS({
   }
 });
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/compile/validate/applicability.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/compile/validate/applicability.js
 var require_applicability = __commonJS({
-  "../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/compile/validate/applicability.js"(exports2) {
+  "../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/compile/validate/applicability.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.shouldUseRule = exports2.shouldUseGroup = exports2.schemaHasRulesForType = void 0;
@@ -1495,9 +1495,9 @@ var require_applicability = __commonJS({
   }
 });
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/compile/validate/dataType.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/compile/validate/dataType.js
 var require_dataType = __commonJS({
-  "../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/compile/validate/dataType.js"(exports2) {
+  "../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/compile/validate/dataType.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.reportTypeError = exports2.checkDataTypes = exports2.checkDataType = exports2.coerceAndCheckDataType = exports2.getJSONTypes = exports2.getSchemaTypes = exports2.DataType = void 0;
@@ -1679,9 +1679,9 @@ var require_dataType = __commonJS({
   }
 });
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/compile/validate/defaults.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/compile/validate/defaults.js
 var require_defaults = __commonJS({
-  "../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/compile/validate/defaults.js"(exports2) {
+  "../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/compile/validate/defaults.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.assignDefaults = void 0;
@@ -1716,9 +1716,9 @@ var require_defaults = __commonJS({
   }
 });
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/code.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/code.js
 var require_code2 = __commonJS({
-  "../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/code.js"(exports2) {
+  "../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/code.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.validateUnion = exports2.validateArray = exports2.usePattern = exports2.callValidateCode = exports2.schemaProperties = exports2.allSchemaProperties = exports2.noPropertyInData = exports2.propertyInData = exports2.isOwnProperty = exports2.hasPropFunc = exports2.reportMissingProp = exports2.checkMissingProp = exports2.checkReportMissingProp = void 0;
@@ -1849,9 +1849,9 @@ var require_code2 = __commonJS({
   }
 });
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/compile/validate/keyword.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/compile/validate/keyword.js
 var require_keyword = __commonJS({
-  "../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/compile/validate/keyword.js"(exports2) {
+  "../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/compile/validate/keyword.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.validateKeywordUsage = exports2.validSchemaType = exports2.funcKeywordCode = exports2.macroKeywordCode = void 0;
@@ -1967,9 +1967,9 @@ var require_keyword = __commonJS({
   }
 });
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/compile/validate/subschema.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/compile/validate/subschema.js
 var require_subschema = __commonJS({
-  "../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/compile/validate/subschema.js"(exports2) {
+  "../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/compile/validate/subschema.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.extendSubschemaMode = exports2.extendSubschemaData = exports2.getSubschema = void 0;
@@ -2050,9 +2050,9 @@ var require_subschema = __commonJS({
   }
 });
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/fast-deep-equal/index.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/fast-deep-equal/index.js
 var require_fast_deep_equal = __commonJS({
-  "../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/fast-deep-equal/index.js"(exports2, module2) {
+  "../../../../../../launch-feat-refactor-skills/node_modules/fast-deep-equal/index.js"(exports2, module2) {
     "use strict";
     module2.exports = function equal(a, b) {
       if (a === b) return true;
@@ -2085,9 +2085,9 @@ var require_fast_deep_equal = __commonJS({
   }
 });
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/json-schema-traverse/index.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/json-schema-traverse/index.js
 var require_json_schema_traverse = __commonJS({
-  "../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/json-schema-traverse/index.js"(exports2, module2) {
+  "../../../../../../launch-feat-refactor-skills/node_modules/json-schema-traverse/index.js"(exports2, module2) {
     "use strict";
     var traverse = module2.exports = function(schema, opts, cb) {
       if (typeof opts == "function") {
@@ -2173,9 +2173,9 @@ var require_json_schema_traverse = __commonJS({
   }
 });
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/compile/resolve.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/compile/resolve.js
 var require_resolve = __commonJS({
-  "../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/compile/resolve.js"(exports2) {
+  "../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/compile/resolve.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.getSchemaRefs = exports2.resolveUrl = exports2.normalizeId = exports2._getFullPath = exports2.getFullPath = exports2.inlineRef = void 0;
@@ -2329,9 +2329,9 @@ var require_resolve = __commonJS({
   }
 });
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/compile/validate/index.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/compile/validate/index.js
 var require_validate = __commonJS({
-  "../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/compile/validate/index.js"(exports2) {
+  "../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/compile/validate/index.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.getData = exports2.KeywordCxt = exports2.validateFunctionCode = void 0;
@@ -2837,9 +2837,9 @@ var require_validate = __commonJS({
   }
 });
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/runtime/validation_error.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/runtime/validation_error.js
 var require_validation_error = __commonJS({
-  "../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/runtime/validation_error.js"(exports2) {
+  "../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/runtime/validation_error.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var ValidationError = class extends Error {
@@ -2853,9 +2853,9 @@ var require_validation_error = __commonJS({
   }
 });
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/compile/ref_error.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/compile/ref_error.js
 var require_ref_error = __commonJS({
-  "../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/compile/ref_error.js"(exports2) {
+  "../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/compile/ref_error.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var resolve_1 = require_resolve();
@@ -2870,9 +2870,9 @@ var require_ref_error = __commonJS({
   }
 });
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/compile/index.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/compile/index.js
 var require_compile = __commonJS({
-  "../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/compile/index.js"(exports2) {
+  "../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/compile/index.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.resolveSchema = exports2.getCompilingSchema = exports2.resolveRef = exports2.compileSchema = exports2.SchemaEnv = void 0;
@@ -3094,9 +3094,9 @@ var require_compile = __commonJS({
   }
 });
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/refs/data.json
+// ../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/refs/data.json
 var require_data = __commonJS({
-  "../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/refs/data.json"(exports2, module2) {
+  "../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/refs/data.json"(exports2, module2) {
     module2.exports = {
       $id: "https://raw.githubusercontent.com/ajv-validator/ajv/master/lib/refs/data.json#",
       description: "Meta-schema for $data reference (JSON AnySchema extension proposal)",
@@ -3113,9 +3113,9 @@ var require_data = __commonJS({
   }
 });
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/fast-uri/lib/utils.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/fast-uri/lib/utils.js
 var require_utils = __commonJS({
-  "../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/fast-uri/lib/utils.js"(exports2, module2) {
+  "../../../../../../launch-feat-refactor-skills/node_modules/fast-uri/lib/utils.js"(exports2, module2) {
     "use strict";
     var isUUID = RegExp.prototype.test.bind(/^[\da-f]{8}-[\da-f]{4}-[\da-f]{4}-[\da-f]{4}-[\da-f]{12}$/iu);
     var isIPv4 = RegExp.prototype.test.bind(/^(?:(?:25[0-5]|2[0-4]\d|1\d{2}|[1-9]\d|\d)\.){3}(?:25[0-5]|2[0-4]\d|1\d{2}|[1-9]\d|\d)$/u);
@@ -3370,9 +3370,9 @@ var require_utils = __commonJS({
   }
 });
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/fast-uri/lib/schemes.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/fast-uri/lib/schemes.js
 var require_schemes = __commonJS({
-  "../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/fast-uri/lib/schemes.js"(exports2, module2) {
+  "../../../../../../launch-feat-refactor-skills/node_modules/fast-uri/lib/schemes.js"(exports2, module2) {
     "use strict";
     var { isUUID } = require_utils();
     var URN_REG = /([\da-z][\d\-a-z]{0,31}):((?:[\w!$'()*+,\-.:;=@]|%[\da-f]{2})+)/iu;
@@ -3580,9 +3580,9 @@ var require_schemes = __commonJS({
   }
 });
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/fast-uri/index.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/fast-uri/index.js
 var require_fast_uri = __commonJS({
-  "../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/fast-uri/index.js"(exports2, module2) {
+  "../../../../../../launch-feat-refactor-skills/node_modules/fast-uri/index.js"(exports2, module2) {
     "use strict";
     var { normalizeIPv6, removeDotSegments, recomposeAuthority, normalizeComponentEncoding, isIPv4, nonSimpleDomain } = require_utils();
     var { SCHEMES, getSchemeHandler } = require_schemes();
@@ -3835,9 +3835,9 @@ var require_fast_uri = __commonJS({
   }
 });
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/runtime/uri.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/runtime/uri.js
 var require_uri = __commonJS({
-  "../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/runtime/uri.js"(exports2) {
+  "../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/runtime/uri.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var uri = require_fast_uri();
@@ -3846,9 +3846,9 @@ var require_uri = __commonJS({
   }
 });
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/core.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/core.js
 var require_core = __commonJS({
-  "../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/core.js"(exports2) {
+  "../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/core.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.CodeGen = exports2.Name = exports2.nil = exports2.stringify = exports2.str = exports2._ = exports2.KeywordCxt = void 0;
@@ -4457,9 +4457,9 @@ var require_core = __commonJS({
   }
 });
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/core/id.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/core/id.js
 var require_id = __commonJS({
-  "../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/core/id.js"(exports2) {
+  "../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/core/id.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var def = {
@@ -4472,9 +4472,9 @@ var require_id = __commonJS({
   }
 });
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/core/ref.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/core/ref.js
 var require_ref = __commonJS({
-  "../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/core/ref.js"(exports2) {
+  "../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/core/ref.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.callRef = exports2.getValidate = void 0;
@@ -4594,9 +4594,9 @@ var require_ref = __commonJS({
   }
 });
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/core/index.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/core/index.js
 var require_core2 = __commonJS({
-  "../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/core/index.js"(exports2) {
+  "../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/core/index.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var id_1 = require_id();
@@ -4615,9 +4615,9 @@ var require_core2 = __commonJS({
   }
 });
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/validation/limitNumber.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/validation/limitNumber.js
 var require_limitNumber = __commonJS({
-  "../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/validation/limitNumber.js"(exports2) {
+  "../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/validation/limitNumber.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -4647,9 +4647,9 @@ var require_limitNumber = __commonJS({
   }
 });
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/validation/multipleOf.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/validation/multipleOf.js
 var require_multipleOf = __commonJS({
-  "../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/validation/multipleOf.js"(exports2) {
+  "../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/validation/multipleOf.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -4675,9 +4675,9 @@ var require_multipleOf = __commonJS({
   }
 });
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/runtime/ucs2length.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/runtime/ucs2length.js
 var require_ucs2length = __commonJS({
-  "../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/runtime/ucs2length.js"(exports2) {
+  "../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/runtime/ucs2length.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     function ucs2length(str) {
@@ -4701,9 +4701,9 @@ var require_ucs2length = __commonJS({
   }
 });
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/validation/limitLength.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/validation/limitLength.js
 var require_limitLength = __commonJS({
-  "../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/validation/limitLength.js"(exports2) {
+  "../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/validation/limitLength.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -4733,9 +4733,9 @@ var require_limitLength = __commonJS({
   }
 });
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/validation/pattern.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/validation/pattern.js
 var require_pattern = __commonJS({
-  "../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/validation/pattern.js"(exports2) {
+  "../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/validation/pattern.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var code_1 = require_code2();
@@ -4761,9 +4761,9 @@ var require_pattern = __commonJS({
   }
 });
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/validation/limitProperties.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/validation/limitProperties.js
 var require_limitProperties = __commonJS({
-  "../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/validation/limitProperties.js"(exports2) {
+  "../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/validation/limitProperties.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -4790,9 +4790,9 @@ var require_limitProperties = __commonJS({
   }
 });
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/validation/required.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/validation/required.js
 var require_required = __commonJS({
-  "../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/validation/required.js"(exports2) {
+  "../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/validation/required.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var code_1 = require_code2();
@@ -4872,9 +4872,9 @@ var require_required = __commonJS({
   }
 });
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/validation/limitItems.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/validation/limitItems.js
 var require_limitItems = __commonJS({
-  "../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/validation/limitItems.js"(exports2) {
+  "../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/validation/limitItems.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -4901,9 +4901,9 @@ var require_limitItems = __commonJS({
   }
 });
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/runtime/equal.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/runtime/equal.js
 var require_equal = __commonJS({
-  "../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/runtime/equal.js"(exports2) {
+  "../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/runtime/equal.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var equal = require_fast_deep_equal();
@@ -4912,9 +4912,9 @@ var require_equal = __commonJS({
   }
 });
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/validation/uniqueItems.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/validation/uniqueItems.js
 var require_uniqueItems = __commonJS({
-  "../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/validation/uniqueItems.js"(exports2) {
+  "../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/validation/uniqueItems.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var dataType_1 = require_dataType();
@@ -4979,9 +4979,9 @@ var require_uniqueItems = __commonJS({
   }
 });
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/validation/const.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/validation/const.js
 var require_const = __commonJS({
-  "../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/validation/const.js"(exports2) {
+  "../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/validation/const.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -5008,9 +5008,9 @@ var require_const = __commonJS({
   }
 });
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/validation/enum.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/validation/enum.js
 var require_enum = __commonJS({
-  "../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/validation/enum.js"(exports2) {
+  "../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/validation/enum.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -5057,9 +5057,9 @@ var require_enum = __commonJS({
   }
 });
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/validation/index.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/validation/index.js
 var require_validation = __commonJS({
-  "../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/validation/index.js"(exports2) {
+  "../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/validation/index.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var limitNumber_1 = require_limitNumber();
@@ -5095,9 +5095,9 @@ var require_validation = __commonJS({
   }
 });
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/additionalItems.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/additionalItems.js
 var require_additionalItems = __commonJS({
-  "../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/additionalItems.js"(exports2) {
+  "../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/additionalItems.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.validateAdditionalItems = void 0;
@@ -5148,9 +5148,9 @@ var require_additionalItems = __commonJS({
   }
 });
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/items.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/items.js
 var require_items = __commonJS({
-  "../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/items.js"(exports2) {
+  "../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/items.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.validateTuple = void 0;
@@ -5205,9 +5205,9 @@ var require_items = __commonJS({
   }
 });
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/prefixItems.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/prefixItems.js
 var require_prefixItems = __commonJS({
-  "../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/prefixItems.js"(exports2) {
+  "../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/prefixItems.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var items_1 = require_items();
@@ -5222,9 +5222,9 @@ var require_prefixItems = __commonJS({
   }
 });
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/items2020.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/items2020.js
 var require_items2020 = __commonJS({
-  "../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/items2020.js"(exports2) {
+  "../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/items2020.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -5257,9 +5257,9 @@ var require_items2020 = __commonJS({
   }
 });
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/contains.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/contains.js
 var require_contains = __commonJS({
-  "../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/contains.js"(exports2) {
+  "../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/contains.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -5351,9 +5351,9 @@ var require_contains = __commonJS({
   }
 });
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/dependencies.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/dependencies.js
 var require_dependencies = __commonJS({
-  "../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/dependencies.js"(exports2) {
+  "../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/dependencies.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.validateSchemaDeps = exports2.validatePropertyDeps = exports2.error = void 0;
@@ -5445,9 +5445,9 @@ var require_dependencies = __commonJS({
   }
 });
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/propertyNames.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/propertyNames.js
 var require_propertyNames = __commonJS({
-  "../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/propertyNames.js"(exports2) {
+  "../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/propertyNames.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -5488,9 +5488,9 @@ var require_propertyNames = __commonJS({
   }
 });
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/additionalProperties.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/additionalProperties.js
 var require_additionalProperties = __commonJS({
-  "../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/additionalProperties.js"(exports2) {
+  "../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/additionalProperties.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var code_1 = require_code2();
@@ -5594,9 +5594,9 @@ var require_additionalProperties = __commonJS({
   }
 });
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/properties.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/properties.js
 var require_properties = __commonJS({
-  "../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/properties.js"(exports2) {
+  "../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/properties.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var validate_1 = require_validate();
@@ -5652,9 +5652,9 @@ var require_properties = __commonJS({
   }
 });
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/patternProperties.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/patternProperties.js
 var require_patternProperties = __commonJS({
-  "../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/patternProperties.js"(exports2) {
+  "../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/patternProperties.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var code_1 = require_code2();
@@ -5726,9 +5726,9 @@ var require_patternProperties = __commonJS({
   }
 });
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/not.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/not.js
 var require_not = __commonJS({
-  "../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/not.js"(exports2) {
+  "../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/not.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var util_1 = require_util();
@@ -5757,9 +5757,9 @@ var require_not = __commonJS({
   }
 });
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/anyOf.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/anyOf.js
 var require_anyOf = __commonJS({
-  "../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/anyOf.js"(exports2) {
+  "../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/anyOf.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var code_1 = require_code2();
@@ -5774,9 +5774,9 @@ var require_anyOf = __commonJS({
   }
 });
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/oneOf.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/oneOf.js
 var require_oneOf = __commonJS({
-  "../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/oneOf.js"(exports2) {
+  "../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/oneOf.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -5832,9 +5832,9 @@ var require_oneOf = __commonJS({
   }
 });
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/allOf.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/allOf.js
 var require_allOf = __commonJS({
-  "../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/allOf.js"(exports2) {
+  "../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/allOf.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var util_1 = require_util();
@@ -5859,9 +5859,9 @@ var require_allOf = __commonJS({
   }
 });
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/if.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/if.js
 var require_if = __commonJS({
-  "../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/if.js"(exports2) {
+  "../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/if.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -5928,9 +5928,9 @@ var require_if = __commonJS({
   }
 });
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/thenElse.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/thenElse.js
 var require_thenElse = __commonJS({
-  "../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/thenElse.js"(exports2) {
+  "../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/thenElse.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var util_1 = require_util();
@@ -5946,9 +5946,9 @@ var require_thenElse = __commonJS({
   }
 });
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/index.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/index.js
 var require_applicator = __commonJS({
-  "../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/index.js"(exports2) {
+  "../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/index.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var additionalItems_1 = require_additionalItems();
@@ -5994,9 +5994,9 @@ var require_applicator = __commonJS({
   }
 });
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/format/format.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/format/format.js
 var require_format = __commonJS({
-  "../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/format/format.js"(exports2) {
+  "../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/format/format.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -6084,9 +6084,9 @@ var require_format = __commonJS({
   }
 });
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/format/index.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/format/index.js
 var require_format2 = __commonJS({
-  "../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/format/index.js"(exports2) {
+  "../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/format/index.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var format_1 = require_format();
@@ -6095,9 +6095,9 @@ var require_format2 = __commonJS({
   }
 });
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/metadata.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/metadata.js
 var require_metadata = __commonJS({
-  "../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/metadata.js"(exports2) {
+  "../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/metadata.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.contentVocabulary = exports2.metadataVocabulary = void 0;
@@ -6118,9 +6118,9 @@ var require_metadata = __commonJS({
   }
 });
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/draft7.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/draft7.js
 var require_draft7 = __commonJS({
-  "../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/draft7.js"(exports2) {
+  "../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/draft7.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var core_1 = require_core2();
@@ -6140,9 +6140,9 @@ var require_draft7 = __commonJS({
   }
 });
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/discriminator/types.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/discriminator/types.js
 var require_types = __commonJS({
-  "../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/discriminator/types.js"(exports2) {
+  "../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/discriminator/types.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.DiscrError = void 0;
@@ -6154,9 +6154,9 @@ var require_types = __commonJS({
   }
 });
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/discriminator/index.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/discriminator/index.js
 var require_discriminator = __commonJS({
-  "../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/discriminator/index.js"(exports2) {
+  "../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/discriminator/index.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -6259,9 +6259,9 @@ var require_discriminator = __commonJS({
   }
 });
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/refs/json-schema-draft-07.json
+// ../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/refs/json-schema-draft-07.json
 var require_json_schema_draft_07 = __commonJS({
-  "../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/refs/json-schema-draft-07.json"(exports2, module2) {
+  "../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/refs/json-schema-draft-07.json"(exports2, module2) {
     module2.exports = {
       $schema: "http://json-schema.org/draft-07/schema#",
       $id: "http://json-schema.org/draft-07/schema#",
@@ -6416,9 +6416,9 @@ var require_json_schema_draft_07 = __commonJS({
   }
 });
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/ajv.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/ajv.js
 var require_ajv = __commonJS({
-  "../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/ajv.js"(exports2, module2) {
+  "../../../../../../launch-feat-refactor-skills/node_modules/ajv/dist/ajv.js"(exports2, module2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.MissingRefError = exports2.ValidationError = exports2.CodeGen = exports2.Name = exports2.nil = exports2.stringify = exports2.str = exports2._ = exports2.KeywordCxt = exports2.Ajv = void 0;
@@ -6486,9 +6486,9 @@ var require_ajv = __commonJS({
   }
 });
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv-formats/dist/formats.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/ajv-formats/dist/formats.js
 var require_formats = __commonJS({
-  "../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv-formats/dist/formats.js"(exports2) {
+  "../../../../../../launch-feat-refactor-skills/node_modules/ajv-formats/dist/formats.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.formatNames = exports2.fastFormats = exports2.fullFormats = void 0;
@@ -6689,9 +6689,9 @@ var require_formats = __commonJS({
   }
 });
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv-formats/dist/limit.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/ajv-formats/dist/limit.js
 var require_limit = __commonJS({
-  "../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv-formats/dist/limit.js"(exports2) {
+  "../../../../../../launch-feat-refactor-skills/node_modules/ajv-formats/dist/limit.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.formatLimitDefinition = void 0;
@@ -6761,9 +6761,9 @@ var require_limit = __commonJS({
   }
 });
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv-formats/dist/index.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/ajv-formats/dist/index.js
 var require_dist = __commonJS({
-  "../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv-formats/dist/index.js"(exports2, module2) {
+  "../../../../../../launch-feat-refactor-skills/node_modules/ajv-formats/dist/index.js"(exports2, module2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var formats_1 = require_formats();
@@ -6803,7 +6803,7 @@ var require_dist = __commonJS({
   }
 });
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/zod/v3/external.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/zod/v3/external.js
 var external_exports = {};
 __export(external_exports, {
   BRAND: () => BRAND,
@@ -6915,7 +6915,7 @@ __export(external_exports, {
   void: () => voidType
 });
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/zod/v3/helpers/util.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/zod/v3/helpers/util.js
 var util;
 (function(util2) {
   util2.assertEqual = (_) => {
@@ -7049,7 +7049,7 @@ var getParsedType = (data) => {
   }
 };
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/zod/v3/ZodError.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/zod/v3/ZodError.js
 var ZodIssueCode = util.arrayToEnum([
   "invalid_type",
   "invalid_literal",
@@ -7167,7 +7167,7 @@ ZodError.create = (issues) => {
   return error2;
 };
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/zod/v3/locales/en.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/zod/v3/locales/en.js
 var errorMap = (issue2, _ctx) => {
   let message;
   switch (issue2.code) {
@@ -7270,7 +7270,7 @@ var errorMap = (issue2, _ctx) => {
 };
 var en_default = errorMap;
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/zod/v3/errors.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/zod/v3/errors.js
 var overrideErrorMap = en_default;
 function setErrorMap(map) {
   overrideErrorMap = map;
@@ -7279,7 +7279,7 @@ function getErrorMap() {
   return overrideErrorMap;
 }
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/zod/v3/helpers/parseUtil.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/zod/v3/helpers/parseUtil.js
 var makeIssue = (params) => {
   const { data, path: path11, errorMaps, issueData } = params;
   const fullPath = [...path11, ...issueData.path || []];
@@ -7389,14 +7389,14 @@ var isDirty = (x) => x.status === "dirty";
 var isValid = (x) => x.status === "valid";
 var isAsync = (x) => typeof Promise !== "undefined" && x instanceof Promise;
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/zod/v3/helpers/errorUtil.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/zod/v3/helpers/errorUtil.js
 var errorUtil;
 (function(errorUtil2) {
   errorUtil2.errToObj = (message) => typeof message === "string" ? { message } : message || {};
   errorUtil2.toString = (message) => typeof message === "string" ? message : message?.message;
 })(errorUtil || (errorUtil = {}));
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/zod/v3/types.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/zod/v3/types.js
 var ParseInputLazyPath = class {
   constructor(parent, value, path11, key) {
     this._cachedPath = [];
@@ -10844,7 +10844,7 @@ var coerce = {
 };
 var NEVER = INVALID;
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/zod/v4/core/core.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/zod/v4/core/core.js
 var NEVER2 = Object.freeze({
   status: "aborted"
 });
@@ -10903,7 +10903,7 @@ function config(newConfig) {
   return globalConfig;
 }
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/zod/v4/core/util.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/zod/v4/core/util.js
 var util_exports = {};
 __export(util_exports, {
   BIGINT_FORMAT_RANGES: () => BIGINT_FORMAT_RANGES,
@@ -11424,7 +11424,7 @@ var Class = class {
   }
 };
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/zod/v4/core/errors.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/zod/v4/core/errors.js
 var initializer = (inst, def) => {
   inst.name = "$ZodError";
   Object.defineProperty(inst, "_zod", {
@@ -11499,7 +11499,7 @@ function formatError(error2, _mapper) {
   return fieldErrors;
 }
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/zod/v4/core/parse.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/zod/v4/core/parse.js
 var _parse = (_Err) => (schema, value, _ctx, _params) => {
   const ctx = _ctx ? Object.assign(_ctx, { async: false }) : { async: false };
   const result = schema._zod.run({ value, issues: [] }, ctx);
@@ -11549,7 +11549,7 @@ var _safeParseAsync = (_Err) => async (schema, value, _ctx) => {
 };
 var safeParseAsync = /* @__PURE__ */ _safeParseAsync($ZodRealError);
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/zod/v4/core/regexes.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/zod/v4/core/regexes.js
 var cuid = /^[cC][^\s-]{8,}$/;
 var cuid2 = /^[0-9a-z]+$/;
 var ulid = /^[0-9A-HJKMNP-TV-Za-hjkmnp-tv-z]{26}$/;
@@ -11607,7 +11607,7 @@ var _null = /null/i;
 var lowercase = /^[^A-Z]*$/;
 var uppercase = /^[^a-z]*$/;
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/zod/v4/core/checks.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/zod/v4/core/checks.js
 var $ZodCheck = /* @__PURE__ */ $constructor("$ZodCheck", (inst, def) => {
   var _a;
   inst._zod ?? (inst._zod = {});
@@ -11992,7 +11992,7 @@ var $ZodCheckOverwrite = /* @__PURE__ */ $constructor("$ZodCheckOverwrite", (ins
   };
 });
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/zod/v4/core/doc.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/zod/v4/core/doc.js
 var Doc = class {
   constructor(args = []) {
     this.content = [];
@@ -12028,14 +12028,14 @@ var Doc = class {
   }
 };
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/zod/v4/core/versions.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/zod/v4/core/versions.js
 var version = {
   major: 4,
   minor: 0,
   patch: 0
 };
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/zod/v4/core/schemas.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/zod/v4/core/schemas.js
 var $ZodType = /* @__PURE__ */ $constructor("$ZodType", (inst, def) => {
   var _a;
   inst ?? (inst = {});
@@ -13273,7 +13273,7 @@ function handleRefineResult(result, payload, input, inst) {
   }
 }
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/zod/v4/locales/en.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/zod/v4/locales/en.js
 var parsedType = (data) => {
   const t = typeof data;
   switch (t) {
@@ -13391,7 +13391,7 @@ function en_default2() {
   };
 }
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/zod/v4/core/registries.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/zod/v4/core/registries.js
 var $ZodRegistry = class {
   constructor() {
     this._map = /* @__PURE__ */ new Map();
@@ -13439,7 +13439,7 @@ function registry() {
 }
 var globalRegistry = /* @__PURE__ */ registry();
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/zod/v4/core/api.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/zod/v4/core/api.js
 function _string(Class2, params) {
   return new Class2({
     type: "string",
@@ -13878,7 +13878,7 @@ function _refine(Class2, fn, _params) {
   return schema;
 }
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/@modelcontextprotocol/sdk/dist/esm/server/zod-compat.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/@modelcontextprotocol/sdk/dist/esm/server/zod-compat.js
 function isZ4Schema(s) {
   const schema = s;
   return !!schema._zod;
@@ -13941,7 +13941,7 @@ function getLiteralValue(schema) {
   return void 0;
 }
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/zod/v4/classic/iso.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/zod/v4/classic/iso.js
 var iso_exports = {};
 __export(iso_exports, {
   ZodISODate: () => ZodISODate,
@@ -13982,7 +13982,7 @@ function duration2(params) {
   return _isoDuration(ZodISODuration, params);
 }
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/zod/v4/classic/errors.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/zod/v4/classic/errors.js
 var initializer2 = (inst, issues) => {
   $ZodError.init(inst, issues);
   inst.name = "ZodError";
@@ -14016,13 +14016,13 @@ var ZodRealError = $constructor("ZodError", initializer2, {
   Parent: Error
 });
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/zod/v4/classic/parse.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/zod/v4/classic/parse.js
 var parse2 = /* @__PURE__ */ _parse(ZodRealError);
 var parseAsync2 = /* @__PURE__ */ _parseAsync(ZodRealError);
 var safeParse3 = /* @__PURE__ */ _safeParse(ZodRealError);
 var safeParseAsync2 = /* @__PURE__ */ _safeParseAsync(ZodRealError);
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/zod/v4/classic/schemas.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/zod/v4/classic/schemas.js
 var ZodType2 = /* @__PURE__ */ $constructor("ZodType", (inst, def) => {
   $ZodType.init(inst, def);
   inst.def = def;
@@ -14633,10 +14633,10 @@ function preprocess(fn, schema) {
   return pipe(transform(fn), schema);
 }
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/zod/v4/classic/external.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/zod/v4/classic/external.js
 config(en_default2());
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/@modelcontextprotocol/sdk/dist/esm/types.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/@modelcontextprotocol/sdk/dist/esm/types.js
 var LATEST_PROTOCOL_VERSION = "2025-11-25";
 var SUPPORTED_PROTOCOL_VERSIONS = [LATEST_PROTOCOL_VERSION, "2025-06-18", "2025-03-26", "2024-11-05", "2024-10-07"];
 var RELATED_TASK_META_KEY = "io.modelcontextprotocol/related-task";
@@ -16142,15 +16142,15 @@ var UrlElicitationRequiredError = class extends McpError {
   }
 };
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/@modelcontextprotocol/sdk/dist/esm/experimental/tasks/interfaces.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/@modelcontextprotocol/sdk/dist/esm/experimental/tasks/interfaces.js
 function isTerminal(status) {
   return status === "completed" || status === "failed" || status === "cancelled";
 }
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/zod-to-json-schema/dist/esm/parsers/string.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/zod-to-json-schema/dist/esm/parsers/string.js
 var ALPHA_NUMERIC = new Set("ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvxyz0123456789");
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/@modelcontextprotocol/sdk/dist/esm/server/zod-json-schema-compat.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/@modelcontextprotocol/sdk/dist/esm/server/zod-json-schema-compat.js
 function getMethodLiteral(schema) {
   const shape = getObjectShape(schema);
   const methodSchema = shape?.method;
@@ -16171,7 +16171,7 @@ function parseWithCompat(schema, data) {
   return result.data;
 }
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/@modelcontextprotocol/sdk/dist/esm/shared/protocol.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/@modelcontextprotocol/sdk/dist/esm/shared/protocol.js
 var DEFAULT_REQUEST_TIMEOUT_MSEC = 6e4;
 var Protocol = class {
   constructor(_options) {
@@ -17119,7 +17119,7 @@ function mergeCapabilities(base, additional) {
   return result;
 }
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/@modelcontextprotocol/sdk/dist/esm/validation/ajv-provider.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/@modelcontextprotocol/sdk/dist/esm/validation/ajv-provider.js
 var import_ajv = __toESM(require_ajv(), 1);
 var import_ajv_formats = __toESM(require_dist(), 1);
 function createDefaultAjvInstance() {
@@ -17187,7 +17187,7 @@ var AjvJsonSchemaValidator = class {
   }
 };
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/@modelcontextprotocol/sdk/dist/esm/experimental/tasks/server.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/@modelcontextprotocol/sdk/dist/esm/experimental/tasks/server.js
 var ExperimentalServerTasks = class {
   constructor(_server) {
     this._server = _server;
@@ -17259,7 +17259,7 @@ var ExperimentalServerTasks = class {
   }
 };
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/@modelcontextprotocol/sdk/dist/esm/experimental/tasks/helpers.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/@modelcontextprotocol/sdk/dist/esm/experimental/tasks/helpers.js
 function assertToolsCallTaskCapability(requests, method, entityName) {
   if (!requests) {
     throw new Error(`${entityName} does not support task creation (required for ${method})`);
@@ -17294,7 +17294,7 @@ function assertClientRequestTaskCapability(requests, method, entityName) {
   }
 }
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/@modelcontextprotocol/sdk/dist/esm/server/index.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/@modelcontextprotocol/sdk/dist/esm/server/index.js
 var Server = class extends Protocol {
   /**
    * Initializes this server with the given name and version information.
@@ -17674,10 +17674,10 @@ var Server = class extends Protocol {
   }
 };
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/@modelcontextprotocol/sdk/dist/esm/server/stdio.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/@modelcontextprotocol/sdk/dist/esm/server/stdio.js
 var import_node_process = __toESM(require("node:process"), 1);
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/@modelcontextprotocol/sdk/dist/esm/shared/stdio.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/@modelcontextprotocol/sdk/dist/esm/shared/stdio.js
 var ReadBuffer = class {
   append(chunk) {
     this._buffer = this._buffer ? Buffer.concat([this._buffer, chunk]) : chunk;
@@ -17705,7 +17705,7 @@ function serializeMessage(message) {
   return JSON.stringify(message) + "\n";
 }
 
-// ../../../../../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/@modelcontextprotocol/sdk/dist/esm/server/stdio.js
+// ../../../../../../launch-feat-refactor-skills/node_modules/@modelcontextprotocol/sdk/dist/esm/server/stdio.js
 var StdioServerTransport = class {
   constructor(_stdin = import_node_process.default.stdin, _stdout = import_node_process.default.stdout) {
     this._stdin = _stdin;
@@ -17870,10 +17870,10 @@ var LSP_SERVERS = {
   },
   kotlin: {
     name: "Kotlin Language Server",
-    command: "kotlin-language-server",
+    command: "kotlin-lsp",
     args: [],
     extensions: [".kt", ".kts"],
-    installHint: "Install from https://github.com/fwcd/kotlin-language-server"
+    installHint: "Install from https://github.com/Kotlin/kotlin-lsp (brew install JetBrains/utils/kotlin-lsp)"
   },
   elixir: {
     name: "ElixirLS",
@@ -17945,7 +17945,9 @@ var DEFAULT_LSP_REQUEST_TIMEOUT_MS = (() => {
 function fileUri(filePath) {
   return (0, import_url.pathToFileURL)((0, import_path2.resolve)(filePath)).href;
 }
-var LspClient = class {
+var LspClient = class _LspClient {
+  static MAX_BUFFER_SIZE = 50 * 1024 * 1024;
+  // 50MB
   process = null;
   requestId = 0;
   pendingRequests = /* @__PURE__ */ new Map();
@@ -17977,8 +17979,6 @@ Install with: ${this.serverConfig.installHint}`
       this.process = (0, import_child_process2.spawn)(this.serverConfig.command, this.serverConfig.args, {
         cwd: this.workspaceRoot,
         stdio: ["pipe", "pipe", "pipe"],
-        // On Windows, npm-installed binaries are .cmd scripts that require
-        // shell execution. Without this, spawn() fails with ENOENT. (#569)
         shell: process.platform === "win32"
       });
       this.process.stdout?.on("data", (data) => {
@@ -18024,16 +18024,19 @@ Install with: ${this.serverConfig.installHint}`
   async disconnect() {
     if (!this.process) return;
     try {
-      await this.request("shutdown", null);
+      await this.request("shutdown", null, 3e3);
       this.notify("exit", null);
     } catch {
+    } finally {
+      if (this.process) {
+        this.process.kill();
+        this.process = null;
+      }
+      this.initialized = false;
+      this.rejectPendingRequests(new Error("Client disconnected"));
+      this.openDocuments.clear();
+      this.diagnostics.clear();
     }
-    this.process.kill();
-    this.process = null;
-    this.initialized = false;
-    this.rejectPendingRequests(new Error("Client disconnected"));
-    this.openDocuments.clear();
-    this.diagnostics.clear();
   }
   /**
    * Reject all pending requests with the given error.
@@ -18051,6 +18054,12 @@ Install with: ${this.serverConfig.installHint}`
    */
   handleData(data) {
     this.buffer = Buffer.concat([this.buffer, data]);
+    if (this.buffer.length > _LspClient.MAX_BUFFER_SIZE) {
+      console.error("[LSP] Response buffer exceeded 50MB limit, resetting");
+      this.buffer = Buffer.alloc(0);
+      this.rejectPendingRequests(new Error("LSP response buffer overflow"));
+      return;
+    }
     while (true) {
       const headerEnd = this.buffer.indexOf("\r\n\r\n");
       if (headerEnd === -1) break;
@@ -18421,10 +18430,7 @@ var LspClientManager = class {
     };
     process.on("exit", forceKillAll);
     for (const sig of ["SIGTERM", "SIGINT", "SIGHUP"]) {
-      process.on(sig, () => {
-        forceKillAll();
-        process.exit(0);
-      });
+      process.on(sig, forceKillAll);
     }
   }
   /**
@@ -20631,7 +20637,15 @@ var DEFAULT_GRACE_PERIOD_MS = 5e3;
 var SIGTERM_GRACE_MS = 2500;
 function getBridgeScriptPath() {
   if (process.env.OMC_BRIDGE_SCRIPT) {
-    return process.env.OMC_BRIDGE_SCRIPT;
+    const override = path5.resolve(process.env.OMC_BRIDGE_SCRIPT);
+    const overrideBasename = path5.basename(override);
+    if (overrideBasename !== "gyoshu_bridge.py") {
+      throw new Error(`OMC_BRIDGE_SCRIPT must point to gyoshu_bridge.py, got: ${overrideBasename}`);
+    }
+    if (!fs4.existsSync(override)) {
+      throw new Error(`OMC_BRIDGE_SCRIPT file not found: ${override}`);
+    }
+    return override;
   }
   let moduleDir;
   try {
@@ -21133,11 +21147,6 @@ function formatGeneralError(error2, sessionId, action) {
   lines.push("");
   lines.push(`Type: ${error2.name}`);
   lines.push(`Message: ${error2.message}`);
-  if (error2.stack) {
-    lines.push("");
-    lines.push("Stack trace:");
-    lines.push(error2.stack);
-  }
   return lines.join("\n");
 }
 async function handleExecute(sessionId, socketPath, code, executionTimeout, executionLabel) {
@@ -21389,7 +21398,7 @@ var pythonReplTool = {
 };
 
 // src/tools/state-tools.ts
-var import_fs10 = require("fs");
+var import_fs11 = require("fs");
 var import_path9 = require("path");
 
 // src/lib/worktree-paths.ts
@@ -21666,8 +21675,29 @@ function validatePayload(payload, limits = {}) {
   return { valid: true };
 }
 
-// src/hooks/mode-registry/index.ts
+// src/lib/mode-state-io.ts
 var import_fs9 = require("fs");
+function getStateSessionOwner(state) {
+  if (!state || typeof state !== "object") {
+    return void 0;
+  }
+  const meta = state._meta;
+  if (meta && typeof meta === "object") {
+    const metaSessionId = meta.sessionId;
+    if (typeof metaSessionId === "string" && metaSessionId) {
+      return metaSessionId;
+    }
+  }
+  const topLevelSessionId = state.session_id;
+  return typeof topLevelSessionId === "string" && topLevelSessionId ? topLevelSessionId : void 0;
+}
+function canClearStateForSession(state, sessionId) {
+  const ownerSessionId = getStateSessionOwner(state);
+  return !ownerSessionId || ownerSessionId === sessionId;
+}
+
+// src/hooks/mode-registry/index.ts
+var import_fs10 = require("fs");
 var import_path8 = require("path");
 
 // src/lib/mode-names.ts
@@ -21759,7 +21789,7 @@ function isJsonModeActive(cwd, mode, sessionId) {
   if (sessionId) {
     const sessionStateFile = resolveSessionStatePath(mode, sessionId, cwd);
     try {
-      const content = (0, import_fs9.readFileSync)(sessionStateFile, "utf-8");
+      const content = (0, import_fs10.readFileSync)(sessionStateFile, "utf-8");
       const state = JSON.parse(content);
       if (state.session_id && state.session_id !== sessionId) {
         return false;
@@ -21777,7 +21807,7 @@ function isJsonModeActive(cwd, mode, sessionId) {
   }
   const stateFile = getStateFilePath(cwd, mode);
   try {
-    const content = (0, import_fs9.readFileSync)(stateFile, "utf-8");
+    const content = (0, import_fs10.readFileSync)(stateFile, "utf-8");
     const state = JSON.parse(content);
     if (config2.activeProperty) {
       return state[config2.activeProperty] === true;
@@ -21817,7 +21847,7 @@ function clearModeState(mode, cwd, sessionId) {
   if (isSessionScopedClear && sessionId) {
     const sessionStateFile = resolveSessionStatePath(mode, sessionId, cwd);
     try {
-      (0, import_fs9.unlinkSync)(sessionStateFile);
+      (0, import_fs10.unlinkSync)(sessionStateFile);
     } catch (err) {
       if (err.code !== "ENOENT") {
         success = false;
@@ -21831,7 +21861,7 @@ function clearModeState(mode, cwd, sessionId) {
         cwd
       );
       try {
-        (0, import_fs9.unlinkSync)(sessionMarkerFile);
+        (0, import_fs10.unlinkSync)(sessionMarkerFile);
       } catch (err) {
         if (err.code !== "ENOENT") {
           success = false;
@@ -21840,11 +21870,11 @@ function clearModeState(mode, cwd, sessionId) {
     }
     if (markerFile) {
       try {
-        const markerRaw = JSON.parse((0, import_fs9.readFileSync)(markerFile, "utf-8"));
+        const markerRaw = JSON.parse((0, import_fs10.readFileSync)(markerFile, "utf-8"));
         const markerSessionId = markerRaw.session_id ?? markerRaw.sessionId;
         if (!markerSessionId || markerSessionId === sessionId) {
           try {
-            (0, import_fs9.unlinkSync)(markerFile);
+            (0, import_fs10.unlinkSync)(markerFile);
           } catch (err) {
             if (err.code !== "ENOENT") {
               success = false;
@@ -21853,7 +21883,7 @@ function clearModeState(mode, cwd, sessionId) {
         }
       } catch {
         try {
-          (0, import_fs9.unlinkSync)(markerFile);
+          (0, import_fs10.unlinkSync)(markerFile);
         } catch (err) {
           if (err.code !== "ENOENT") {
             success = false;
@@ -21865,7 +21895,7 @@ function clearModeState(mode, cwd, sessionId) {
   const stateFile = getStateFilePath(cwd, mode);
   if (!isSessionScopedClear) {
     try {
-      (0, import_fs9.unlinkSync)(stateFile);
+      (0, import_fs10.unlinkSync)(stateFile);
     } catch (err) {
       if (err.code !== "ENOENT") {
         success = false;
@@ -21875,11 +21905,11 @@ function clearModeState(mode, cwd, sessionId) {
   if (markerFile) {
     if (isSessionScopedClear) {
       try {
-        const markerRaw = JSON.parse((0, import_fs9.readFileSync)(markerFile, "utf-8"));
+        const markerRaw = JSON.parse((0, import_fs10.readFileSync)(markerFile, "utf-8"));
         const markerSessionId = markerRaw.session_id ?? markerRaw.sessionId;
         if (!markerSessionId || markerSessionId === sessionId) {
           try {
-            (0, import_fs9.unlinkSync)(markerFile);
+            (0, import_fs10.unlinkSync)(markerFile);
           } catch (err) {
             if (err.code !== "ENOENT") {
               success = false;
@@ -21888,7 +21918,7 @@ function clearModeState(mode, cwd, sessionId) {
         }
       } catch {
         try {
-          (0, import_fs9.unlinkSync)(markerFile);
+          (0, import_fs10.unlinkSync)(markerFile);
         } catch (err) {
           if (err.code !== "ENOENT") {
             success = false;
@@ -21897,7 +21927,7 @@ function clearModeState(mode, cwd, sessionId) {
       }
     } else {
       try {
-        (0, import_fs9.unlinkSync)(markerFile);
+        (0, import_fs10.unlinkSync)(markerFile);
       } catch (err) {
         if (err.code !== "ENOENT") {
           success = false;
@@ -21929,9 +21959,9 @@ var STATE_TOOL_MODES = [
 var EXTRA_STATE_ONLY_MODES = ["ralplan", "omc-teams", "deep-interview"];
 var CANCEL_SIGNAL_TTL_MS = 3e4;
 function readTeamNamesFromStateFile(statePath) {
-  if (!(0, import_fs10.existsSync)(statePath)) return [];
+  if (!(0, import_fs11.existsSync)(statePath)) return [];
   try {
-    const raw = JSON.parse((0, import_fs10.readFileSync)(statePath, "utf-8"));
+    const raw = JSON.parse((0, import_fs11.readFileSync)(statePath, "utf-8"));
     const teamName = typeof raw.team_name === "string" ? raw.team_name.trim() : typeof raw.teamName === "string" ? raw.teamName.trim() : "";
     return teamName ? [teamName] : [];
   } catch {
@@ -21940,9 +21970,9 @@ function readTeamNamesFromStateFile(statePath) {
 }
 function pruneMissionBoardTeams(root, teamNames) {
   const missionStatePath = (0, import_path9.join)(getOmcRoot(root), "state", "mission-state.json");
-  if (!(0, import_fs10.existsSync)(missionStatePath)) return 0;
+  if (!(0, import_fs11.existsSync)(missionStatePath)) return 0;
   try {
-    const parsed = JSON.parse((0, import_fs10.readFileSync)(missionStatePath, "utf-8"));
+    const parsed = JSON.parse((0, import_fs11.readFileSync)(missionStatePath, "utf-8"));
     if (!Array.isArray(parsed.missions)) return 0;
     const shouldRemoveAll = teamNames == null;
     const teamNameSet = new Set(teamNames ?? []);
@@ -21954,7 +21984,7 @@ function pruneMissionBoardTeams(root, teamNames) {
     });
     const removed = parsed.missions.length - remainingMissions.length;
     if (removed > 0) {
-      (0, import_fs10.writeFileSync)(missionStatePath, JSON.stringify({
+      (0, import_fs11.writeFileSync)(missionStatePath, JSON.stringify({
         ...parsed,
         updatedAt: (/* @__PURE__ */ new Date()).toISOString(),
         missions: remainingMissions
@@ -21967,12 +21997,12 @@ function pruneMissionBoardTeams(root, teamNames) {
 }
 function cleanupTeamRuntimeState(root, teamNames) {
   const teamStateRoot = (0, import_path9.join)(getOmcRoot(root), "state", "team");
-  if (!(0, import_fs10.existsSync)(teamStateRoot)) return 0;
+  if (!(0, import_fs11.existsSync)(teamStateRoot)) return 0;
   const shouldRemoveAll = teamNames == null;
   let removed = 0;
   if (shouldRemoveAll) {
     try {
-      (0, import_fs10.rmSync)(teamStateRoot, { recursive: true, force: true });
+      (0, import_fs11.rmSync)(teamStateRoot, { recursive: true, force: true });
       return 1;
     } catch {
       return 0;
@@ -21981,7 +22011,7 @@ function cleanupTeamRuntimeState(root, teamNames) {
   for (const teamName of teamNames ?? []) {
     if (!teamName) continue;
     try {
-      (0, import_fs10.rmSync)((0, import_path9.join)(teamStateRoot, teamName), { recursive: true, force: true });
+      (0, import_fs11.rmSync)((0, import_path9.join)(teamStateRoot, teamName), { recursive: true, force: true });
       removed += 1;
     } catch {
     }
@@ -22010,7 +22040,7 @@ var stateReadTool = {
       if (sessionId) {
         validateSessionId(sessionId);
         const statePath2 = MODE_CONFIGS[mode] ? getStateFilePath(root, mode, sessionId) : resolveSessionStatePath(mode, sessionId, root);
-        if (!(0, import_fs10.existsSync)(statePath2)) {
+        if (!(0, import_fs11.existsSync)(statePath2)) {
           return {
             content: [{
               type: "text",
@@ -22019,7 +22049,7 @@ Expected path: ${statePath2}`
             }]
           };
         }
-        const content = (0, import_fs10.readFileSync)(statePath2, "utf-8");
+        const content = (0, import_fs11.readFileSync)(statePath2, "utf-8");
         const state = JSON.parse(content);
         return {
           content: [{
@@ -22035,12 +22065,12 @@ ${JSON.stringify(state, null, 2)}
         };
       }
       const statePath = getStatePath(mode, root);
-      const legacyExists = (0, import_fs10.existsSync)(statePath);
+      const legacyExists = (0, import_fs11.existsSync)(statePath);
       const sessionIds = listSessionIds(root);
       const activeSessions = [];
       for (const sid of sessionIds) {
         const sessionStatePath = MODE_CONFIGS[mode] ? getStateFilePath(root, mode, sid) : resolveSessionStatePath(mode, sid, root);
-        if ((0, import_fs10.existsSync)(sessionStatePath)) {
+        if ((0, import_fs11.existsSync)(sessionStatePath)) {
           activeSessions.push(sid);
         }
       }
@@ -22063,7 +22093,7 @@ Note: Reading from legacy/aggregate path (no session_id). This may include state
 `;
       if (legacyExists) {
         try {
-          const content = (0, import_fs10.readFileSync)(statePath, "utf-8");
+          const content = (0, import_fs11.readFileSync)(statePath, "utf-8");
           const state = JSON.parse(content);
           output += `### Legacy Path (shared)
 Path: ${statePath}
@@ -22088,7 +22118,7 @@ Path: ${statePath}
         for (const sid of activeSessions) {
           const sessionStatePath = MODE_CONFIGS[mode] ? getStateFilePath(root, mode, sid) : resolveSessionStatePath(mode, sid, root);
           try {
-            const content = (0, import_fs10.readFileSync)(sessionStatePath, "utf-8");
+            const content = (0, import_fs11.readFileSync)(sessionStatePath, "utf-8");
             const state = JSON.parse(content);
             output += `**Session: ${sid}**
 Path: ${sessionStatePath}
@@ -22271,11 +22301,10 @@ var stateClearTool = {
           let ghostCleaned2 = false;
           try {
             const legacyPath = getStateFilePath(root, mode);
-            if ((0, import_fs10.existsSync)(legacyPath)) {
-              const raw = JSON.parse((0, import_fs10.readFileSync)(legacyPath, "utf-8"));
-              const meta = raw._meta;
-              if (!meta || meta.sessionId === sessionId) {
-                (0, import_fs10.unlinkSync)(legacyPath);
+            if ((0, import_fs11.existsSync)(legacyPath)) {
+              const raw = JSON.parse((0, import_fs11.readFileSync)(legacyPath, "utf-8"));
+              if (canClearStateForSession(raw, sessionId)) {
+                (0, import_fs11.unlinkSync)(legacyPath);
                 ghostCleaned2 = true;
               }
             }
@@ -22309,17 +22338,16 @@ var stateClearTool = {
           }
         }
         const statePath = resolveSessionStatePath(mode, sessionId, root);
-        if ((0, import_fs10.existsSync)(statePath)) {
-          (0, import_fs10.unlinkSync)(statePath);
+        if ((0, import_fs11.existsSync)(statePath)) {
+          (0, import_fs11.unlinkSync)(statePath);
         }
         let ghostCleaned = false;
         try {
           const legacyPath = resolveStatePath(mode, root);
-          if ((0, import_fs10.existsSync)(legacyPath)) {
-            const raw = JSON.parse((0, import_fs10.readFileSync)(legacyPath, "utf-8"));
-            const meta = raw._meta;
-            if (!meta || meta.sessionId === sessionId) {
-              (0, import_fs10.unlinkSync)(legacyPath);
+          if ((0, import_fs11.existsSync)(legacyPath)) {
+            const raw = JSON.parse((0, import_fs11.readFileSync)(legacyPath, "utf-8"));
+            if (canClearStateForSession(raw, sessionId)) {
+              (0, import_fs11.unlinkSync)(legacyPath);
               ghostCleaned = true;
             }
           }
@@ -22350,7 +22378,7 @@ var stateClearTool = {
       }
       if (MODE_CONFIGS[mode]) {
         const legacyStatePath = getStateFilePath(root, mode);
-        if ((0, import_fs10.existsSync)(legacyStatePath)) {
+        if ((0, import_fs11.existsSync)(legacyStatePath)) {
           if (clearModeState(mode, root)) {
             clearedCount++;
           } else {
@@ -22359,9 +22387,9 @@ var stateClearTool = {
         }
       } else {
         const statePath = getStatePath(mode, root);
-        if ((0, import_fs10.existsSync)(statePath)) {
+        if ((0, import_fs11.existsSync)(statePath)) {
           try {
-            (0, import_fs10.unlinkSync)(statePath);
+            (0, import_fs11.unlinkSync)(statePath);
             clearedCount++;
           } catch {
             errors.push("legacy path");
@@ -22375,7 +22403,7 @@ var stateClearTool = {
         }
         if (MODE_CONFIGS[mode]) {
           const sessionStatePath = getStateFilePath(root, mode, sid);
-          if ((0, import_fs10.existsSync)(sessionStatePath)) {
+          if ((0, import_fs11.existsSync)(sessionStatePath)) {
             if (clearModeState(mode, root, sid)) {
               clearedCount++;
             } else {
@@ -22384,9 +22412,9 @@ var stateClearTool = {
           }
         } else {
           const statePath = resolveSessionStatePath(mode, sid, root);
-          if ((0, import_fs10.existsSync)(statePath)) {
+          if ((0, import_fs11.existsSync)(statePath)) {
             try {
-              (0, import_fs10.unlinkSync)(statePath);
+              (0, import_fs11.unlinkSync)(statePath);
               clearedCount++;
             } catch {
               errors.push(`session: ${sid}`);
@@ -22462,8 +22490,8 @@ var stateListActiveTool = {
         for (const mode of EXTRA_STATE_ONLY_MODES) {
           try {
             const statePath = resolveSessionStatePath(mode, sessionId, root);
-            if ((0, import_fs10.existsSync)(statePath)) {
-              const content = (0, import_fs10.readFileSync)(statePath, "utf-8");
+            if ((0, import_fs11.existsSync)(statePath)) {
+              const content = (0, import_fs11.readFileSync)(statePath, "utf-8");
               const state = JSON.parse(content);
               if (state.active) {
                 activeModes.push(mode);
@@ -22496,9 +22524,9 @@ ${modeList}`
       const legacyActiveModes = [...getActiveModes(root)];
       for (const mode of EXTRA_STATE_ONLY_MODES) {
         const statePath = getStatePath(mode, root);
-        if ((0, import_fs10.existsSync)(statePath)) {
+        if ((0, import_fs11.existsSync)(statePath)) {
           try {
-            const content = (0, import_fs10.readFileSync)(statePath, "utf-8");
+            const content = (0, import_fs11.readFileSync)(statePath, "utf-8");
             const state = JSON.parse(content);
             if (state.active) {
               legacyActiveModes.push(mode);
@@ -22519,8 +22547,8 @@ ${modeList}`
         for (const mode of EXTRA_STATE_ONLY_MODES) {
           try {
             const statePath = resolveSessionStatePath(mode, sid, root);
-            if ((0, import_fs10.existsSync)(statePath)) {
-              const content = (0, import_fs10.readFileSync)(statePath, "utf-8");
+            if ((0, import_fs11.existsSync)(statePath)) {
+              const content = (0, import_fs11.readFileSync)(statePath, "utf-8");
               const state = JSON.parse(content);
               if (state.active) {
                 sessionActiveModes.push(mode);
@@ -22585,9 +22613,9 @@ var stateGetStatusTool = {
         if (sessionId) {
           validateSessionId(sessionId);
           const statePath = MODE_CONFIGS[mode] ? getStateFilePath(root, mode, sessionId) : resolveSessionStatePath(mode, sessionId, root);
-          const active = MODE_CONFIGS[mode] ? isModeActive(mode, root, sessionId) : (0, import_fs10.existsSync)(statePath) && (() => {
+          const active = MODE_CONFIGS[mode] ? isModeActive(mode, root, sessionId) : (0, import_fs11.existsSync)(statePath) && (() => {
             try {
-              const content = (0, import_fs10.readFileSync)(statePath, "utf-8");
+              const content = (0, import_fs11.readFileSync)(statePath, "utf-8");
               const state = JSON.parse(content);
               return state.active === true;
             } catch {
@@ -22595,9 +22623,9 @@ var stateGetStatusTool = {
             }
           })();
           let statePreview = "No state file";
-          if ((0, import_fs10.existsSync)(statePath)) {
+          if ((0, import_fs11.existsSync)(statePath)) {
             try {
-              const content = (0, import_fs10.readFileSync)(statePath, "utf-8");
+              const content = (0, import_fs11.readFileSync)(statePath, "utf-8");
               const state = JSON.parse(content);
               statePreview = JSON.stringify(state, null, 2).slice(0, 500);
               if (statePreview.length >= 500) statePreview += "\n...(truncated)";
@@ -22608,7 +22636,7 @@ var stateGetStatusTool = {
           lines2.push(`### Session: ${sessionId}`);
           lines2.push(`- **Active:** ${active ? "Yes" : "No"}`);
           lines2.push(`- **State Path:** ${statePath}`);
-          lines2.push(`- **Exists:** ${(0, import_fs10.existsSync)(statePath) ? "Yes" : "No"}`);
+          lines2.push(`- **Exists:** ${(0, import_fs11.existsSync)(statePath) ? "Yes" : "No"}`);
           lines2.push(`
 ### State Preview
 \`\`\`json
@@ -22622,9 +22650,9 @@ ${statePreview}
           };
         }
         const legacyPath = getStatePath(mode, root);
-        const legacyActive = MODE_CONFIGS[mode] ? isModeActive(mode, root) : (0, import_fs10.existsSync)(legacyPath) && (() => {
+        const legacyActive = MODE_CONFIGS[mode] ? isModeActive(mode, root) : (0, import_fs11.existsSync)(legacyPath) && (() => {
           try {
-            const content = (0, import_fs10.readFileSync)(legacyPath, "utf-8");
+            const content = (0, import_fs11.readFileSync)(legacyPath, "utf-8");
             const state = JSON.parse(content);
             return state.active === true;
           } catch {
@@ -22634,13 +22662,13 @@ ${statePreview}
         lines2.push(`### Legacy Path`);
         lines2.push(`- **Active:** ${legacyActive ? "Yes" : "No"}`);
         lines2.push(`- **State Path:** ${legacyPath}`);
-        lines2.push(`- **Exists:** ${(0, import_fs10.existsSync)(legacyPath) ? "Yes" : "No"}
+        lines2.push(`- **Exists:** ${(0, import_fs11.existsSync)(legacyPath) ? "Yes" : "No"}
 `);
         const activeSessions = MODE_CONFIGS[mode] ? getActiveSessionsForMode(mode, root) : listSessionIds(root).filter((sid) => {
           try {
             const sessionPath = resolveSessionStatePath(mode, sid, root);
-            if ((0, import_fs10.existsSync)(sessionPath)) {
-              const content = (0, import_fs10.readFileSync)(sessionPath, "utf-8");
+            if ((0, import_fs11.existsSync)(sessionPath)) {
+              const content = (0, import_fs11.readFileSync)(sessionPath, "utf-8");
               const state = JSON.parse(content);
               return state.active === true;
             }
@@ -22682,9 +22710,9 @@ No active sessions for this mode.`);
       for (const mode2 of EXTRA_STATE_ONLY_MODES) {
         const statePath = sessionId ? resolveSessionStatePath(mode2, sessionId, root) : getStatePath(mode2, root);
         let active = false;
-        if ((0, import_fs10.existsSync)(statePath)) {
+        if ((0, import_fs11.existsSync)(statePath)) {
           try {
-            const content = (0, import_fs10.readFileSync)(statePath, "utf-8");
+            const content = (0, import_fs11.readFileSync)(statePath, "utf-8");
             const state = JSON.parse(content);
             active = state.active === true;
           } catch {
@@ -22720,11 +22748,11 @@ var stateTools = [
 ];
 
 // src/hooks/notepad/index.ts
-var import_fs12 = require("fs");
+var import_fs13 = require("fs");
 var import_path10 = require("path");
 
 // src/lib/file-lock.ts
-var import_fs11 = require("fs");
+var import_fs12 = require("fs");
 var path6 = __toESM(require("path"), 1);
 var DEFAULT_STALE_LOCK_MS = 3e4;
 var DEFAULT_RETRY_DELAY_MS = 50;
@@ -22741,11 +22769,11 @@ function isPidAlive(pid) {
 }
 function isLockStale(lockPath, staleLockMs) {
   try {
-    const stat = (0, import_fs11.statSync)(lockPath);
+    const stat = (0, import_fs12.statSync)(lockPath);
     const ageMs = Date.now() - stat.mtimeMs;
     if (ageMs < staleLockMs) return false;
     try {
-      const raw = (0, import_fs11.readFileSync)(lockPath, "utf-8");
+      const raw = (0, import_fs12.readFileSync)(lockPath, "utf-8");
       const payload = JSON.parse(raw);
       if (payload.pid && isPidAlive(payload.pid)) return false;
     } catch {
@@ -22762,22 +22790,22 @@ function tryAcquireSync(lockPath, staleLockMs) {
   ensureDirSync(path6.dirname(lockPath));
   for (let attempt = 0; attempt < 2; attempt++) {
     try {
-      const fd = (0, import_fs11.openSync)(
+      const fd = (0, import_fs12.openSync)(
         lockPath,
-        import_fs11.constants.O_CREAT | import_fs11.constants.O_EXCL | import_fs11.constants.O_WRONLY,
+        import_fs12.constants.O_CREAT | import_fs12.constants.O_EXCL | import_fs12.constants.O_WRONLY,
         384
       );
       const payload = JSON.stringify({
         pid: process.pid,
         timestamp: Date.now()
       });
-      (0, import_fs11.writeSync)(fd, payload, null, "utf-8");
+      (0, import_fs12.writeSync)(fd, payload, null, "utf-8");
       return { fd, path: lockPath };
     } catch (err) {
       if (err && typeof err === "object" && "code" in err && err.code === "EEXIST") {
         if (attempt === 0 && isLockStale(lockPath, staleLockMs)) {
           try {
-            (0, import_fs11.unlinkSync)(lockPath);
+            (0, import_fs12.unlinkSync)(lockPath);
           } catch {
           }
           continue;
@@ -22807,11 +22835,11 @@ function acquireFileLockSync(lockPath, opts) {
 }
 function releaseFileLockSync(handle) {
   try {
-    (0, import_fs11.closeSync)(handle.fd);
+    (0, import_fs12.closeSync)(handle.fd);
   } catch {
   }
   try {
-    (0, import_fs11.unlinkSync)(handle.path);
+    (0, import_fs12.unlinkSync)(handle.path);
   } catch {
   }
 }
@@ -22874,15 +22902,15 @@ function getNotepadPath(directory) {
 }
 function initNotepad(directory) {
   const omcDir = getOmcRoot(directory);
-  if (!(0, import_fs12.existsSync)(omcDir)) {
+  if (!(0, import_fs13.existsSync)(omcDir)) {
     try {
-      (0, import_fs12.mkdirSync)(omcDir, { recursive: true });
+      (0, import_fs13.mkdirSync)(omcDir, { recursive: true });
     } catch {
       return false;
     }
   }
   const notepadPath = getNotepadPath(directory);
-  if ((0, import_fs12.existsSync)(notepadPath)) {
+  if ((0, import_fs13.existsSync)(notepadPath)) {
     return true;
   }
   const content = `# Notepad
@@ -22907,11 +22935,11 @@ ${MANUAL_HEADER}
 }
 function readNotepad(directory) {
   const notepadPath = getNotepadPath(directory);
-  if (!(0, import_fs12.existsSync)(notepadPath)) {
+  if (!(0, import_fs13.existsSync)(notepadPath)) {
     return null;
   }
   try {
-    return (0, import_fs12.readFileSync)(notepadPath, "utf-8");
+    return (0, import_fs13.readFileSync)(notepadPath, "utf-8");
   } catch {
     return null;
   }
@@ -22958,7 +22986,7 @@ function getManualSection(directory) {
   return extractSection(content, MANUAL_HEADER);
 }
 function setPriorityContext(directory, content, config2 = DEFAULT_CONFIG) {
-  if (!(0, import_fs12.existsSync)(getNotepadPath(directory))) {
+  if (!(0, import_fs13.existsSync)(getNotepadPath(directory))) {
     if (!initNotepad(directory)) {
       return { success: false };
     }
@@ -22966,7 +22994,7 @@ function setPriorityContext(directory, content, config2 = DEFAULT_CONFIG) {
   const notepadPath = getNotepadPath(directory);
   try {
     return withFileLockSync(lockPathFor(notepadPath), () => {
-      let notepadContent = (0, import_fs12.readFileSync)(notepadPath, "utf-8");
+      let notepadContent = (0, import_fs13.readFileSync)(notepadPath, "utf-8");
       const warning = content.length > config2.priorityMaxChars ? `Priority Context exceeds ${config2.priorityMaxChars} chars (${content.length} chars). Consider condensing.` : void 0;
       notepadContent = replaceSection(notepadContent, PRIORITY_HEADER, content);
       atomicWriteFileSync(notepadPath, notepadContent);
@@ -22977,7 +23005,7 @@ function setPriorityContext(directory, content, config2 = DEFAULT_CONFIG) {
   }
 }
 function addWorkingMemoryEntry(directory, content) {
-  if (!(0, import_fs12.existsSync)(getNotepadPath(directory))) {
+  if (!(0, import_fs13.existsSync)(getNotepadPath(directory))) {
     if (!initNotepad(directory)) {
       return false;
     }
@@ -22985,7 +23013,7 @@ function addWorkingMemoryEntry(directory, content) {
   const notepadPath = getNotepadPath(directory);
   try {
     return withFileLockSync(lockPathFor(notepadPath), () => {
-      let notepadContent = (0, import_fs12.readFileSync)(notepadPath, "utf-8");
+      let notepadContent = (0, import_fs13.readFileSync)(notepadPath, "utf-8");
       const currentMemory = extractSection(notepadContent, WORKING_MEMORY_HEADER) || "";
       const now = /* @__PURE__ */ new Date();
       const timestamp = now.toISOString().slice(0, 16).replace("T", " ");
@@ -23006,7 +23034,7 @@ ${content}
   }
 }
 function addManualEntry(directory, content) {
-  if (!(0, import_fs12.existsSync)(getNotepadPath(directory))) {
+  if (!(0, import_fs13.existsSync)(getNotepadPath(directory))) {
     if (!initNotepad(directory)) {
       return false;
     }
@@ -23014,7 +23042,7 @@ function addManualEntry(directory, content) {
   const notepadPath = getNotepadPath(directory);
   try {
     return withFileLockSync(lockPathFor(notepadPath), () => {
-      let notepadContent = (0, import_fs12.readFileSync)(notepadPath, "utf-8");
+      let notepadContent = (0, import_fs13.readFileSync)(notepadPath, "utf-8");
       const currentManual = extractSection(notepadContent, MANUAL_HEADER) || "";
       const now = /* @__PURE__ */ new Date();
       const timestamp = now.toISOString().slice(0, 16).replace("T", " ");
@@ -23032,12 +23060,12 @@ ${content}
 }
 function pruneOldEntries(directory, daysOld = DEFAULT_CONFIG.workingMemoryDays) {
   const notepadPath = getNotepadPath(directory);
-  if (!(0, import_fs12.existsSync)(notepadPath)) {
+  if (!(0, import_fs13.existsSync)(notepadPath)) {
     return { pruned: 0, remaining: 0 };
   }
   try {
     return withFileLockSync(lockPathFor(notepadPath), () => {
-      let notepadContent = (0, import_fs12.readFileSync)(notepadPath, "utf-8");
+      let notepadContent = (0, import_fs13.readFileSync)(notepadPath, "utf-8");
       const workingMemory = extractSection(notepadContent, WORKING_MEMORY_HEADER);
       if (!workingMemory) {
         return { pruned: 0, remaining: 0 };
@@ -23075,7 +23103,7 @@ ${entry.content}`).join("\n\n");
 }
 function getNotepadStats(directory) {
   const notepadPath = getNotepadPath(directory);
-  if (!(0, import_fs12.existsSync)(notepadPath)) {
+  if (!(0, import_fs13.existsSync)(notepadPath)) {
     return {
       exists: false,
       totalSize: 0,
@@ -23084,7 +23112,7 @@ function getNotepadStats(directory) {
       oldestEntry: null
     };
   }
-  const content = (0, import_fs12.readFileSync)(notepadPath, "utf-8");
+  const content = (0, import_fs13.readFileSync)(notepadPath, "utf-8");
   const priorityContext = extractSection(content, PRIORITY_HEADER) || "";
   const workingMemory = extractSection(content, WORKING_MEMORY_HEADER) || "";
   const wmMatches = workingMemory.match(
@@ -23504,7 +23532,7 @@ var ContextCollector = class {
 var contextCollector = new ContextCollector();
 
 // src/hooks/rules-injector/finder.ts
-var import_fs13 = require("fs");
+var import_fs14 = require("fs");
 var import_path12 = require("path");
 
 // src/hooks/rules-injector/constants.ts
@@ -23942,27 +23970,27 @@ var memoryTools = [
 ];
 
 // src/tools/trace-tools.ts
-var import_fs16 = require("fs");
+var import_fs17 = require("fs");
 var import_path19 = require("path");
 
 // src/hooks/subagent-tracker/session-replay.ts
-var import_fs14 = require("fs");
+var import_fs15 = require("fs");
 var import_path17 = require("path");
 var REPLAY_PREFIX = "agent-replay-";
 var MAX_REPLAY_SIZE_BYTES = 5 * 1024 * 1024;
 function getReplayFilePath(directory, sessionId) {
   const stateDir = (0, import_path17.join)(getOmcRoot(directory), "state");
-  if (!(0, import_fs14.existsSync)(stateDir)) {
-    (0, import_fs14.mkdirSync)(stateDir, { recursive: true });
+  if (!(0, import_fs15.existsSync)(stateDir)) {
+    (0, import_fs15.mkdirSync)(stateDir, { recursive: true });
   }
   const safeId = sessionId.replace(/[^a-zA-Z0-9_-]/g, "_");
   return (0, import_path17.join)(stateDir, `${REPLAY_PREFIX}${safeId}.jsonl`);
 }
 function readReplayEvents(directory, sessionId) {
   const filePath = getReplayFilePath(directory, sessionId);
-  if (!(0, import_fs14.existsSync)(filePath)) return [];
+  if (!(0, import_fs15.existsSync)(filePath)) return [];
   try {
-    const content = (0, import_fs14.readFileSync)(filePath, "utf-8");
+    const content = (0, import_fs15.readFileSync)(filePath, "utf-8");
     return content.split("\n").filter((line) => line.trim()).map((line) => {
       try {
         return JSON.parse(line);
@@ -24134,7 +24162,7 @@ function getReplaySummary(directory, sessionId) {
 
 // src/features/session-history-search/index.ts
 var import_child_process9 = require("child_process");
-var import_fs15 = require("fs");
+var import_fs16 = require("fs");
 var import_os3 = require("os");
 var import_path18 = require("path");
 var import_readline = require("readline");
@@ -24195,7 +24223,7 @@ function getClaudeWorktreeParent(projectRoot) {
   return normalizedRoot.slice(0, idx) || null;
 }
 function listJsonlFiles(rootDir) {
-  if (!(0, import_fs15.existsSync)(rootDir)) {
+  if (!(0, import_fs16.existsSync)(rootDir)) {
     return [];
   }
   const files = [];
@@ -24204,7 +24232,7 @@ function listJsonlFiles(rootDir) {
     const current = stack.pop();
     let entries;
     try {
-      entries = (0, import_fs15.readdirSync)(current, { withFileTypes: true });
+      entries = (0, import_fs16.readdirSync)(current, { withFileTypes: true });
     } catch {
       continue;
     }
@@ -24229,8 +24257,8 @@ function uniqueSortedTargets(targets) {
     seen.add(key);
     return true;
   }).sort((a, b) => {
-    const aTime = (0, import_fs15.existsSync)(a.filePath) ? (0, import_fs15.statSync)(a.filePath).mtimeMs : 0;
-    const bTime = (0, import_fs15.existsSync)(b.filePath) ? (0, import_fs15.statSync)(b.filePath).mtimeMs : 0;
+    const aTime = (0, import_fs16.existsSync)(a.filePath) ? (0, import_fs16.statSync)(a.filePath).mtimeMs : 0;
+    const bTime = (0, import_fs16.existsSync)(b.filePath) ? (0, import_fs16.statSync)(b.filePath).mtimeMs : 0;
     return bTime - aTime;
   });
 }
@@ -24258,7 +24286,7 @@ function buildCurrentProjectTargets(projectRoot) {
     targets.push({ filePath, sourceType: "omc-session-summary" });
   }
   const replayDir = (0, import_path18.join)(omcRoot, "state");
-  if ((0, import_fs15.existsSync)(replayDir)) {
+  if ((0, import_fs16.existsSync)(replayDir)) {
     for (const filePath of listJsonlFiles(replayDir)) {
       if (filePath.includes("agent-replay-") && filePath.endsWith(".jsonl")) {
         targets.push({ filePath, sourceType: "omc-session-replay" });
@@ -24430,7 +24458,7 @@ function buildScopeMode(project) {
 }
 async function collectMatchesFromFile(target, options) {
   const matches = [];
-  const fileMtime = (0, import_fs15.existsSync)(target.filePath) ? (0, import_fs15.statSync)(target.filePath).mtimeMs : 0;
+  const fileMtime = (0, import_fs16.existsSync)(target.filePath) ? (0, import_fs16.statSync)(target.filePath).mtimeMs : 0;
   if (target.sourceType === "omc-session-summary" && target.filePath.endsWith(".json")) {
     try {
       const payload = JSON.parse(await import("fs/promises").then((fs8) => fs8.readFile(target.filePath, "utf-8")));
@@ -24462,7 +24490,7 @@ async function collectMatchesFromFile(target, options) {
     }
     return matches;
   }
-  const stream = (0, import_fs15.createReadStream)(target.filePath, { encoding: "utf-8" });
+  const stream = (0, import_fs16.createReadStream)(target.filePath, { encoding: "utf-8" });
   const reader = (0, import_readline.createInterface)({ input: stream, crlfDelay: Infinity });
   let line = 0;
   try {
@@ -24601,10 +24629,10 @@ var REPLAY_PREFIX2 = "agent-replay-";
 function findLatestSessionId(directory) {
   const stateDir = (0, import_path19.join)(directory, ".omc", "state");
   try {
-    const files = (0, import_fs16.readdirSync)(stateDir).filter((f) => f.startsWith(REPLAY_PREFIX2) && f.endsWith(".jsonl")).map((f) => ({
+    const files = (0, import_fs17.readdirSync)(stateDir).filter((f) => f.startsWith(REPLAY_PREFIX2) && f.endsWith(".jsonl")).map((f) => ({
       name: f,
       sessionId: f.slice(REPLAY_PREFIX2.length, -".jsonl".length),
-      mtime: (0, import_fs16.statSync)((0, import_path19.join)(stateDir, f)).mtimeMs
+      mtime: (0, import_fs17.statSync)((0, import_path19.join)(stateDir, f)).mtimeMs
     })).sort((a, b) => b.mtime - a.mtime);
     return files.length > 0 ? files[0].sessionId : null;
   } catch {

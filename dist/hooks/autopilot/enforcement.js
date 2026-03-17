@@ -6,14 +6,14 @@
  *
  * Also handles signal detection in session transcripts.
  */
-import { existsSync, readFileSync } from 'fs';
-import { join } from 'path';
-import { getClaudeConfigDir } from '../../utils/paths.js';
-import { OmcPaths } from '../../lib/worktree-paths.js';
-import { readAutopilotState, writeAutopilotState, transitionPhase, transitionRalphToUltraQA, transitionUltraQAToValidation, transitionToComplete } from './state.js';
-import { getPhasePrompt } from './prompts.js';
-import { readLastToolError, getToolErrorRetryGuidance } from '../persistent-mode/index.js';
-import { readPipelineTracking, hasPipelineTracking, getCurrentStageAdapter, getCurrentCompletionSignal, advanceStage, incrementStageIteration, generateTransitionPrompt, formatPipelineHUD, } from './pipeline.js';
+import { existsSync, readFileSync } from "fs";
+import { join } from "path";
+import { getClaudeConfigDir } from "../../utils/paths.js";
+import { resolveAutopilotPlanPath, resolveOpenQuestionsPlanPath, } from "../../config/plan-output.js";
+import { readAutopilotState, writeAutopilotState, transitionPhase, transitionRalphToUltraQA, transitionUltraQAToValidation, transitionToComplete, } from "./state.js";
+import { getPhasePrompt } from "./prompts.js";
+import { readLastToolError, getToolErrorRetryGuidance, } from "../persistent-mode/index.js";
+import { readPipelineTracking, hasPipelineTracking, getCurrentStageAdapter, getCurrentCompletionSignal, advanceStage, incrementStageIteration, generateTransitionPrompt, formatPipelineHUD, } from "./pipeline.js";
 // ============================================================================
 // SIGNAL DETECTION
 // ============================================================================
@@ -21,14 +21,14 @@ import { readPipelineTracking, hasPipelineTracking, getCurrentStageAdapter, getC
  * Signal patterns - each signal can appear in transcript
  */
 const SIGNAL_PATTERNS = {
-    'EXPANSION_COMPLETE': /EXPANSION_COMPLETE/i,
-    'PLANNING_COMPLETE': /PLANNING_COMPLETE/i,
-    'EXECUTION_COMPLETE': /EXECUTION_COMPLETE/i,
-    'QA_COMPLETE': /QA_COMPLETE/i,
-    'VALIDATION_COMPLETE': /VALIDATION_COMPLETE/i,
-    'AUTOPILOT_COMPLETE': /AUTOPILOT_COMPLETE/i,
-    'TRANSITION_TO_QA': /TRANSITION_TO_QA/i,
-    'TRANSITION_TO_VALIDATION': /TRANSITION_TO_VALIDATION/i,
+    EXPANSION_COMPLETE: /EXPANSION_COMPLETE/i,
+    PLANNING_COMPLETE: /PLANNING_COMPLETE/i,
+    EXECUTION_COMPLETE: /EXECUTION_COMPLETE/i,
+    QA_COMPLETE: /QA_COMPLETE/i,
+    VALIDATION_COMPLETE: /VALIDATION_COMPLETE/i,
+    AUTOPILOT_COMPLETE: /AUTOPILOT_COMPLETE/i,
+    TRANSITION_TO_QA: /TRANSITION_TO_QA/i,
+    TRANSITION_TO_VALIDATION: /TRANSITION_TO_VALIDATION/i,
 };
 /**
  * Detect a specific signal in the session transcript
@@ -36,9 +36,9 @@ const SIGNAL_PATTERNS = {
 export function detectSignal(sessionId, signal) {
     const claudeDir = getClaudeConfigDir();
     const possiblePaths = [
-        join(claudeDir, 'sessions', sessionId, 'transcript.md'),
-        join(claudeDir, 'sessions', sessionId, 'messages.json'),
-        join(claudeDir, 'transcripts', `${sessionId}.md`)
+        join(claudeDir, "sessions", sessionId, "transcript.md"),
+        join(claudeDir, "sessions", sessionId, "messages.json"),
+        join(claudeDir, "transcripts", `${sessionId}.md`),
     ];
     const pattern = SIGNAL_PATTERNS[signal];
     if (!pattern)
@@ -46,7 +46,7 @@ export function detectSignal(sessionId, signal) {
     for (const transcriptPath of possiblePaths) {
         if (existsSync(transcriptPath)) {
             try {
-                const content = readFileSync(transcriptPath, 'utf-8');
+                const content = readFileSync(transcriptPath, "utf-8");
                 if (pattern.test(content)) {
                     return true;
                 }
@@ -63,12 +63,18 @@ export function detectSignal(sessionId, signal) {
  */
 export function getExpectedSignalForPhase(phase) {
     switch (phase) {
-        case 'expansion': return 'EXPANSION_COMPLETE';
-        case 'planning': return 'PLANNING_COMPLETE';
-        case 'execution': return 'EXECUTION_COMPLETE';
-        case 'qa': return 'QA_COMPLETE';
-        case 'validation': return 'VALIDATION_COMPLETE';
-        default: return null;
+        case "expansion":
+            return "EXPANSION_COMPLETE";
+        case "planning":
+            return "PLANNING_COMPLETE";
+        case "execution":
+            return "EXECUTION_COMPLETE";
+        case "qa":
+            return "QA_COMPLETE";
+        case "validation":
+            return "VALIDATION_COMPLETE";
+        default:
+            return null;
     }
 }
 /**
@@ -90,12 +96,18 @@ export function detectAnySignal(sessionId) {
  */
 function getNextPhase(current) {
     switch (current) {
-        case 'expansion': return 'planning';
-        case 'planning': return 'execution';
-        case 'execution': return 'qa';
-        case 'qa': return 'validation';
-        case 'validation': return 'complete';
-        default: return null;
+        case "expansion":
+            return "planning";
+        case "planning":
+            return "execution";
+        case "execution":
+            return "qa";
+        case "qa":
+            return "validation";
+        case "validation":
+            return "complete";
+        default:
+            return null;
     }
 }
 /**
@@ -114,26 +126,26 @@ export async function checkAutopilot(sessionId, directory) {
     }
     // Check max iterations (safety limit)
     if (state.iteration >= state.max_iterations) {
-        transitionPhase(workingDir, 'failed', sessionId);
+        transitionPhase(workingDir, "failed", sessionId);
         return {
             shouldBlock: false,
             message: `[AUTOPILOT STOPPED] Max iterations (${state.max_iterations}) reached. Consider reviewing progress.`,
-            phase: 'failed'
+            phase: "failed",
         };
     }
     // Check for completion
-    if (state.phase === 'complete') {
+    if (state.phase === "complete") {
         return {
             shouldBlock: false,
             message: `[AUTOPILOT COMPLETE] All phases finished successfully!`,
-            phase: 'complete'
+            phase: "complete",
         };
     }
-    if (state.phase === 'failed') {
+    if (state.phase === "failed") {
         return {
             shouldBlock: false,
             message: `[AUTOPILOT FAILED] Session ended in failure state.`,
-            phase: 'failed'
+            phase: "failed",
         };
     }
     // ====================================================================
@@ -154,25 +166,25 @@ export async function checkAutopilot(sessionId, directory) {
         const nextPhase = getNextPhase(state.phase);
         if (nextPhase) {
             // Handle special transitions
-            if (state.phase === 'execution' && nextPhase === 'qa') {
+            if (state.phase === "execution" && nextPhase === "qa") {
                 const result = transitionRalphToUltraQA(workingDir, sessionId);
                 if (!result.success) {
                     // Transition failed, continue in current phase
                     return generateContinuationPrompt(state, workingDir);
                 }
             }
-            else if (state.phase === 'qa' && nextPhase === 'validation') {
+            else if (state.phase === "qa" && nextPhase === "validation") {
                 const result = transitionUltraQAToValidation(workingDir, sessionId);
                 if (!result.success) {
                     return generateContinuationPrompt(state, workingDir, sessionId);
                 }
             }
-            else if (nextPhase === 'complete') {
+            else if (nextPhase === "complete") {
                 transitionToComplete(workingDir, sessionId);
                 return {
                     shouldBlock: false,
                     message: `[AUTOPILOT COMPLETE] All phases finished successfully!`,
-                    phase: 'complete'
+                    phase: "complete",
                 };
             }
             else {
@@ -200,11 +212,12 @@ function generateContinuationPrompt(state, directory, sessionId) {
     writeAutopilotState(directory, state, sessionId);
     const phasePrompt = getPhasePrompt(state.phase, {
         idea: state.originalIdea,
-        specPath: state.expansion.spec_path || `${OmcPaths.AUTOPILOT}/spec.md`,
-        planPath: state.planning.plan_path || `${OmcPaths.PLANS}/autopilot-impl.md`
+        specPath: state.expansion.spec_path || `.omc/autopilot/spec.md`,
+        planPath: state.planning.plan_path || resolveAutopilotPlanPath(),
+        openQuestionsPath: resolveOpenQuestionsPlanPath(),
     });
     const continuationPrompt = `<autopilot-continuation>
-${errorGuidance ? errorGuidance + '\n' : ''}
+${errorGuidance ? errorGuidance + "\n" : ""}
 [AUTOPILOT - PHASE: ${state.phase.toUpperCase()} | ITERATION ${state.iteration}/${state.max_iterations}]
 
 Your previous response did not signal phase completion. Continue working on the current phase.
@@ -232,8 +245,8 @@ IMPORTANT: When the phase is complete, output the appropriate signal:
             maxIterations: state.max_iterations,
             tasksCompleted: state.execution.tasks_completed,
             tasksTotal: state.execution.tasks_total,
-            toolError: toolError || undefined
-        }
+            toolError: toolError || undefined,
+        },
     };
 }
 // ============================================================================
@@ -252,43 +265,48 @@ function checkPipelineAutopilot(state, sessionId, directory) {
         // No more stages — pipeline is complete
         return {
             shouldBlock: false,
-            message: '[AUTOPILOT COMPLETE] All pipeline stages finished successfully!',
-            phase: 'complete',
+            message: "[AUTOPILOT COMPLETE] All pipeline stages finished successfully!",
+            phase: "complete",
         };
     }
     // Check if the current stage's completion signal has been emitted
     const completionSignal = getCurrentCompletionSignal(tracking);
-    if (completionSignal && sessionId && detectPipelineSignal(sessionId, completionSignal)) {
+    if (completionSignal &&
+        sessionId &&
+        detectPipelineSignal(sessionId, completionSignal)) {
         // Current stage complete — advance to next stage
         const { adapter: nextAdapter, phase: nextPhase } = advanceStage(directory, sessionId);
-        if (!nextAdapter || nextPhase === 'complete') {
+        if (!nextAdapter || nextPhase === "complete") {
             // Pipeline complete
-            transitionPhase(directory, 'complete', sessionId);
+            transitionPhase(directory, "complete", sessionId);
             return {
                 shouldBlock: false,
-                message: '[AUTOPILOT COMPLETE] All pipeline stages finished successfully!',
-                phase: 'complete',
+                message: "[AUTOPILOT COMPLETE] All pipeline stages finished successfully!",
+                phase: "complete",
             };
         }
-        if (nextPhase === 'failed') {
+        if (nextPhase === "failed") {
             return {
                 shouldBlock: false,
-                message: '[AUTOPILOT FAILED] Pipeline stage transition failed.',
-                phase: 'failed',
+                message: "[AUTOPILOT FAILED] Pipeline stage transition failed.",
+                phase: "failed",
             };
         }
         // Generate transition + next stage prompt
         const transitionMsg = generateTransitionPrompt(currentAdapter.id, nextAdapter.id);
         // Re-read tracking to get updated state
         const updatedState = readAutopilotState(directory, sessionId);
-        const updatedTracking = updatedState ? readPipelineTracking(updatedState) : null;
-        const hudLine = updatedTracking ? formatPipelineHUD(updatedTracking) : '';
+        const updatedTracking = updatedState
+            ? readPipelineTracking(updatedState)
+            : null;
+        const hudLine = updatedTracking ? formatPipelineHUD(updatedTracking) : "";
         const context = {
             idea: state.originalIdea,
             directory: state.project_path || directory,
             sessionId,
-            specPath: state.expansion.spec_path || '.omc/autopilot/spec.md',
-            planPath: state.planning.plan_path || '.omc/plans/autopilot-impl.md',
+            specPath: state.expansion.spec_path || ".omc/autopilot/spec.md",
+            planPath: state.planning.plan_path || resolveAutopilotPlanPath(),
+            openQuestionsPath: resolveOpenQuestionsPlanPath(),
             config: tracking.pipelineConfig,
         };
         const stagePrompt = nextAdapter.getPrompt(context);
@@ -320,18 +338,19 @@ ${stagePrompt}
     state.iteration += 1;
     writeAutopilotState(directory, state, sessionId);
     const updatedTracking = readPipelineTracking(readAutopilotState(directory, sessionId));
-    const hudLine = updatedTracking ? formatPipelineHUD(updatedTracking) : '';
+    const hudLine = updatedTracking ? formatPipelineHUD(updatedTracking) : "";
     const context = {
         idea: state.originalIdea,
         directory: state.project_path || directory,
         sessionId,
-        specPath: state.expansion.spec_path || '.omc/autopilot/spec.md',
-        planPath: state.planning.plan_path || '.omc/plans/autopilot-impl.md',
+        specPath: state.expansion.spec_path || ".omc/autopilot/spec.md",
+        planPath: state.planning.plan_path || resolveAutopilotPlanPath(),
+        openQuestionsPath: resolveOpenQuestionsPlanPath(),
         config: tracking.pipelineConfig,
     };
     const stagePrompt = currentAdapter.getPrompt(context);
     const continuationPrompt = `<autopilot-pipeline-continuation>
-${errorGuidance ? errorGuidance + '\n' : ''}
+${errorGuidance ? errorGuidance + "\n" : ""}
 ${hudLine}
 
 [AUTOPILOT PIPELINE - STAGE: ${currentAdapter.name.toUpperCase()} | ITERATION ${state.iteration}/${state.max_iterations}]
@@ -366,15 +385,15 @@ IMPORTANT: When this stage is complete, output the signal: ${currentAdapter.comp
 function detectPipelineSignal(sessionId, signal) {
     const claudeDir = getClaudeConfigDir();
     const possiblePaths = [
-        join(claudeDir, 'sessions', sessionId, 'transcript.md'),
-        join(claudeDir, 'sessions', sessionId, 'messages.json'),
-        join(claudeDir, 'transcripts', `${sessionId}.md`),
+        join(claudeDir, "sessions", sessionId, "transcript.md"),
+        join(claudeDir, "sessions", sessionId, "messages.json"),
+        join(claudeDir, "transcripts", `${sessionId}.md`),
     ];
-    const pattern = new RegExp(signal, 'i');
+    const pattern = new RegExp(signal, "i");
     for (const transcriptPath of possiblePaths) {
         if (existsSync(transcriptPath)) {
             try {
-                const content = readFileSync(transcriptPath, 'utf-8');
+                const content = readFileSync(transcriptPath, "utf-8");
                 if (pattern.test(content)) {
                     return true;
                 }

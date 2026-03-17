@@ -303,7 +303,7 @@ export function reconcileUpdateRuntime(options) {
     }
     // Purge stale plugin cache versions (non-fatal)
     try {
-        const purgeResult = purgeStalePluginCacheVersions();
+        const purgeResult = purgeStalePluginCacheVersions({ skipGracePeriod: options?.skipGracePeriod });
         if (purgeResult.removed > 0 && options?.verbose) {
             console.log(`[omc] Purged ${purgeResult.removed} stale plugin cache version(s)`);
         }
@@ -395,7 +395,7 @@ export async function performUpdate(options) {
                 const omcPath = resolveOmcBinaryPath();
                 // Re-exec with reconcile subcommand
                 try {
-                    execFileSync(omcPath, ['update-reconcile'], {
+                    execFileSync(omcPath, ['update-reconcile', ...(options?.clean ? ['--skip-grace-period'] : [])], {
                         encoding: 'utf-8',
                         stdio: options?.verbose ? 'inherit' : 'pipe',
                         timeout: 60000,
@@ -428,7 +428,7 @@ export async function performUpdate(options) {
             }
             else {
                 // We're in the re-exec'd process - run reconciliation directly
-                const reconcileResult = reconcileUpdateRuntime({ verbose: options?.verbose });
+                const reconcileResult = reconcileUpdateRuntime({ verbose: options?.verbose, skipGracePeriod: options?.clean });
                 if (!reconcileResult.success) {
                     return {
                         success: false,

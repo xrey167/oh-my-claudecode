@@ -57,5 +57,7 @@ export interface PurgeCacheResult {
     /** Errors encountered (non-fatal) */
     errors: string[];
 }
-export declare function purgeStalePluginCacheVersions(): PurgeCacheResult;
+export declare function purgeStalePluginCacheVersions(options?: {
+    skipGracePeriod?: boolean;
+}): PurgeCacheResult;
 //# sourceMappingURL=paths.d.ts.map

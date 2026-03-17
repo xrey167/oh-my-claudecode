@@ -12,11 +12,6 @@
 export declare const MIN_NODE_VERSION = 20;
 /** Check if running on Windows */
 export declare function isWindows(): boolean;
-/**
- * Check if Node.js hooks should be used.
- * @deprecated Always returns true. Bash hooks were removed in v3.9.0.
- */
-export declare function shouldUseNodeHooks(): boolean;
 /** Get the Claude config directory path (cross-platform) */
 export declare function getClaudeConfigDir(): string;
 /** Get the hooks directory path */
@@ -140,13 +135,4 @@ export declare const HOOKS_SETTINGS_CONFIG_NODE: {
  * Kept for test compatibility only.
  */
 export declare function getHooksSettingsConfig(): typeof HOOKS_SETTINGS_CONFIG_NODE;
-/**
- * Get Node.js hook scripts (Cross-platform)
- * Returns a record of filename -> content for all Node.js hooks
- *
- * @deprecated Hook scripts are no longer installed to ~/.claude/hooks/.
- * All hooks are delivered via the plugin's hooks/hooks.json + scripts/.
- * Kept for test compatibility only.
- */
-export declare function getHookScripts(): Record<string, string>;
 //# sourceMappingURL=hooks.d.ts.map

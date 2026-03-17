@@ -7,6 +7,26 @@
  */
 import { existsSync, readFileSync, writeFileSync, unlinkSync, renameSync } from 'fs';
 import { resolveStatePath, resolveSessionStatePath, ensureSessionStateDir, ensureOmcDir, } from './worktree-paths.js';
+export function getStateSessionOwner(state) {
+    if (!state || typeof state !== 'object') {
+        return undefined;
+    }
+    const meta = state._meta;
+    if (meta && typeof meta === 'object') {
+        const metaSessionId = meta.sessionId;
+        if (typeof metaSessionId === 'string' && metaSessionId) {
+            return metaSessionId;
+        }
+    }
+    const topLevelSessionId = state.session_id;
+    return typeof topLevelSessionId === 'string' && topLevelSessionId
+        ? topLevelSessionId
+        : undefined;
+}
+export function canClearStateForSession(state, sessionId) {
+    const ownerSessionId = getStateSessionOwner(state);
+    return !ownerSessionId || ownerSessionId === sessionId;
+}
 // ---------------------------------------------------------------------------
 // Internal helpers
 // ---------------------------------------------------------------------------
@@ -113,7 +133,7 @@ export function clearModeStateFile(mode, directory, sessionId) {
                 const content = readFileSync(legacyPath, 'utf-8');
                 const legacyState = JSON.parse(content);
                 // Only remove if it belongs to this session or is unowned
-                if (!legacyState.session_id || legacyState.session_id === sessionId) {
+                if (canClearStateForSession(legacyState, sessionId)) {
                     unlinkSync(legacyPath);
                 }
             }

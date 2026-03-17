@@ -2,7 +2,7 @@ import { describe, it, expect, afterEach } from 'vitest';
 import { mkdtemp, rm, mkdir, writeFile } from 'fs/promises';
 import { join } from 'path';
 import { tmpdir } from 'os';
-import { teamCommand, parseTeamArgs, assertTeamSpawnAllowed } from '../team.js';
+import { teamCommand, parseTeamArgs, buildStartupTasks, assertTeamSpawnAllowed } from '../team.js';
 /** Helper: capture console.log output during a callback */
 async function captureLog(fn) {
     const logs = [];
@@ -227,12 +227,18 @@ describe('parseTeamArgs comma-separated multi-type specs', () => {
         const parsed = parseTeamArgs(['1:codex,1:gemini', 'do the task']);
         expect(parsed.workerCount).toBe(2);
         expect(parsed.agentTypes).toEqual(['codex', 'gemini']);
+        expect(parsed.workerSpecs).toEqual([{ agentType: 'codex' }, { agentType: 'gemini' }]);
         expect(parsed.task).toBe('do the task');
     });
     it('parses 2:claude,1:codex:architect with mixed counts and roles', () => {
         const parsed = parseTeamArgs(['2:claude,1:codex:architect', 'design system']);
         expect(parsed.workerCount).toBe(3);
         expect(parsed.agentTypes).toEqual(['claude', 'claude', 'codex']);
+        expect(parsed.workerSpecs).toEqual([
+            { agentType: 'claude' },
+            { agentType: 'claude' },
+            { agentType: 'codex', role: 'architect' },
+        ]);
         expect(parsed.role).toBeUndefined(); // mixed roles -> no single role
         expect(parsed.task).toBe('design system');
     });
@@ -240,6 +246,11 @@ describe('parseTeamArgs comma-separated multi-type specs', () => {
         const parsed = parseTeamArgs(['1:codex:executor,2:gemini:executor', 'run tasks']);
         expect(parsed.workerCount).toBe(3);
         expect(parsed.agentTypes).toEqual(['codex', 'gemini', 'gemini']);
+        expect(parsed.workerSpecs).toEqual([
+            { agentType: 'codex', role: 'executor' },
+            { agentType: 'gemini', role: 'executor' },
+            { agentType: 'gemini', role: 'executor' },
+        ]);
         expect(parsed.role).toBe('executor');
     });
     it('still parses single-type spec 3:codex into uniform agentTypes', () => {
@@ -258,6 +269,10 @@ describe('parseTeamArgs comma-separated multi-type specs', () => {
         const parsed = parseTeamArgs(['2:codex:architect', 'design auth']);
         expect(parsed.workerCount).toBe(2);
         expect(parsed.agentTypes).toEqual(['codex', 'codex']);
+        expect(parsed.workerSpecs).toEqual([
+            { agentType: 'codex', role: 'architect' },
+            { agentType: 'codex', role: 'architect' },
+        ]);
         expect(parsed.role).toBe('architect');
     });
     it('supports --json and --new-window flags with comma-separated specs', () => {
@@ -270,6 +285,30 @@ describe('parseTeamArgs comma-separated multi-type specs', () => {
     });
     it('throws on total count exceeding maximum', () => {
         expect(() => parseTeamArgs(['15:codex,10:gemini', 'big task'])).toThrow('exceeds maximum');
+    });
+});
+describe('buildStartupTasks', () => {
+    it('adds owner-aware fanout for explicit per-worker roles', () => {
+        const parsed = parseTeamArgs(['1:codex:architect,1:gemini:writer', 'draft launch plan']);
+        expect(buildStartupTasks(parsed)).toEqual([
+            {
+                subject: 'Worker 1 (architect): draft launch plan',
+                description: 'draft launch plan',
+                owner: 'worker-1',
+            },
+            {
+                subject: 'Worker 2 (writer): draft launch plan',
+                description: 'draft launch plan',
+                owner: 'worker-2',
+            },
+        ]);
+    });
+    it('keeps simple fanout unchanged when no explicit roles are provided', () => {
+        const parsed = parseTeamArgs(['2:codex', 'fix tests']);
+        expect(buildStartupTasks(parsed)).toEqual([
+            { subject: 'Worker 1: fix tests', description: 'fix tests' },
+            { subject: 'Worker 2: fix tests', description: 'fix tests' },
+        ]);
     });
 });
 //# sourceMappingURL=team.test.js.map

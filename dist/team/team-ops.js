@@ -23,9 +23,6 @@ import { claimTask as claimTaskImpl, transitionTaskStatus as transitionTaskStatu
 function teamDir(teamName, cwd) {
     return absPath(cwd, TeamPaths.root(teamName));
 }
-function workerDir(teamName, workerName, cwd) {
-    return absPath(cwd, TeamPaths.workerDir(teamName, workerName));
-}
 function normalizeTaskId(taskId) {
     const raw = String(taskId).trim();
     return raw.startsWith('task-') ? raw.slice('task-'.length) : raw;

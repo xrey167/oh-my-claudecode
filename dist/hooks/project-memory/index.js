@@ -48,7 +48,13 @@ export async function registerProjectMemoryContext(sessionId, workingDirectory) 
         let memory = await loadProjectMemory(projectRoot);
         // Rescan if memory doesn't exist or is stale
         if (!memory || shouldRescan(memory)) {
+            const existing = memory;
             memory = await detectProjectEnvironment(projectRoot);
+            // Preserve user-contributed data that detection cannot reproduce
+            if (existing) {
+                memory.customNotes = existing.customNotes;
+                memory.userDirectives = existing.userDirectives;
+            }
             await saveProjectMemory(projectRoot, memory);
         }
         // Only inject if we have useful information
@@ -96,7 +102,13 @@ export function clearProjectMemorySession(sessionId) {
  * @param projectRoot - Project root directory
  */
 export async function rescanProjectEnvironment(projectRoot) {
+    const existing = await loadProjectMemory(projectRoot);
     const memory = await detectProjectEnvironment(projectRoot);
+    // Preserve user-contributed data that detection cannot reproduce
+    if (existing) {
+        memory.customNotes = existing.customNotes;
+        memory.userDirectives = existing.userDirectives;
+    }
     await saveProjectMemory(projectRoot, memory);
 }
 // Re-export utilities for use in other modules

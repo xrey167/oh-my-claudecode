@@ -25,6 +25,8 @@ export interface HookOutput {
 }
 export declare function getClaudePermissionAllowEntries(directory: string): string[];
 export declare function hasClaudePermissionApproval(directory: string, toolName: 'Edit' | 'Write' | 'Bash', command?: string): boolean;
+export declare function getClaudePermissionAskEntries(directory: string): string[];
+export declare function hasClaudePermissionAsk(directory: string, toolName: 'Edit' | 'Write' | 'Bash', command?: string): boolean;
 export interface BackgroundPermissionFallbackResult {
     shouldFallback: boolean;
     missingTools: string[];

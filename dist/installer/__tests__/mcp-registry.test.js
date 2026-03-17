@@ -53,6 +53,26 @@ describe('unified MCP registry sync', () => {
         expect(codexConfig).toContain('args = ["mcp"]');
         expect(codexConfig).toContain('startup_timeout_sec = 15');
     });
+    it('round-trips URL-based remote MCP entries through the unified registry sync', () => {
+        const settings = {
+            mcpServers: {
+                remoteOmc: {
+                    url: 'https://lab.example.com/mcp',
+                    timeout: 30,
+                },
+            },
+        };
+        const { settings: syncedSettings, result } = syncUnifiedMcpRegistryTargets(settings);
+        expect(result.bootstrappedFromClaude).toBe(true);
+        expect(result.serverNames).toEqual(['remoteOmc']);
+        expect(syncedSettings).toEqual(settings);
+        const registryPath = getUnifiedMcpRegistryPath();
+        expect(JSON.parse(readFileSync(registryPath, 'utf-8'))).toEqual(settings.mcpServers);
+        const codexConfig = readFileSync(getCodexConfigPath(), 'utf-8');
+        expect(codexConfig).toContain('[mcp_servers.remoteOmc]');
+        expect(codexConfig).toContain('url = "https://lab.example.com/mcp"');
+        expect(codexConfig).toContain('startup_timeout_sec = 30');
+    });
     it('preserves unrelated Claude settings while replacing registry-defined MCP entries', () => {
         const existingSettings = {
             theme: 'dark',
@@ -174,6 +194,32 @@ describe('unified MCP registry sync', () => {
         expect(status.codexMissing).toEqual([]);
         expect(status.claudeMismatched).toEqual(['gitnexus']);
         expect(status.codexMismatched).toEqual(['gitnexus']);
+    });
+    it('detects mismatched URL-based remote MCP definitions during doctor inspection', () => {
+        writeFileSync(getUnifiedMcpRegistryPath(), JSON.stringify({
+            remoteOmc: { url: 'https://lab.example.com/mcp', timeout: 30 },
+        }, null, 2));
+        writeFileSync(join(claudeDir, 'settings.json'), JSON.stringify({
+            mcpServers: {
+                remoteOmc: { url: 'https://staging.example.com/mcp', timeout: 30 },
+            },
+        }, null, 2));
+        mkdirSync(codexDir, { recursive: true });
+        writeFileSync(getCodexConfigPath(), [
+            '# BEGIN OMC MANAGED MCP REGISTRY',
+            '',
+            '[mcp_servers.remoteOmc]',
+            'url = "https://staging.example.com/mcp"',
+            'startup_timeout_sec = 30',
+            '',
+            '# END OMC MANAGED MCP REGISTRY',
+            '',
+        ].join('\n'));
+        const status = inspectUnifiedMcpRegistrySync();
+        expect(status.claudeMissing).toEqual([]);
+        expect(status.codexMissing).toEqual([]);
+        expect(status.claudeMismatched).toEqual(['remoteOmc']);
+        expect(status.codexMismatched).toEqual(['remoteOmc']);
     });
 });
 //# sourceMappingURL=mcp-registry.test.js.map

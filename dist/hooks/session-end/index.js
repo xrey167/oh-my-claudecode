@@ -460,6 +460,97 @@ export function cleanupMissionState(directory, sessionId) {
         return 0;
     }
 }
+function extractTeamNameFromState(state) {
+    if (!state || typeof state !== 'object')
+        return null;
+    const rawTeamName = state.team_name ?? state.teamName;
+    return typeof rawTeamName === 'string' && rawTeamName.trim() !== ''
+        ? rawTeamName.trim()
+        : null;
+}
+async function findSessionOwnedTeams(directory, sessionId) {
+    const teamNames = new Set();
+    const teamState = readModeState('team', directory, sessionId);
+    const stateTeamName = extractTeamNameFromState(teamState);
+    if (stateTeamName) {
+        teamNames.add(stateTeamName);
+    }
+    const teamRoot = path.join(getOmcRoot(directory), 'state', 'team');
+    if (!fs.existsSync(teamRoot)) {
+        return [...teamNames];
+    }
+    const { teamReadManifest } = await import('../../team/team-ops.js');
+    try {
+        const entries = fs.readdirSync(teamRoot, { withFileTypes: true });
+        for (const entry of entries) {
+            if (!entry.isDirectory())
+                continue;
+            const teamName = entry.name;
+            try {
+                const manifest = await teamReadManifest(teamName, directory);
+                if (manifest?.leader.session_id === sessionId) {
+                    teamNames.add(teamName);
+                }
+            }
+            catch {
+                // Ignore malformed team state and continue scanning.
+            }
+        }
+    }
+    catch {
+        // Best-effort only — session end must not fail because team discovery failed.
+    }
+    return [...teamNames];
+}
+async function cleanupSessionOwnedTeams(directory, sessionId) {
+    const attempted = [];
+    const cleaned = [];
+    const failed = [];
+    const teamNames = await findSessionOwnedTeams(directory, sessionId);
+    if (teamNames.length === 0) {
+        return { attempted, cleaned, failed };
+    }
+    const { teamReadConfig, teamCleanup } = await import('../../team/team-ops.js');
+    const { shutdownTeamV2 } = await import('../../team/runtime-v2.js');
+    const { shutdownTeam } = await import('../../team/runtime.js');
+    for (const teamName of teamNames) {
+        attempted.push(teamName);
+        try {
+            const config = await teamReadConfig(teamName, directory);
+            if (!config || typeof config !== 'object') {
+                await teamCleanup(teamName, directory);
+                cleaned.push(teamName);
+                continue;
+            }
+            if (Array.isArray(config.workers)) {
+                await shutdownTeamV2(teamName, directory, { force: true, timeoutMs: 0 });
+                cleaned.push(teamName);
+                continue;
+            }
+            if (Array.isArray(config.agentTypes)) {
+                const legacyConfig = config;
+                const sessionName = typeof legacyConfig.tmuxSession === 'string' && legacyConfig.tmuxSession.trim() !== ''
+                    ? legacyConfig.tmuxSession.trim()
+                    : `omc-team-${teamName}`;
+                const leaderPaneId = typeof legacyConfig.leaderPaneId === 'string' && legacyConfig.leaderPaneId.trim() !== ''
+                    ? legacyConfig.leaderPaneId.trim()
+                    : undefined;
+                await shutdownTeam(teamName, sessionName, directory, 0, undefined, leaderPaneId, legacyConfig.tmuxOwnsWindow === true);
+                cleaned.push(teamName);
+                continue;
+            }
+            await teamCleanup(teamName, directory);
+            cleaned.push(teamName);
+        }
+        catch (error) {
+            failed.push({
+                teamName,
+                error: error instanceof Error ? error.message : String(error),
+            });
+        }
+    }
+    return { attempted, cleaned, failed };
+}
 /**
  * Export session summary to .omc/sessions/
  */
@@ -496,6 +587,10 @@ export async function processSessionEnd(input) {
     // Record and export session metrics to disk
     const metrics = recordSessionMetrics(directory, input);
     exportSessionSummary(directory, metrics);
+    // Best-effort cleanup for tmux-backed team workers owned by this Claude Code
+    // session. This does not fix upstream signal-forwarding behavior, but it
+    // meaningfully reduces orphaned panes/windows when SessionEnd runs normally.
+    await cleanupSessionOwnedTeams(directory, input.session_id);
     // Clean up transient state files
     cleanupTransientState(directory);
     // Clean up mode state files to prevent stale state issues
@@ -522,53 +617,60 @@ export async function processSessionEnd(input) {
     const enabledNotificationPlatforms = shouldUseNewNotificationSystem && notificationConfig
         ? getEnabledPlatforms(notificationConfig, 'session-end')
         : [];
+    // Fire-and-forget: notifications and reply-listener cleanup are non-critical
+    // and should not count against the SessionEnd hook timeout (#1700).
+    // We collect the promises but don't await them — Node will flush them before
+    // the process exits (the hook runner keeps the process alive until stdout closes).
+    const fireAndForget = [];
     // Trigger stop hook callbacks (#395). When an explicit session-end notification
     // config already covers Discord/Telegram, skip the overlapping legacy callback
     // path so session-end is only dispatched once per platform.
-    await triggerStopCallbacks(metrics, {
+    fireAndForget.push(triggerStopCallbacks(metrics, {
         session_id: input.session_id,
         cwd: input.cwd,
     }, {
         skipPlatforms: shouldUseNewNotificationSystem
             ? getLegacyPlatformsCoveredByNotifications(enabledNotificationPlatforms)
             : [],
-    });
+    }).catch(() => { }));
     // Trigger the new notification system when session-end notifications come
     // from an explicit notifications/profile/env config. Legacy stopHookCallbacks
     // are already handled above and must not be dispatched twice.
     if (shouldUseNewNotificationSystem) {
-        try {
-            await notify('session-end', {
-                sessionId: input.session_id,
-                projectPath: input.cwd,
-                durationMs: metrics.duration_ms,
-                agentsSpawned: metrics.agents_spawned,
-                agentsCompleted: metrics.agents_completed,
-                modesUsed: metrics.modes_used,
-                reason: metrics.reason,
-                timestamp: metrics.ended_at,
-                profileName,
-            });
-        }
-        catch {
-            // Notification failures should never block session end
-        }
+        fireAndForget.push(notify('session-end', {
+            sessionId: input.session_id,
+            projectPath: input.cwd,
+            durationMs: metrics.duration_ms,
+            agentsSpawned: metrics.agents_spawned,
+            agentsCompleted: metrics.agents_completed,
+            modesUsed: metrics.modes_used,
+            reason: metrics.reason,
+            timestamp: metrics.ended_at,
+            profileName,
+        }).catch(() => { }));
     }
     // Clean up reply session registry and stop daemon if no active sessions remain
-    try {
-        const { removeSession, loadAllMappings } = await import('../../notifications/session-registry.js');
-        const { stopReplyListener } = await import('../../notifications/reply-listener.js');
-        // Remove this session's message mappings
-        removeSession(input.session_id);
-        // Stop daemon if registry is now empty (no other active sessions)
-        const remainingMappings = loadAllMappings();
-        if (remainingMappings.length === 0) {
-            await stopReplyListener();
+    fireAndForget.push((async () => {
+        try {
+            const { removeSession, loadAllMappings } = await import('../../notifications/session-registry.js');
+            const { stopReplyListener } = await import('../../notifications/reply-listener.js');
+            // Remove this session's message mappings
+            removeSession(input.session_id);
+            // Stop daemon if registry is now empty (no other active sessions)
+            const remainingMappings = loadAllMappings();
+            if (remainingMappings.length === 0) {
+                await stopReplyListener();
+            }
         }
-    }
-    catch {
-        // Reply listener cleanup failures should never block session end
-    }
+        catch {
+            // Reply listener cleanup failures should never block session end
+        }
+    })());
+    // Don't await — let Node flush these before the process exits.
+    // The hook runner keeps the process alive until stdout closes, so these
+    // will settle naturally. Awaiting them would defeat the fire-and-forget
+    // optimization and risk hitting the hook timeout (#1700).
+    void Promise.allSettled(fireAndForget);
     // Return simple response - metrics are persisted to .omc/sessions/
     return { continue: true };
 }

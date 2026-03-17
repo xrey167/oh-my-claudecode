@@ -10,6 +10,7 @@ import { join } from 'path';
 import { resolveStatePath, ensureOmcDir, validateWorkingDirectory, resolveSessionStatePath, ensureSessionStateDir, listSessionIds, validateSessionId, getOmcRoot, } from '../lib/worktree-paths.js';
 import { atomicWriteJsonSync } from '../lib/atomic-write.js';
 import { validatePayload } from '../lib/payload-limits.js';
+import { canClearStateForSession } from '../lib/mode-state-io.js';
 import { isModeActive, getActiveModes, getAllModeStatuses, clearModeState, getStateFilePath, MODE_CONFIGS, getActiveSessionsForMode } from '../hooks/mode-registry/index.js';
 // ExecutionMode from mode-registry (5 modes)
 const EXECUTION_MODES = [
@@ -386,8 +387,7 @@ export const stateClearTool = {
                         const legacyPath = getStateFilePath(root, mode);
                         if (existsSync(legacyPath)) {
                             const raw = JSON.parse(readFileSync(legacyPath, 'utf-8'));
-                            const meta = raw._meta;
-                            if (!meta || meta.sessionId === sessionId) {
+                            if (canClearStateForSession(raw, sessionId)) {
                                 unlinkSync(legacyPath);
                                 ghostCleaned = true;
                             }
@@ -438,8 +438,7 @@ export const stateClearTool = {
                     const legacyPath = resolveStatePath(mode, root);
                     if (existsSync(legacyPath)) {
                         const raw = JSON.parse(readFileSync(legacyPath, 'utf-8'));
-                        const meta = raw._meta;
-                        if (!meta || meta.sessionId === sessionId) {
+                        if (canClearStateForSession(raw, sessionId)) {
                             unlinkSync(legacyPath);
                             ghostCleaned = true;
                         }

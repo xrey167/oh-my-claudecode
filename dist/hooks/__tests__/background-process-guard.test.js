@@ -30,10 +30,10 @@ const mockedLoadConfig = vi.mocked(loadConfig);
 describe('Background Process Guard (issue #302)', () => {
     const originalEnv = process.env;
     let claudeConfigDir;
-    const writeClaudePermissions = (allow = []) => {
+    const writeClaudePermissions = (allow = [], ask = []) => {
         const settingsPath = join(claudeConfigDir, 'settings.local.json');
         mkdirSync(claudeConfigDir, { recursive: true });
-        writeFileSync(settingsPath, JSON.stringify({ permissions: { allow } }, null, 2));
+        writeFileSync(settingsPath, JSON.stringify({ permissions: { allow, ask } }, null, 2));
     };
     beforeEach(() => {
         claudeConfigDir = mkdtempSync(join(tmpdir(), 'omc-bg-perms-'));
@@ -228,6 +228,21 @@ describe('Background Process Guard (issue #302)', () => {
             expect(result.continue).toBe(true);
             expect(result.message ?? '').not.toContain('[BACKGROUND PERMISSIONS]');
             expect(result.modifiedInput).toBeUndefined();
+        });
+        it('should block safe-looking background Bash when ask rules require approval', async () => {
+            writeClaudePermissions([], ['Bash(git commit:*)']);
+            const input = {
+                sessionId: 'test-session',
+                toolName: 'Bash',
+                toolInput: {
+                    command: `git commit -m "$(cat <<'EOF'\nfeat: test\nEOF\n)"`,
+                    run_in_background: true,
+                },
+                directory: '/tmp/test',
+            };
+            const result = await processHook('pre-tool-use', input);
+            expect(result.continue).toBe(false);
+            expect(result.reason).toContain('[BACKGROUND PERMISSIONS]');
         });
         it('should keep exact pre-approved background Bash commands in background', async () => {
             writeClaudePermissions(['Bash(rm -rf ./tmp-build)']);

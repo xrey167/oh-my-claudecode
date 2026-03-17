@@ -1,14 +1,15 @@
 import { createInterface } from 'readline/promises';
-import { execFileSync, spawnSync } from 'child_process';
+import { execFileSync } from 'child_process';
 import { existsSync } from 'fs';
 import { mkdir, writeFile } from 'fs/promises';
 import { join, relative, resolve } from 'path';
 import { type AutoresearchKeepPolicy, parseSandboxContract, slugifyMissionName } from '../autoresearch/contracts.js';
+import { buildTmuxShellCommand, isTmuxAvailable, wrapWithLoginShell } from './tmux-utils.js';
 
 export interface InitAutoresearchOptions {
   topic: string;
   evaluatorCommand: string;
-  keepPolicy: AutoresearchKeepPolicy;
+  keepPolicy?: AutoresearchKeepPolicy;
   slug: string;
   repoRoot: string;
 }
@@ -18,18 +19,15 @@ export interface InitAutoresearchResult {
   slug: string;
 }
 
-function shellQuote(s: string): string {
-  return "'" + s.replace(/'/g, "'\\''") + "'";
-}
-
 function buildMissionContent(topic: string): string {
   return `# Mission\n\n${topic}\n`;
 }
 
-function buildSandboxContent(evaluatorCommand: string, keepPolicy: AutoresearchKeepPolicy): string {
+function buildSandboxContent(evaluatorCommand: string, keepPolicy?: AutoresearchKeepPolicy): string {
   // Strip newlines/carriage returns to prevent YAML injection
   const safeCommand = evaluatorCommand.replace(/[\r\n]/g, ' ').trim();
-  return `---\nevaluator:\n  command: ${safeCommand}\n  format: json\n  keep_policy: ${keepPolicy}\n---\n`;
+  const keepPolicyLine = keepPolicy ? `\n  keep_policy: ${keepPolicy}` : '';
+  return `---\nevaluator:\n  command: ${safeCommand}\n  format: json${keepPolicyLine}\n---\n`;
 }
 
 export async function initAutoresearchMission(opts: InitAutoresearchOptions): Promise<InitAutoresearchResult> {
@@ -102,26 +100,33 @@ export function parseInitArgs(args: readonly string[]): Partial<InitAutoresearch
 
 export async function guidedAutoresearchSetup(repoRoot: string): Promise<InitAutoresearchResult> {
   if (!process.stdin.isTTY) {
-    throw new Error('Guided setup requires an interactive terminal. Use --topic, --evaluator, --keep-policy, --slug flags for non-interactive use.');
+    throw new Error('Guided setup requires an interactive terminal. Use --mission, --sandbox, --keep-policy, and --slug flags for non-interactive use.');
   }
 
   const rl = createInterface({ input: process.stdin, output: process.stdout });
   try {
-    const topic = await rl.question('Research topic/goal:\n> ');
+    const topic = await rl.question('Research mission (what should autoresearch improve or prove?)\n> ');
     if (!topic.trim()) {
-      throw new Error('Research topic is required.');
+      throw new Error('Research mission is required.');
     }
 
-    const evaluatorCommand = await rl.question('\nEvaluator command (shell command that outputs {pass: boolean, score?: number} JSON):\n> ');
+    const evaluatorCommand = await rl.question('\nSandbox/evaluator command (must print {pass: boolean, score?: number} JSON)\n> ');
     if (!evaluatorCommand.trim()) {
-      throw new Error('Evaluator command is required.');
+      throw new Error('Sandbox/evaluator command is required.');
     }
 
-    const keepPolicyInput = await rl.question('\nKeep policy [score_improvement/pass_only] (default: score_improvement):\n> ');
-    const keepPolicy: AutoresearchKeepPolicy = keepPolicyInput.trim().toLowerCase() === 'pass_only' ? 'pass_only' : 'score_improvement';
+    const keepPolicyInput = await rl.question('\nKeep policy [Enter for runtime default / score_improvement / pass_only]\n> ');
+    const normalizedKeepPolicyInput = keepPolicyInput.trim().toLowerCase();
+    let keepPolicy: AutoresearchKeepPolicy | undefined;
+    if (normalizedKeepPolicyInput) {
+      if (normalizedKeepPolicyInput !== 'score_improvement' && normalizedKeepPolicyInput !== 'pass_only') {
+        throw new Error('--keep-policy must be one of: score_improvement, pass_only');
+      }
+      keepPolicy = normalizedKeepPolicyInput;
+    }
 
     const suggestedSlug = slugifyMissionName(topic);
-    const slugInput = await rl.question(`\nMission slug (default: ${suggestedSlug}):\n> `);
+    const slugInput = await rl.question(`\nMission slug (default: ${suggestedSlug})\n> `);
     const slug = slugInput.trim() ? slugifyMissionName(slugInput.trim()) : suggestedSlug;
 
     return initAutoresearchMission({
@@ -137,8 +142,26 @@ export async function guidedAutoresearchSetup(repoRoot: string): Promise<InitAut
 }
 
 export function checkTmuxAvailable(): boolean {
-  const result = spawnSync('tmux', ['-V'], { stdio: 'pipe' });
-  return result.status === 0;
+  return isTmuxAvailable();
+}
+
+function resolveMissionRepoRoot(missionDir: string): string {
+  return execFileSync('git', ['rev-parse', '--show-toplevel'], {
+    cwd: missionDir,
+    encoding: 'utf-8',
+    stdio: ['ignore', 'pipe', 'pipe'],
+  }).trim();
+}
+
+function assertTmuxSessionAvailable(sessionName: string): void {
+  try {
+    execFileSync('tmux', ['has-session', '-t', sessionName], { stdio: 'ignore' });
+  } catch {
+    throw new Error(
+      `tmux session "${sessionName}" did not stay available after launch. `
+      + 'Check the mission command, login-shell environment, and tmux logs, then try again.',
+    );
+  }
 }
 
 export function spawnAutoresearchTmux(missionDir: string, slug: string): void {
@@ -148,23 +171,29 @@ export function spawnAutoresearchTmux(missionDir: string, slug: string): void {
 
   const sessionName = `omc-autoresearch-${slug}`;
 
-  // Check for session name collision
-  const hasSession = spawnSync('tmux', ['has-session', '-t', sessionName], { stdio: 'pipe' });
-  if (hasSession.status === 0) {
+  try {
+    execFileSync('tmux', ['has-session', '-t', sessionName], { stdio: 'ignore' });
     throw new Error(
-      `tmux session "${sessionName}" already exists.\n` +
-      `  Attach: tmux attach -t ${sessionName}\n` +
-      `  Kill:   tmux kill-session -t ${sessionName}`,
+      `tmux session "${sessionName}" already exists.\n`
+      + `  Attach: tmux attach -t ${sessionName}\n`
+      + `  Kill:   tmux kill-session -t ${sessionName}`,
     );
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    if (message.includes('already exists')) {
+      throw error;
+    }
   }
 
+  const repoRoot = resolveMissionRepoRoot(missionDir);
   const omcPath = resolve(join(__dirname, '..', '..', 'bin', 'omc.js'));
-  // Shell-quote all path components to handle spaces and special characters
-  const cmd = `${shellQuote(process.execPath)} ${shellQuote(omcPath)} autoresearch ${shellQuote(missionDir)}`;
+  const command = buildTmuxShellCommand(process.execPath, [omcPath, 'autoresearch', missionDir]);
+  const wrappedCommand = wrapWithLoginShell(command);
 
-  execFileSync('tmux', ['new-session', '-d', '-s', sessionName, cmd], { stdio: 'ignore' });
+  execFileSync('tmux', ['new-session', '-d', '-s', sessionName, '-c', repoRoot, wrappedCommand], { stdio: 'ignore' });
+  assertTmuxSessionAvailable(sessionName);
 
-  console.log(`\nAutoresearch launched in background tmux session.`);
+  console.log('\nAutoresearch launched in background tmux session.');
   console.log(`  Session:  ${sessionName}`);
   console.log(`  Mission:  ${missionDir}`);
   console.log(`  Attach:   tmux attach -t ${sessionName}`);

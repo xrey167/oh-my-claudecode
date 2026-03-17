@@ -10,9 +10,10 @@
  *
  * @see https://github.com/Yeachan-Heo/oh-my-claudecode/issues/1130
  */
-import { DEFAULT_PIPELINE_CONFIG, STAGE_ORDER, DEPRECATED_MODE_ALIASES } from './pipeline-types.js';
-import { ALL_ADAPTERS, getAdapterById } from './adapters/index.js';
-import { readAutopilotState, writeAutopilotState, initAutopilot, } from './state.js';
+import { DEFAULT_PIPELINE_CONFIG, STAGE_ORDER, DEPRECATED_MODE_ALIASES, } from "./pipeline-types.js";
+import { ALL_ADAPTERS, getAdapterById } from "./adapters/index.js";
+import { readAutopilotState, writeAutopilotState, initAutopilot, } from "./state.js";
+import { resolveAutopilotPlanPath, resolveOpenQuestionsPlanPath, } from "../../config/plan-output.js";
 // ============================================================================
 // CONFIGURATION
 // ============================================================================
@@ -60,17 +61,19 @@ export function getDeprecationWarning(mode) {
  */
 export function buildPipelineTracking(config) {
     const _adapters = getActiveAdapters(config);
-    const stages = STAGE_ORDER.map(stageId => {
+    const stages = STAGE_ORDER.map((stageId) => {
         const adapter = getAdapterById(stageId);
         const isActive = adapter && !adapter.shouldSkip(config);
         return {
             id: stageId,
-            status: isActive ? 'pending' : 'skipped',
+            status: isActive
+                ? "pending"
+                : "skipped",
             iterations: 0,
         };
     });
     // Find the first non-skipped stage
-    const firstActiveIndex = stages.findIndex(s => s.status !== 'skipped');
+    const firstActiveIndex = stages.findIndex((s) => s.status !== "skipped");
     return {
         pipelineConfig: config,
         stages,
@@ -81,7 +84,7 @@ export function buildPipelineTracking(config) {
  * Get the ordered list of active (non-skipped) adapters for a given config.
  */
 export function getActiveAdapters(config) {
-    return ALL_ADAPTERS.filter(adapter => !adapter.shouldSkip(config));
+    return ALL_ADAPTERS.filter((adapter) => !adapter.shouldSkip(config));
 }
 /**
  * Read pipeline tracking from an autopilot state.
@@ -98,7 +101,8 @@ export function writePipelineTracking(directory, tracking, sessionId) {
     const state = readAutopilotState(directory, sessionId);
     if (!state)
         return false;
-    state.pipeline = tracking;
+    state.pipeline =
+        tracking;
     return writeAutopilotState(directory, state, sessionId);
 }
 // ============================================================================
@@ -128,12 +132,15 @@ export function initPipeline(directory, idea, sessionId, autopilotConfig, pipeli
     // Build and attach pipeline tracking
     const tracking = buildPipelineTracking(resolvedConfig);
     // Mark the first active stage as active
-    if (tracking.currentStageIndex >= 0 && tracking.currentStageIndex < tracking.stages.length) {
-        tracking.stages[tracking.currentStageIndex].status = 'active';
-        tracking.stages[tracking.currentStageIndex].startedAt = new Date().toISOString();
+    if (tracking.currentStageIndex >= 0 &&
+        tracking.currentStageIndex < tracking.stages.length) {
+        tracking.stages[tracking.currentStageIndex].status = "active";
+        tracking.stages[tracking.currentStageIndex].startedAt =
+            new Date().toISOString();
     }
     // Persist pipeline tracking alongside autopilot state
-    state.pipeline = tracking;
+    state.pipeline =
+        tracking;
     writeAutopilotState(directory, state, sessionId);
     return state;
 }
@@ -150,7 +157,7 @@ export function getCurrentStageAdapter(tracking) {
         return null;
     }
     const currentStage = stages[currentStageIndex];
-    if (currentStage.status === 'skipped' || currentStage.status === 'complete') {
+    if (currentStage.status === "skipped" || currentStage.status === "complete") {
         // Find next active stage
         return getNextStageAdapter(tracking);
     }
@@ -163,7 +170,7 @@ export function getCurrentStageAdapter(tracking) {
 export function getNextStageAdapter(tracking) {
     const { stages, currentStageIndex } = tracking;
     for (let i = currentStageIndex + 1; i < stages.length; i++) {
-        if (stages[i].status !== 'skipped') {
+        if (stages[i].status !== "skipped") {
             return getAdapterById(stages[i].id) ?? null;
         }
     }
@@ -179,15 +186,15 @@ export function getNextStageAdapter(tracking) {
 export function advanceStage(directory, sessionId) {
     const state = readAutopilotState(directory, sessionId);
     if (!state)
-        return { adapter: null, phase: 'failed' };
+        return { adapter: null, phase: "failed" };
     const tracking = readPipelineTracking(state);
     if (!tracking)
-        return { adapter: null, phase: 'failed' };
+        return { adapter: null, phase: "failed" };
     const { stages, currentStageIndex } = tracking;
     // Mark current stage as complete
     if (currentStageIndex >= 0 && currentStageIndex < stages.length) {
         const currentStage = stages[currentStageIndex];
-        currentStage.status = 'complete';
+        currentStage.status = "complete";
         currentStage.completedAt = new Date().toISOString();
         // Call onExit if the adapter supports it
         const currentAdapter = getAdapterById(currentStage.id);
@@ -199,7 +206,7 @@ export function advanceStage(directory, sessionId) {
     // Find next non-skipped stage
     let nextIndex = -1;
     for (let i = currentStageIndex + 1; i < stages.length; i++) {
-        if (stages[i].status !== 'skipped') {
+        if (stages[i].status !== "skipped") {
             nextIndex = i;
             break;
         }
@@ -208,11 +215,11 @@ export function advanceStage(directory, sessionId) {
         // All stages complete — pipeline is done
         tracking.currentStageIndex = stages.length;
         writePipelineTracking(directory, tracking, sessionId);
-        return { adapter: null, phase: 'complete' };
+        return { adapter: null, phase: "complete" };
     }
     // Activate next stage
     tracking.currentStageIndex = nextIndex;
-    stages[nextIndex].status = 'active';
+    stages[nextIndex].status = "active";
     stages[nextIndex].startedAt = new Date().toISOString();
     writePipelineTracking(directory, tracking, sessionId);
     // Call onEnter if the adapter supports it
@@ -235,7 +242,7 @@ export function failCurrentStage(directory, error, sessionId) {
         return false;
     const { stages, currentStageIndex } = tracking;
     if (currentStageIndex >= 0 && currentStageIndex < stages.length) {
-        stages[currentStageIndex].status = 'failed';
+        stages[currentStageIndex].status = "failed";
         stages[currentStageIndex].error = error;
     }
     return writePipelineTracking(directory, tracking, sessionId);
@@ -303,7 +310,7 @@ export function generatePipelinePrompt(directory, sessionId) {
  * Generate a stage transition prompt when advancing between stages.
  */
 export function generateTransitionPrompt(fromStage, toStage) {
-    if (toStage === 'complete') {
+    if (toStage === "complete") {
         return `## PIPELINE COMPLETE
 
 All pipeline stages have completed successfully!
@@ -332,26 +339,33 @@ export function getPipelineStatus(tracking) {
     let current = null;
     for (const stage of tracking.stages) {
         switch (stage.status) {
-            case 'complete':
+            case "complete":
                 completed.push(stage.id);
                 break;
-            case 'active':
+            case "active":
                 current = stage.id;
                 break;
-            case 'pending':
+            case "pending":
                 pending.push(stage.id);
                 break;
-            case 'skipped':
+            case "skipped":
                 skipped.push(stage.id);
                 break;
         }
     }
-    const activeStages = tracking.stages.filter(s => s.status !== 'skipped');
+    const activeStages = tracking.stages.filter((s) => s.status !== "skipped");
     const completedCount = completed.length;
     const totalActive = activeStages.length;
     const isComplete = current === null && pending.length === 0;
     const progress = `${completedCount}/${totalActive} stages`;
-    return { currentStage: current, completedStages: completed, pendingStages: pending, skippedStages: skipped, isComplete, progress };
+    return {
+        currentStage: current,
+        completedStages: completed,
+        pendingStages: pending,
+        skippedStages: skipped,
+        isComplete,
+        progress,
+    };
 }
 /**
  * Format pipeline status for HUD display.
@@ -363,24 +377,24 @@ export function formatPipelineHUD(tracking) {
         const adapter = getAdapterById(stage.id);
         const name = adapter?.name ?? stage.id;
         switch (stage.status) {
-            case 'complete':
+            case "complete":
                 parts.push(`[OK] ${name}`);
                 break;
-            case 'active':
+            case "active":
                 parts.push(`[>>] ${name} (iter ${stage.iterations})`);
                 break;
-            case 'pending':
+            case "pending":
                 parts.push(`[..] ${name}`);
                 break;
-            case 'skipped':
+            case "skipped":
                 parts.push(`[--] ${name}`);
                 break;
-            case 'failed':
+            case "failed":
                 parts.push(`[!!] ${name}`);
                 break;
         }
     }
-    return `Pipeline ${status.progress}: ${parts.join(' | ')}`;
+    return `Pipeline ${status.progress}: ${parts.join(" | ")}`;
 }
 // ============================================================================
 // HELPERS
@@ -393,8 +407,9 @@ function buildContext(state, tracking) {
         idea: state.originalIdea,
         directory: state.project_path || process.cwd(),
         sessionId: state.session_id,
-        specPath: state.expansion.spec_path || '.omc/autopilot/spec.md',
-        planPath: state.planning.plan_path || '.omc/plans/autopilot-impl.md',
+        specPath: state.expansion.spec_path || ".omc/autopilot/spec.md",
+        planPath: state.planning.plan_path || resolveAutopilotPlanPath(),
+        openQuestionsPath: resolveOpenQuestionsPlanPath(),
         config: tracking.pipelineConfig,
     };
 }

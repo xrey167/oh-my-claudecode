@@ -170,6 +170,41 @@ describe('Project Memory Formatter', () => {
             expect(summary.length).toBeLessThan(300);
             expect(summary).toContain('[Project Environment]');
         });
+        it('should include customNotes in context summary', () => {
+            const memory = createBaseMemory({
+                techStack: {
+                    languages: [{ name: 'TypeScript', version: null, confidence: 'high', markers: ['tsconfig.json'] }],
+                    frameworks: [],
+                    packageManager: null,
+                    runtime: null,
+                },
+                customNotes: [
+                    { timestamp: Date.now(), source: 'learned', category: 'env', content: 'Requires NODE_ENV=production' },
+                    { timestamp: Date.now(), source: 'manual', category: 'deploy', content: 'Uses Docker for deployment' },
+                ],
+            });
+            const summary = formatContextSummary(memory);
+            expect(summary).toContain('**Notes:**');
+            expect(summary).toContain('[env] Requires NODE_ENV=production');
+            expect(summary).toContain('[deploy] Uses Docker for deployment');
+        });
+        it('should limit customNotes to 5 in context summary', () => {
+            const notes = Array.from({ length: 8 }, (_, i) => ({
+                timestamp: Date.now(),
+                source: 'learned',
+                category: 'test',
+                content: `Note ${i + 1}`,
+            }));
+            const memory = createBaseMemory({ customNotes: notes });
+            const summary = formatContextSummary(memory);
+            expect(summary).toContain('Note 5');
+            expect(summary).not.toContain('Note 6');
+        });
+        it('should not include Notes section when customNotes is empty', () => {
+            const memory = createBaseMemory({ customNotes: [] });
+            const summary = formatContextSummary(memory);
+            expect(summary).not.toContain('**Notes:**');
+        });
     });
     describe('formatFullContext', () => {
         it('should format complete project details', () => {

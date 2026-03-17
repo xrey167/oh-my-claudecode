@@ -34,8 +34,9 @@ Arguments:
                    optional keep policy, and slug, then spawns autoresearch in a background tmux session.
   --mission/       Explicit bypass path. --mission is raw mission text and --sandbox is the raw
   --sandbox        evaluator/sandbox command. Both flags are required together; --keep-policy and
-                   --slug remain optional.
-  init             Non-interactive mission scaffolding via flags (all four flags required).
+                   --slug remain optional. Partial bypass is invalid.
+  init             Non-interactive mission scaffolding via flags (--topic, --evaluator, --slug;
+                   optional --keep-policy).
   <mission-dir>    Directory inside a git repository containing mission.md and sandbox.md
   <run-id>         Existing autoresearch run id from .omc/logs/autoresearch/<run-id>/manifest.json
 
@@ -102,7 +103,6 @@ export interface ParsedAutoresearchArgs {
   keepPolicy?: AutoresearchKeepPolicy;
   slug?: string;
 }
-
 
 function parseAutoresearchKeepPolicy(value: string): AutoresearchKeepPolicy {
   const normalized = value.trim().toLowerCase();
@@ -329,7 +329,7 @@ export async function autoresearchCommand(args: string[]): Promise<void> {
       result = await initAutoresearchMission({
         topic: parsed.missionText,
         evaluatorCommand: parsed.sandboxCommand,
-        keepPolicy: parsed.keepPolicy || 'score_improvement',
+        keepPolicy: parsed.keepPolicy,
         slug: parsed.slug || slugifyMissionName(parsed.missionText),
         repoRoot,
       });
@@ -337,15 +337,15 @@ export async function autoresearchCommand(args: string[]): Promise<void> {
       const initOpts = parseInitArgs(parsed.initArgs);
       if (!initOpts.topic || !initOpts.evaluatorCommand || !initOpts.slug) {
         throw new Error(
-          'init requires --topic, --evaluator, and --slug flags.\n' +
-          'Optional: --keep-policy (default: score_improvement)\n\n' +
-          `${AUTORESEARCH_HELP}`,
+          'init requires --topic, --evaluator, and --slug flags.\n'
+          + 'Optional: --keep-policy\n\n'
+          + `${AUTORESEARCH_HELP}`,
         );
       }
       result = await initAutoresearchMission({
         topic: initOpts.topic,
         evaluatorCommand: initOpts.evaluatorCommand,
-        keepPolicy: initOpts.keepPolicy || 'score_improvement',
+        keepPolicy: initOpts.keepPolicy,
         slug: initOpts.slug,
         repoRoot,
       });

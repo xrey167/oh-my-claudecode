@@ -8,6 +8,7 @@
  * - createHudWatchPane login shell wrapping
  */
 import { describe, expect, it, vi, afterEach } from 'vitest';
+import { execFileSync } from 'child_process';
 vi.mock('child_process', async (importOriginal) => {
     const actual = await importOriginal();
     return {
@@ -15,10 +16,27 @@ vi.mock('child_process', async (importOriginal) => {
         execFileSync: vi.fn(),
     };
 });
-import { wrapWithLoginShell, quoteShellArg, sanitizeTmuxToken, } from '../tmux-utils.js';
+import { resolveLaunchPolicy, wrapWithLoginShell, quoteShellArg, sanitizeTmuxToken, } from '../tmux-utils.js';
 afterEach(() => {
     vi.unstubAllEnvs();
     vi.restoreAllMocks();
+});
+// ---------------------------------------------------------------------------
+// resolveLaunchPolicy
+// ---------------------------------------------------------------------------
+describe('resolveLaunchPolicy', () => {
+    it('forces direct mode for --print even when tmux is available', () => {
+        vi.mocked(execFileSync).mockReturnValue(Buffer.from('tmux 3.4'));
+        expect(resolveLaunchPolicy({}, ['--print'])).toBe('direct');
+    });
+    it('forces direct mode for -p even when tmux is available', () => {
+        vi.mocked(execFileSync).mockReturnValue(Buffer.from('tmux 3.4'));
+        expect(resolveLaunchPolicy({}, ['-p'])).toBe('direct');
+    });
+    it('does not treat --print-system-prompt as print mode', () => {
+        vi.mocked(execFileSync).mockReturnValue(Buffer.from('tmux 3.4'));
+        expect(resolveLaunchPolicy({ TMUX: '1' }, ['--print-system-prompt'])).toBe('inside-tmux');
+    });
 });
 // ---------------------------------------------------------------------------
 // wrapWithLoginShell

@@ -22,7 +22,7 @@ vi.mock('../tmux-utils.js', () => ({
     quoteShellArg: vi.fn((s) => s),
     isClaudeAvailable: vi.fn(() => true),
 }));
-import { runClaude, launchCommand, extractNotifyFlag, extractOpenClawFlag, extractTelegramFlag, extractDiscordFlag, extractSlackFlag, extractWebhookFlag, normalizeClaudeLaunchArgs } from '../launch.js';
+import { runClaude, launchCommand, extractNotifyFlag, extractOpenClawFlag, extractTelegramFlag, extractDiscordFlag, extractSlackFlag, extractWebhookFlag, normalizeClaudeLaunchArgs, isPrintMode } from '../launch.js';
 import { resolveLaunchPolicy, buildTmuxShellCommand, } from '../tmux-utils.js';
 // ---------------------------------------------------------------------------
 // extractNotifyFlag
@@ -108,6 +108,14 @@ describe('runClaude — exit code propagation', () => {
     describe('direct policy', () => {
         beforeEach(() => {
             resolveLaunchPolicy.mockReturnValue('direct');
+        });
+        it('bypasses tmux for --print mode', () => {
+            execFileSync.mockReturnValue(Buffer.from(''));
+            runClaude('/tmp', ['--print'], 'sid');
+            // isPrintMode short-circuits before resolveLaunchPolicy is called
+            expect(resolveLaunchPolicy).not.toHaveBeenCalled();
+            expect(vi.mocked(execFileSync).mock.calls.find(([cmd]) => cmd === 'tmux')).toBeUndefined();
+            expect(vi.mocked(execFileSync).mock.calls.find(([cmd]) => cmd === 'claude')?.[1]).toEqual(['--print']);
         });
         it('propagates Claude non-zero exit code', () => {
             const err = Object.assign(new Error('Command failed'), { status: 2 });
@@ -645,6 +653,75 @@ describe('launchCommand — env var propagation', () => {
         expect(claudeArgs).not.toContain('--webhook');
         expect(claudeArgs).not.toContain('--openclaw');
         expect(claudeArgs).toContain('--print');
+    });
+});
+// ---------------------------------------------------------------------------
+// isPrintMode
+// ---------------------------------------------------------------------------
+describe('isPrintMode', () => {
+    it('detects --print flag', () => {
+        expect(isPrintMode(['--print', 'say hello'])).toBe(true);
+    });
+    it('detects -p flag', () => {
+        expect(isPrintMode(['-p', 'say hello'])).toBe(true);
+    });
+    it('returns false when no print flag', () => {
+        expect(isPrintMode(['--madmax', '--verbose'])).toBe(false);
+    });
+    it('returns false for empty args', () => {
+        expect(isPrintMode([])).toBe(false);
+    });
+    it('detects --print among other flags', () => {
+        expect(isPrintMode(['--madmax', '--print', 'say hello'])).toBe(true);
+    });
+    it('does not match partial flags like --print-something', () => {
+        expect(isPrintMode(['--print-something'])).toBe(false);
+    });
+});
+// ---------------------------------------------------------------------------
+// runClaude — print mode bypasses tmux (issue #1665)
+// ---------------------------------------------------------------------------
+describe('runClaude — print mode bypasses tmux (issue #1665)', () => {
+    let processExitSpy;
+    beforeEach(() => {
+        vi.resetAllMocks();
+        processExitSpy = vi.spyOn(process, 'exit').mockImplementation(() => undefined);
+        execFileSync.mockReturnValue(Buffer.from(''));
+    });
+    afterEach(() => {
+        processExitSpy.mockRestore();
+    });
+    it('runs claude directly when --print is present (outside-tmux policy)', () => {
+        resolveLaunchPolicy.mockReturnValue('outside-tmux');
+        runClaude('/tmp', ['--print', 'say hello'], 'sid');
+        const calls = vi.mocked(execFileSync).mock.calls;
+        // Should call claude directly, NOT tmux
+        expect(calls).toHaveLength(1);
+        expect(calls[0][0]).toBe('claude');
+        expect(calls[0][1]).toEqual(['--print', 'say hello']);
+        expect(calls[0][2]).toEqual(expect.objectContaining({ stdio: 'inherit' }));
+    });
+    it('runs claude directly when -p is present (outside-tmux policy)', () => {
+        resolveLaunchPolicy.mockReturnValue('outside-tmux');
+        runClaude('/tmp', ['-p', 'say hello'], 'sid');
+        const calls = vi.mocked(execFileSync).mock.calls;
+        expect(calls).toHaveLength(1);
+        expect(calls[0][0]).toBe('claude');
+    });
+    it('runs claude directly when --print is present (inside-tmux policy)', () => {
+        resolveLaunchPolicy.mockReturnValue('inside-tmux');
+        runClaude('/tmp', ['--dangerously-skip-permissions', '--print', 'say hello'], 'sid');
+        const calls = vi.mocked(execFileSync).mock.calls;
+        // Should NOT call tmux set-option (mouse config), just claude directly
+        expect(calls).toHaveLength(1);
+        expect(calls[0][0]).toBe('claude');
+    });
+    it('does not bypass tmux when --print is absent', () => {
+        resolveLaunchPolicy.mockReturnValue('outside-tmux');
+        runClaude('/tmp', ['--dangerously-skip-permissions'], 'sid');
+        const calls = vi.mocked(execFileSync).mock.calls;
+        const tmuxCall = calls.find(([cmd]) => cmd === 'tmux');
+        expect(tmuxCall).toBeDefined();
     });
 });
 //# sourceMappingURL=launch.test.js.map

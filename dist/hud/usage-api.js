@@ -16,6 +16,7 @@ import { getClaudeConfigDir } from '../utils/paths.js';
 import { join, dirname } from 'path';
 import { execSync } from 'child_process';
 import { createHash } from 'crypto';
+import { userInfo } from 'os';
 import https from 'https';
 import { validateAnthropicBaseUrl } from '../utils/ssrf-guard.js';
 import { DEFAULT_HUD_USAGE_POLL_INTERVAL_MS, } from './types.js';
@@ -206,33 +207,60 @@ function getKeychainServiceName() {
     }
     return 'Claude Code-credentials';
 }
+function isCredentialExpired(creds) {
+    return creds.expiresAt != null && creds.expiresAt <= Date.now();
+}
+function readKeychainCredential(serviceName, account) {
+    try {
+        const accountArg = account ? ` -a "${account}"` : '';
+        const result = execSync(`/usr/bin/security find-generic-password -s "${serviceName}"${accountArg} -w 2>/dev/null`, { encoding: 'utf-8', timeout: 2000 }).trim();
+        if (!result)
+            return null;
+        const parsed = JSON.parse(result);
+        // Handle nested structure (claudeAiOauth wrapper)
+        const creds = parsed.claudeAiOauth || parsed;
+        if (!creds.accessToken)
+            return null;
+        return {
+            accessToken: creds.accessToken,
+            expiresAt: creds.expiresAt,
+            refreshToken: creds.refreshToken,
+            source: 'keychain',
+        };
+    }
+    catch {
+        return null;
+    }
+}
 /**
  * Read OAuth credentials from macOS Keychain
  */
 function readKeychainCredentials() {
     if (process.platform !== 'darwin')
         return null;
+    const serviceName = getKeychainServiceName();
+    const candidateAccounts = [];
     try {
-        const serviceName = getKeychainServiceName();
-        const result = execSync(`/usr/bin/security find-generic-password -s "${serviceName}" -w 2>/dev/null`, { encoding: 'utf-8', timeout: 2000 }).trim();
-        if (!result)
-            return null;
-        const parsed = JSON.parse(result);
-        // Handle nested structure (claudeAiOauth wrapper)
-        const creds = parsed.claudeAiOauth || parsed;
-        if (creds.accessToken) {
-            return {
-                accessToken: creds.accessToken,
-                expiresAt: creds.expiresAt,
-                refreshToken: creds.refreshToken,
-                source: 'keychain',
-            };
+        const username = userInfo().username?.trim();
+        if (username) {
+            candidateAccounts.push(username);
         }
     }
     catch {
-        // Keychain access failed
+        // Best-effort only; fall back to the legacy service-only lookup below.
     }
-    return null;
+    candidateAccounts.push(undefined);
+    let expiredFallback = null;
+    for (const account of candidateAccounts) {
+        const creds = readKeychainCredential(serviceName, account);
+        if (!creds)
+            continue;
+        if (!isCredentialExpired(creds)) {
+            return creds;
+        }
+        expiredFallback ??= creds;
+    }
+    return expiredFallback;
 }
 /**
  * Read OAuth credentials from file fallback
@@ -277,12 +305,7 @@ function getCredentials() {
 function validateCredentials(creds) {
     if (!creds.accessToken)
         return false;
-    if (creds.expiresAt != null) {
-        const now = Date.now();
-        if (creds.expiresAt <= now)
-            return false;
-    }
-    return true;
+    return !isCredentialExpired(creds);
 }
 /**
  * Attempt to refresh an expired OAuth access token using the refresh token.

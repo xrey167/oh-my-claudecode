@@ -35,9 +35,14 @@ export declare function resolveTeamFanoutLimit(requestedWorkerCount: number, _ex
  * - Atomic: single task, no decomposition
  */
 export declare function splitTaskString(task: string): DecompositionPlan;
+export interface ParsedWorkerSpec {
+    agentType: string;
+    role?: string;
+}
 export interface ParsedTeamArgs {
     workerCount: number;
     agentTypes: string[];
+    workerSpecs: ParsedWorkerSpec[];
     role?: string;
     task: string;
     teamName: string;
@@ -47,6 +52,11 @@ export interface ParsedTeamArgs {
 export declare function assertTeamSpawnAllowed(cwd: string, env?: NodeJS.ProcessEnv): Promise<void>;
 /** @internal Exported for testing */
 export declare function parseTeamArgs(tokens: string[]): ParsedTeamArgs;
+export declare function buildStartupTasks(parsed: ParsedTeamArgs): Array<{
+    subject: string;
+    description: string;
+    owner?: string;
+}>;
 /**
  * Main team subcommand handler.
  * Routes:

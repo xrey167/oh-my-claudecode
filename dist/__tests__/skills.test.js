@@ -8,8 +8,8 @@ describe('Builtin Skills', () => {
     describe('createBuiltinSkills()', () => {
         it('should return correct number of skills (29 including aliases)', () => {
             const skills = createBuiltinSkills();
-            // 29 entries: 28 canonical skills + 1 deprecated alias (psm)
-            expect(skills).toHaveLength(29);
+            // 30 entries: 29 canonical skills + 1 deprecated alias (psm)
+            expect(skills).toHaveLength(30);
         });
         it('should return an array of BuiltinSkill objects', () => {
             const skills = createBuiltinSkills();
@@ -58,6 +58,7 @@ describe('Builtin Skills', () => {
                 'cancel',
                 'ccg',
                 'configure-notifications',
+                'deep-dive',
                 'deep-interview',
                 'deepinit',
                 'omc-doctor',
@@ -113,6 +114,34 @@ describe('Builtin Skills', () => {
             expect(skill?.template).toContain('Ranked Hypotheses');
             expect(skill?.template).toContain('trace_timeline');
             expect(skill?.template).toContain('trace_summary');
+        });
+        it('should retrieve the deep-dive skill with pipeline metadata and 3-point injection', () => {
+            const skill = getBuiltinSkill('deep-dive');
+            expect(skill).toBeDefined();
+            expect(skill?.name).toBe('deep-dive');
+            expect(skill?.pipeline).toEqual({
+                steps: ['deep-dive', 'omc-plan', 'autopilot'],
+                nextSkill: 'omc-plan',
+                nextSkillArgs: '--consensus --direct',
+                handoff: '.omc/specs/deep-dive-{slug}.md',
+            });
+            // Verify 3-point injection mechanism
+            expect(skill?.template).toContain('3-Point Injection');
+            expect(skill?.template).toContain('initial_idea enrichment');
+            expect(skill?.template).toContain('codebase_context replacement');
+            expect(skill?.template).toContain('initial question queue injection');
+            // Verify per-lane critical unknowns (B3 fix)
+            expect(skill?.template).toContain('Per-Lane Critical Unknowns');
+            // Verify pipeline handoff is fully wired (B1 fix)
+            expect(skill?.template).toContain('Skill("oh-my-claudecode:autopilot")');
+            expect(skill?.template).toContain('consensus plan as Phase 0+1 output');
+            // Verify untrusted data guard (NB1 fix)
+            expect(skill?.template).toContain('trace-context');
+            expect(skill?.template).toContain('untrusted data');
+            // Verify state schema compatibility (B2 fix)
+            expect(skill?.template).toContain('interview_id');
+            expect(skill?.template).toContain('challenge_modes_used');
+            expect(skill?.template).toContain('ontology_snapshots');
         });
         it('should expose pipeline metadata for deep-interview handoff into omc-plan', () => {
             const skill = getBuiltinSkill('deep-interview');
@@ -185,7 +214,7 @@ describe('Builtin Skills', () => {
     describe('listBuiltinSkillNames()', () => {
         it('should return canonical skill names by default', () => {
             const names = listBuiltinSkillNames();
-            expect(names).toHaveLength(28);
+            expect(names).toHaveLength(29);
             expect(names).toContain('ai-slop-cleaner');
             expect(names).toContain('ask');
             expect(names).toContain('autopilot');
@@ -214,7 +243,7 @@ describe('Builtin Skills', () => {
         it('should include aliases when explicitly requested', () => {
             const names = listBuiltinSkillNames({ includeAliases: true });
             // swarm alias removed in #1131, psm still exists
-            expect(names).toHaveLength(29);
+            expect(names).toHaveLength(30);
             expect(names).toContain('ai-slop-cleaner');
             expect(names).toContain('trace');
             expect(names).not.toContain('swarm');

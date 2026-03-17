@@ -39,6 +39,7 @@ export const DEFAULT_HUD_CONFIG = {
         showTokens: false,
         useBars: false, // Disabled by default for backwards compatibility
         showCallCounts: true, // Show tool/agent/skill call counts by default (Issue #710)
+        sessionSummary: false, // Disabled by default - opt-in AI-generated session summary
         maxOutputLines: 4,
         safeMode: true, // Enabled by default to prevent terminal rendering corruption (Issue #346)
     },
@@ -90,6 +91,7 @@ export const PRESET_CONFIGS = {
         showTokens: false,
         useBars: false,
         showCallCounts: false,
+        sessionSummary: false,
         maxOutputLines: 2,
         safeMode: true,
     },
@@ -125,6 +127,7 @@ export const PRESET_CONFIGS = {
         showTokens: false,
         useBars: true,
         showCallCounts: true,
+        sessionSummary: false, // Opt-in: sends transcript to claude -p
         maxOutputLines: 4,
         safeMode: true,
     },
@@ -160,6 +163,7 @@ export const PRESET_CONFIGS = {
         showTokens: false,
         useBars: true,
         showCallCounts: true,
+        sessionSummary: false, // Opt-in: sends transcript to claude -p
         maxOutputLines: 12,
         safeMode: true,
     },
@@ -195,6 +199,7 @@ export const PRESET_CONFIGS = {
         showTokens: false,
         useBars: false,
         showCallCounts: true,
+        sessionSummary: false,
         maxOutputLines: 4,
         safeMode: true,
     },
@@ -230,6 +235,7 @@ export const PRESET_CONFIGS = {
         showTokens: false,
         useBars: true,
         showCallCounts: true,
+        sessionSummary: false, // Opt-in: sends transcript to claude -p
         maxOutputLines: 6,
         safeMode: true,
     },

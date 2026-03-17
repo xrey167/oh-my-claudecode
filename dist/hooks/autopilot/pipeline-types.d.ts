@@ -11,21 +11,21 @@
  * Pipeline stage identifiers in execution order.
  * Each stage is optional and can be skipped via configuration.
  */
-export type PipelineStageId = 'ralplan' | 'execution' | 'ralph' | 'qa';
+export type PipelineStageId = "ralplan" | "execution" | "ralph" | "qa";
 /** Terminal pipeline states */
-export type PipelineTerminalState = 'complete' | 'failed' | 'cancelled';
+export type PipelineTerminalState = "complete" | "failed" | "cancelled";
 /** All possible pipeline phase values (stages + terminal) */
 export type PipelinePhase = PipelineStageId | PipelineTerminalState;
 /** Status of an individual stage */
-export type StageStatus = 'pending' | 'active' | 'complete' | 'failed' | 'skipped';
+export type StageStatus = "pending" | "active" | "complete" | "failed" | "skipped";
 /** The canonical stage execution order */
 export declare const STAGE_ORDER: readonly PipelineStageId[];
 /** Execution backend for the execution stage */
-export type ExecutionBackend = 'team' | 'solo';
+export type ExecutionBackend = "team" | "solo";
 /** Verification engine configuration */
 export interface VerificationConfig {
     /** Engine to use for verification (currently only 'ralph') */
-    engine: 'ralph';
+    engine: "ralph";
     /** Maximum verification iterations before giving up */
     maxIterations: number;
 }
@@ -47,7 +47,7 @@ export interface VerificationConfig {
  */
 export interface PipelineConfig {
     /** Planning stage: 'ralplan' for consensus planning, 'direct' for simple planning, false to skip */
-    planning: 'ralplan' | 'direct' | false;
+    planning: "ralplan" | "direct" | false;
     /** Execution backend: 'team' for multi-worker, 'solo' for single-session */
     execution: ExecutionBackend;
     /** Verification config, or false to skip */
@@ -71,6 +71,8 @@ export interface PipelineContext {
     specPath?: string;
     /** Path to the generated implementation plan */
     planPath?: string;
+    /** Path to the shared open questions file */
+    openQuestionsPath?: string;
     /** The full pipeline configuration */
     config: PipelineConfig;
 }

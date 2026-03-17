@@ -213,6 +213,7 @@ export declare function checkForUpdates(): Promise<UpdateCheckResult>;
  */
 export declare function reconcileUpdateRuntime(options?: {
     verbose?: boolean;
+    skipGracePeriod?: boolean;
 }): UpdateReconcileResult;
 /**
  * Download and execute the install script to perform an update
@@ -221,6 +222,7 @@ export declare function performUpdate(options?: {
     skipConfirmation?: boolean;
     verbose?: boolean;
     standalone?: boolean;
+    clean?: boolean;
 }): Promise<UpdateResult>;
 /**
  * Get a formatted update notification message

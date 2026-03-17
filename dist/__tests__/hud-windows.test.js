@@ -135,6 +135,8 @@ describe('HUD Windows Compatibility', () => {
             expect(content).toContain("node -e");
             // Should use path.join for constructing paths
             expect(content).toContain("p.join(d,'plugins','cache','omc','oh-my-claudecode')");
+            expect(content).not.toContain('ls ~/.claude/CLAUDE-*.md');
+            expect(content).toContain("find \"$HOME/.claude\" -maxdepth 1 -type f -name 'CLAUDE-*.md' -print 2>/dev/null");
         });
         it('hud skill should use cross-platform Node.js commands for plugin detection', () => {
             const hudPath = join(packageRoot, 'skills', 'hud', 'SKILL.md');

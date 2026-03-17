@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from 'vitest';
 import { spawnSync } from 'child_process';
-import { getContract, buildLaunchArgs, buildWorkerArgv, getWorkerEnv, parseCliOutput, isPromptModeAgent, getPromptModeArgs, isCliAvailable, shouldLoadShellRc, resolveCliBinaryPath, clearResolvedPathCache, validateCliBinaryPath, _testInternals, } from '../model-contract.js';
+import { getContract, buildLaunchArgs, buildWorkerArgv, getWorkerEnv, parseCliOutput, isPromptModeAgent, getPromptModeArgs, isCliAvailable, shouldLoadShellRc, resolveCliBinaryPath, clearResolvedPathCache, validateCliBinaryPath, resolveClaudeWorkerModel, _testInternals, } from '../model-contract.js';
 vi.mock('child_process', async (importOriginal) => {
     const actual = await importOriginal();
     return {
@@ -111,10 +111,23 @@ describe('model-contract', () => {
             expect(args).toContain('sonnet');
             expect(args).not.toContain('claude-sonnet-4-6');
         });
-        it('normalizes Bedrock model ID to alias for claude agent (issue #1415)', () => {
+        it('passes Bedrock model ID through without normalization for claude agent (issue #1695)', () => {
             const args = buildLaunchArgs('claude', { teamName: 't', workerName: 'w', cwd: '/tmp', model: 'us.anthropic.claude-opus-4-6-v1:0' });
             expect(args).toContain('--model');
-            expect(args).toContain('opus');
+            expect(args).toContain('us.anthropic.claude-opus-4-6-v1:0');
+            expect(args).not.toContain('opus');
+        });
+        it('passes Bedrock ARN model ID through without normalization (issue #1695)', () => {
+            const arn = 'arn:aws:bedrock:us-east-2:123456789012:inference-profile/global.anthropic.claude-sonnet-4-6-v1:0';
+            const args = buildLaunchArgs('claude', { teamName: 't', workerName: 'w', cwd: '/tmp', model: arn });
+            expect(args).toContain('--model');
+            expect(args).toContain(arn);
+        });
+        it('passes Vertex AI model ID through without normalization (issue #1695)', () => {
+            const args = buildLaunchArgs('claude', { teamName: 't', workerName: 'w', cwd: '/tmp', model: 'vertex_ai/claude-sonnet-4-6@20250514' });
+            expect(args).toContain('--model');
+            expect(args).toContain('vertex_ai/claude-sonnet-4-6@20250514');
+            expect(args).not.toContain('sonnet');
         });
         it('does not normalize non-Claude models for codex/gemini agents', () => {
             const args = buildLaunchArgs('codex', { teamName: 't', workerName: 'w', cwd: '/tmp', model: 'gpt-4o' });
@@ -268,6 +281,74 @@ describe('model-contract', () => {
         });
         it('getPromptModeArgs returns empty array for non-prompt-mode agents', () => {
             expect(getPromptModeArgs('claude', 'Read inbox')).toEqual([]);
+        });
+    });
+    describe('resolveClaudeWorkerModel (issue #1695)', () => {
+        it('returns undefined when not on Bedrock or Vertex', () => {
+            vi.stubEnv('CLAUDE_CODE_USE_BEDROCK', '');
+            vi.stubEnv('CLAUDE_CODE_USE_VERTEX', '');
+            vi.stubEnv('ANTHROPIC_MODEL', '');
+            vi.stubEnv('CLAUDE_MODEL', '');
+            expect(resolveClaudeWorkerModel()).toBeUndefined();
+            vi.unstubAllEnvs();
+        });
+        it('returns ANTHROPIC_MODEL on Bedrock when set', () => {
+            vi.stubEnv('CLAUDE_CODE_USE_BEDROCK', '1');
+            vi.stubEnv('ANTHROPIC_MODEL', 'us.anthropic.claude-sonnet-4-5-20250929-v1:0');
+            vi.stubEnv('CLAUDE_MODEL', '');
+            expect(resolveClaudeWorkerModel()).toBe('us.anthropic.claude-sonnet-4-5-20250929-v1:0');
+            vi.unstubAllEnvs();
+        });
+        it('returns CLAUDE_MODEL on Bedrock when ANTHROPIC_MODEL is not set', () => {
+            vi.stubEnv('CLAUDE_CODE_USE_BEDROCK', '1');
+            vi.stubEnv('ANTHROPIC_MODEL', '');
+            vi.stubEnv('CLAUDE_MODEL', 'us.anthropic.claude-opus-4-6-v1:0');
+            expect(resolveClaudeWorkerModel()).toBe('us.anthropic.claude-opus-4-6-v1:0');
+            vi.unstubAllEnvs();
+        });
+        it('falls back to CLAUDE_CODE_BEDROCK_SONNET_MODEL tier env var', () => {
+            vi.stubEnv('CLAUDE_CODE_USE_BEDROCK', '1');
+            vi.stubEnv('ANTHROPIC_MODEL', '');
+            vi.stubEnv('CLAUDE_MODEL', '');
+            vi.stubEnv('CLAUDE_CODE_BEDROCK_SONNET_MODEL', 'us.anthropic.claude-sonnet-4-6-v1:0');
+            expect(resolveClaudeWorkerModel()).toBe('us.anthropic.claude-sonnet-4-6-v1:0');
+            vi.unstubAllEnvs();
+        });
+        it('falls back to OMC_MODEL_MEDIUM tier env var', () => {
+            vi.stubEnv('CLAUDE_CODE_USE_BEDROCK', '1');
+            vi.stubEnv('ANTHROPIC_MODEL', '');
+            vi.stubEnv('CLAUDE_MODEL', '');
+            vi.stubEnv('CLAUDE_CODE_BEDROCK_SONNET_MODEL', '');
+            vi.stubEnv('ANTHROPIC_DEFAULT_SONNET_MODEL', '');
+            vi.stubEnv('OMC_MODEL_MEDIUM', 'us.anthropic.claude-sonnet-4-5-20250929-v1:0');
+            expect(resolveClaudeWorkerModel()).toBe('us.anthropic.claude-sonnet-4-5-20250929-v1:0');
+            vi.unstubAllEnvs();
+        });
+        it('returns ANTHROPIC_MODEL on Vertex when set', () => {
+            vi.stubEnv('CLAUDE_CODE_USE_BEDROCK', '');
+            vi.stubEnv('CLAUDE_CODE_USE_VERTEX', '1');
+            vi.stubEnv('ANTHROPIC_MODEL', 'vertex_ai/claude-sonnet-4-6@20250514');
+            expect(resolveClaudeWorkerModel()).toBe('vertex_ai/claude-sonnet-4-6@20250514');
+            vi.unstubAllEnvs();
+        });
+        it('returns undefined on Bedrock when no model env vars are set', () => {
+            vi.stubEnv('CLAUDE_CODE_USE_BEDROCK', '1');
+            vi.stubEnv('ANTHROPIC_MODEL', '');
+            vi.stubEnv('CLAUDE_MODEL', '');
+            vi.stubEnv('CLAUDE_CODE_BEDROCK_SONNET_MODEL', '');
+            vi.stubEnv('ANTHROPIC_DEFAULT_SONNET_MODEL', '');
+            vi.stubEnv('OMC_MODEL_MEDIUM', '');
+            expect(resolveClaudeWorkerModel()).toBeUndefined();
+            vi.unstubAllEnvs();
+        });
+        it('detects Bedrock from model ID pattern even without CLAUDE_CODE_USE_BEDROCK', () => {
+            vi.stubEnv('CLAUDE_CODE_USE_BEDROCK', '');
+            vi.stubEnv('CLAUDE_CODE_USE_VERTEX', '');
+            vi.stubEnv('ANTHROPIC_MODEL', 'us.anthropic.claude-sonnet-4-5-20250929-v1:0');
+            vi.stubEnv('CLAUDE_MODEL', '');
+            // isBedrock() detects Bedrock from the model ID pattern
+            expect(resolveClaudeWorkerModel()).toBe('us.anthropic.claude-sonnet-4-5-20250929-v1:0');
+            vi.unstubAllEnvs();
         });
     });
 });

@@ -81,7 +81,7 @@ function isUnixLikeOnWindows() {
 }
 async function tmuxAsync(args) {
   if (args.some((a) => a.includes("#{"))) {
-    const escaped = args.map((a) => `"${a.replace(/"/g, '\\"')}"`).join(" ");
+    const escaped = args.map((a) => "'" + a.replace(/'/g, "'\\''") + "'").join(" ");
     return promisifiedExec(`tmux ${escaped}`);
   }
   return promisifiedExecFile("tmux", args);
@@ -90,7 +90,12 @@ function getDefaultShell() {
   if (process.platform === "win32" && !isUnixLikeOnWindows()) {
     return process.env.COMSPEC || "cmd.exe";
   }
-  return process.env.SHELL || "/bin/bash";
+  const shell = process.env.SHELL || "/bin/bash";
+  const name = (0, import_path5.basename)(shell.replace(/\\/g, "/")).replace(/\.(exe|cmd|bat)$/i, "");
+  if (!SUPPORTED_POSIX_SHELLS.has(name)) {
+    return "/bin/sh";
+  }
+  return shell;
 }
 function resolveShellFromCandidates(paths, rcFile) {
   for (const p of paths) {
@@ -160,13 +165,9 @@ function getLaunchWords(config) {
     return [config.launchBinary, ...config.launchArgs ?? []];
   }
   if (config.launchCmd) {
-    if (config.launchCmd.trim().length === 0) {
-      throw new Error("Invalid launchCmd: value cannot be empty");
-    }
-    if (/[;&|`$()<>\n\r\t\0"\\]/.test(config.launchCmd)) {
-      throw new Error("Invalid launchCmd: contains dangerous shell metacharacters");
-    }
-    return [config.launchCmd];
+    throw new Error(
+      "launchCmd is deprecated and has been removed for security reasons. Use launchBinary + launchArgs instead."
+    );
   }
   throw new Error("Missing worker launch command. Provide launchBinary or launchCmd.");
 }
@@ -279,9 +280,7 @@ function isSessionAlive(teamName, workerName2) {
 function listActiveSessions(teamName) {
   const prefix = `${TMUX_SESSION_PREFIX}-${sanitizeName(teamName)}-`;
   try {
-    const fmtArgs = ["list-sessions", "-F", "#{session_name}"];
-    const shellCmd = "tmux " + fmtArgs.map((a) => `"${a.replace(/"/g, '\\"')}"`).join(" ");
-    const output = (0, import_child_process2.execSync)(shellCmd, {
+    const output = (0, import_child_process2.execSync)("tmux list-sessions -F '#{session_name}'", {
       encoding: "utf-8",
       timeout: 5e3,
       stdio: ["pipe", "pipe", "pipe"]
@@ -531,7 +530,7 @@ async function waitForPaneReady(paneId, opts = {}) {
 function paneTailContainsLiteralLine(captured, text) {
   return normalizeTmuxCapture(captured).includes(normalizeTmuxCapture(text));
 }
-async function paneInCopyMode(paneId, execFileAsync) {
+async function paneInCopyMode(paneId) {
   try {
     const result = await tmuxAsync(["display-message", "-t", paneId, "-p", "#{pane_in_mode}"]);
     return result.stdout.trim() === "1";
@@ -552,8 +551,8 @@ function shouldAttemptAdaptiveRetry(args) {
 }
 async function sendToWorker(_sessionName, paneId, message) {
   if (message.length > 200) {
-    console.warn(`[tmux-session] sendToWorker: message truncated to 200 chars`);
-    message = message.slice(0, 200);
+    console.warn(`[tmux-session] sendToWorker: message rejected (${message.length} chars exceeds 200 char limit)`);
+    return false;
   }
   try {
     const { execFile: execFile3 } = await import("child_process");
@@ -563,7 +562,7 @@ async function sendToWorker(_sessionName, paneId, message) {
     const sendKey = async (key) => {
       await execFileAsync("tmux", ["send-keys", "-t", paneId, key]);
     };
-    if (await paneInCopyMode(paneId, execFileAsync)) {
+    if (await paneInCopyMode(paneId)) {
       return false;
     }
     const initialCapture = await capturePaneAsync(paneId, execFileAsync);
@@ -593,11 +592,11 @@ async function sendToWorker(_sessionName, paneId, message) {
       if (!paneTailContainsLiteralLine(checkCapture, message)) return true;
       await sleep2(140);
     }
-    if (await paneInCopyMode(paneId, execFileAsync)) {
+    if (await paneInCopyMode(paneId)) {
       return false;
     }
     const finalCapture = await capturePaneAsync(paneId, execFileAsync);
-    const paneModeBeforeAdaptiveRetry = await paneInCopyMode(paneId, execFileAsync);
+    const paneModeBeforeAdaptiveRetry = await paneInCopyMode(paneId);
     if (shouldAttemptAdaptiveRetry({
       paneBusy,
       latestCapture: finalCapture,
@@ -605,12 +604,12 @@ async function sendToWorker(_sessionName, paneId, message) {
       paneInCopyMode: paneModeBeforeAdaptiveRetry,
       retriesAttempted: 0
     })) {
-      if (await paneInCopyMode(paneId, execFileAsync)) {
+      if (await paneInCopyMode(paneId)) {
         return false;
       }
       await sendKey("C-u");
       await sleep2(80);
-      if (await paneInCopyMode(paneId, execFileAsync)) {
+      if (await paneInCopyMode(paneId)) {
         return false;
       }
       await execFileAsync("tmux", ["send-keys", "-t", paneId, "-l", "--", message]);
@@ -624,7 +623,7 @@ async function sendToWorker(_sessionName, paneId, message) {
         if (!paneTailContainsLiteralLine(retryCapture, message)) return true;
       }
     }
-    if (await paneInCopyMode(paneId, execFileAsync)) {
+    if (await paneInCopyMode(paneId)) {
       return false;
     }
     await sendKey("C-m");
@@ -641,7 +640,7 @@ async function injectToLeaderPane(sessionName2, leaderPaneId, message) {
     const { execFile: execFile3 } = await import("child_process");
     const { promisify: promisify2 } = await import("util");
     const execFileAsync = promisify2(execFile3);
-    if (await paneInCopyMode(leaderPaneId, execFileAsync)) {
+    if (await paneInCopyMode(leaderPaneId)) {
       return false;
     }
     const captured = await capturePaneAsync(leaderPaneId, execFileAsync);
@@ -655,9 +654,6 @@ async function injectToLeaderPane(sessionName2, leaderPaneId, message) {
 }
 async function isWorkerAlive(paneId) {
   try {
-    const { execFile: execFile3 } = await import("child_process");
-    const { promisify: promisify2 } = await import("util");
-    const execFileAsync = promisify2(execFile3);
     const result = await tmuxAsync([
       "display-message",
       "-t",
@@ -732,7 +728,7 @@ async function killTeamSession(sessionName2, workerPaneIds, leaderPaneId, option
   } catch {
   }
 }
-var import_child_process2, import_fs4, import_path5, import_util, import_promises, sleep, TMUX_SESSION_PREFIX, promisifiedExec, promisifiedExecFile, ZSH_CANDIDATES, BASH_CANDIDATES, DANGEROUS_LAUNCH_BINARY_CHARS;
+var import_child_process2, import_fs4, import_path5, import_util, import_promises, sleep, TMUX_SESSION_PREFIX, promisifiedExec, promisifiedExecFile, SUPPORTED_POSIX_SHELLS, ZSH_CANDIDATES, BASH_CANDIDATES, DANGEROUS_LAUNCH_BINARY_CHARS;
 var init_tmux_session = __esm({
   "src/team/tmux-session.ts"() {
     "use strict";
@@ -746,6 +742,7 @@ var init_tmux_session = __esm({
     TMUX_SESSION_PREFIX = "omc-team";
     promisifiedExec = (0, import_util.promisify)(import_child_process2.exec);
     promisifiedExecFile = (0, import_util.promisify)(import_child_process2.execFile);
+    SUPPORTED_POSIX_SHELLS = /* @__PURE__ */ new Set(["sh", "bash", "zsh", "fish", "ksh"]);
     ZSH_CANDIDATES = ["/bin/zsh", "/usr/bin/zsh", "/usr/local/bin/zsh", "/opt/homebrew/bin/zsh"];
     BASH_CANDIDATES = ["/bin/bash", "/usr/bin/bash"];
     DANGEROUS_LAUNCH_BINARY_CHARS = /[;&|`$()<>\n\r\t\0]/;
@@ -956,6 +953,18 @@ function validateUrlForSSRF(urlString) {
       reason: `Hostname '${hostname}' looks like a hex-encoded IP address`
     };
   }
+  if (/^\d+$/.test(hostname) && hostname.length > 3) {
+    return {
+      allowed: false,
+      reason: `Hostname '${hostname}' looks like a decimal-encoded IP address`
+    };
+  }
+  if (/^0\d+\./.test(hostname)) {
+    return {
+      allowed: false,
+      reason: `Hostname '${hostname}' looks like an octal-encoded IP address`
+    };
+  }
   if (parsed.username || parsed.password) {
     return { allowed: false, reason: "URLs with embedded credentials are not allowed" };
   }
@@ -1071,6 +1080,21 @@ function isBedrock() {
   if (modelId && /^((us|eu|ap|global)\.anthropic\.|anthropic\.claude)/i.test(modelId)) {
     return true;
   }
+  if (modelId && /^arn:aws(-[^:]+)?:bedrock:/i.test(modelId) && /:(inference-profile|application-inference-profile)\//i.test(modelId) && modelId.toLowerCase().includes("claude")) {
+    return true;
+  }
+  return false;
+}
+function isProviderSpecificModelId(modelId) {
+  if (/^((us|eu|ap|global)\.anthropic\.|anthropic\.claude)/i.test(modelId)) {
+    return true;
+  }
+  if (/^arn:aws(-[^:]+)?:bedrock:/i.test(modelId)) {
+    return true;
+  }
+  if (modelId.toLowerCase().startsWith("vertex_ai/")) {
+    return true;
+  }
   return false;
 }
 function isVertexAI() {
@@ -1171,12 +1195,24 @@ function buildDefaultConfig() {
       maxEscalations: 2,
       tierModels: { ...defaultTierModels },
       agentOverrides: {
-        architect: { tier: "HIGH", reason: "Advisory agent requires deep reasoning" },
-        planner: { tier: "HIGH", reason: "Strategic planning requires deep reasoning" },
-        critic: { tier: "HIGH", reason: "Critical review requires deep reasoning" },
-        analyst: { tier: "HIGH", reason: "Pre-planning analysis requires deep reasoning" },
+        architect: {
+          tier: "HIGH",
+          reason: "Advisory agent requires deep reasoning"
+        },
+        planner: {
+          tier: "HIGH",
+          reason: "Strategic planning requires deep reasoning"
+        },
+        critic: {
+          tier: "HIGH",
+          reason: "Critical review requires deep reasoning"
+        },
+        analyst: {
+          tier: "HIGH",
+          reason: "Pre-planning analysis requires deep reasoning"
+        },
         explore: { tier: "LOW", reason: "Exploration is search-focused" },
-        "writer": { tier: "LOW", reason: "Documentation is straightforward" }
+        writer: { tier: "LOW", reason: "Documentation is straightforward" }
       },
       escalationKeywords: [
         "critical",
@@ -1218,6 +1254,10 @@ function buildDefaultConfig() {
       defaultProvider: "claude",
       roles: {}
     },
+    planOutput: {
+      directory: ".omc/plans",
+      filenameTemplate: "{{name}}.md"
+    },
     startupCodebaseMap: {
       enabled: true,
       maxFiles: 200,
@@ -1256,7 +1296,8 @@ function deepMerge(target, source) {
   const result = { ...target };
   const mutableResult = result;
   for (const key of Object.keys(source)) {
-    if (key === "__proto__" || key === "constructor" || key === "prototype") continue;
+    if (key === "__proto__" || key === "constructor" || key === "prototype")
+      continue;
     const sourceValue = source[key];
     const targetValue = mutableResult[key];
     if (sourceValue !== void 0 && typeof sourceValue === "object" && sourceValue !== null && !Array.isArray(sourceValue) && typeof targetValue === "object" && targetValue !== null && !Array.isArray(targetValue)) {
@@ -1974,7 +2015,10 @@ var CONTRACTS = {
     installInstructions: "Install Claude CLI: https://claude.ai/download",
     buildLaunchArgs(model, extraFlags = []) {
       const args = ["--dangerously-skip-permissions"];
-      if (model) args.push("--model", normalizeToCcAlias(model));
+      if (model) {
+        const resolved = isProviderSpecificModelId(model) ? model : normalizeToCcAlias(model);
+        args.push("--model", resolved);
+      }
       return [...args, ...extraFlags];
     },
     parseOutput(rawOutput) {
@@ -2109,6 +2153,24 @@ function isPromptModeAgent(agentType) {
   const contract = getContract(agentType);
   return !!contract.supportsPromptMode;
 }
+function resolveClaudeWorkerModel(env = process.env) {
+  if (!isBedrock() && !isVertexAI()) {
+    return void 0;
+  }
+  const directModel = env.ANTHROPIC_MODEL || env.CLAUDE_MODEL || "";
+  if (directModel) {
+    return directModel;
+  }
+  const bedrockModel = env.CLAUDE_CODE_BEDROCK_SONNET_MODEL || env.ANTHROPIC_DEFAULT_SONNET_MODEL || "";
+  if (bedrockModel) {
+    return bedrockModel;
+  }
+  const omcModel = env.OMC_MODEL_MEDIUM || "";
+  if (omcModel) {
+    return omcModel;
+  }
+  return void 0;
+}
 function getPromptModeArgs(agentType, instruction) {
   const contract = getContract(agentType);
   if (!contract.supportsPromptMode) {
@@ -2199,7 +2261,7 @@ function generateTriggerMessage(teamName, workerName2, teamStateRoot2 = ".omc/st
   if (teamStateRoot2 !== ".omc/state") {
     return `Read ${inboxPath}, work now, report progress.`;
   }
-  return `Read ${inboxPath}, start work now, then report concrete progress (not ACK-only).`;
+  return `Read ${inboxPath}, start work now, report concrete progress (not ACK-only), and keep executing your assigned or next feasible work.`;
 }
 function agentTypeGuidance(agentType) {
   switch (agentType) {
@@ -2237,7 +2299,6 @@ function generateWorkerOverlay(params) {
   const heartbeatPath = `.omc/state/team/${teamName}/workers/${workerName2}/heartbeat.json`;
   const inboxPath = `.omc/state/team/${teamName}/workers/${workerName2}/inbox.md`;
   const statusPath = `.omc/state/team/${teamName}/workers/${workerName2}/status.json`;
-  const taskDir = `.omc/state/team/${teamName}/tasks`;
   const taskList = sanitizedTasks.length > 0 ? sanitizedTasks.map((t) => `- **Task ${t.id}**: ${t.subject}
   Description: ${t.description}
   Status: pending`).join("\n") : "- No tasks assigned yet. Check your inbox for assignments.";
@@ -2263,7 +2324,7 @@ You MUST complete ALL of these steps. Do NOT skip any step. Do NOT exit without 
 4. **Transition** the task status (REQUIRED before exit):
    - On success: \`omc team api transition-task-status --input "{"team_name":"${teamName}","task_id":"<id>","from":"in_progress","to":"completed","claim_token":"<claim_token>"}" --json\`
    - On failure: \`omc team api transition-task-status --input "{"team_name":"${teamName}","task_id":"<id>","from":"in_progress","to":"failed","claim_token":"<claim_token>"}" --json\`
-5. **Exit** immediately after transitioning.
+5. **Keep going after replies**: ACK/progress messages are not a stop signal. Keep executing your assigned or next feasible work until the task is actually complete or failed, then transition and exit.
 
 ## Identity
 - **Team**: ${teamName}
@@ -3100,7 +3161,6 @@ async function spawnWorkerForTask(runtime, workerNameValue, taskIndex) {
   const usePromptMode = isPromptModeAgent(agentType);
   const instruction = buildInitialTaskInstruction(runtime.teamName, workerNameValue, task, taskId);
   await composeInitialInbox(runtime.teamName, workerNameValue, instruction, runtime.cwd);
-  const relInboxPath = `.omc/state/team/${runtime.teamName}/workers/${workerNameValue}/inbox.md`;
   const envVars = getWorkerEnv(runtime.teamName, workerNameValue, agentType);
   const resolvedBinaryPath = runtime.resolvedBinaryPaths?.[agentType] ?? resolveValidatedBinaryPath(agentType);
   if (!runtime.resolvedBinaryPaths) {
@@ -3114,7 +3174,7 @@ async function spawnWorkerForTask(runtime, workerNameValue, taskIndex) {
     if (agentType === "gemini") {
       return process.env.OMC_EXTERNAL_MODELS_DEFAULT_GEMINI_MODEL || process.env.OMC_GEMINI_DEFAULT_MODEL || void 0;
     }
-    return void 0;
+    return resolveClaudeWorkerModel();
   })();
   const [launchBinary, ...launchArgs] = buildWorkerArgv(agentType, {
     teamName: runtime.teamName,
@@ -3864,6 +3924,63 @@ var import_fs14 = require("fs");
 var import_promises7 = require("fs/promises");
 var import_perf_hooks = require("perf_hooks");
 
+// src/team/allocation-policy.ts
+function allocateTasksToWorkers(tasks, workers) {
+  if (tasks.length === 0 || workers.length === 0) return [];
+  const uniformRolePool = isUniformRolePool(workers);
+  const results = [];
+  const loadMap = new Map(workers.map((w) => [w.name, w.currentLoad]));
+  if (uniformRolePool) {
+    for (const task of tasks) {
+      const target = pickLeastLoaded(workers, loadMap);
+      results.push({
+        taskId: task.id,
+        workerName: target.name,
+        reason: `uniform pool round-robin (role=${target.role}, load=${loadMap.get(target.name)})`
+      });
+      loadMap.set(target.name, (loadMap.get(target.name) ?? 0) + 1);
+    }
+  } else {
+    for (const task of tasks) {
+      const target = pickBestWorker(task, workers, loadMap);
+      results.push({
+        taskId: task.id,
+        workerName: target.name,
+        reason: `role match (task.role=${task.role ?? "any"}, worker.role=${target.role}, load=${loadMap.get(target.name)})`
+      });
+      loadMap.set(target.name, (loadMap.get(target.name) ?? 0) + 1);
+    }
+  }
+  return results;
+}
+function isUniformRolePool(workers) {
+  if (workers.length === 0) return true;
+  const firstRole = workers[0].role;
+  return workers.every((w) => w.role === firstRole);
+}
+function pickLeastLoaded(workers, loadMap) {
+  let best = workers[0];
+  let bestLoad = loadMap.get(best.name) ?? 0;
+  for (const w of workers) {
+    const load = loadMap.get(w.name) ?? 0;
+    if (load < bestLoad) {
+      best = w;
+      bestLoad = load;
+    }
+  }
+  return best;
+}
+function pickBestWorker(task, workers, loadMap) {
+  const scored = workers.map((w) => {
+    const load = loadMap.get(w.name) ?? 0;
+    const roleScore = task.role ? w.role === task.role ? 1 : 0 : 0.5;
+    const score = roleScore - load * 0.2;
+    return { worker: w, score };
+  });
+  scored.sort((a, b) => b.score - a.score);
+  return scored[0].worker;
+}
+
 // src/team/monitor.ts
 var import_fs12 = require("fs");
 var import_promises5 = require("fs/promises");
@@ -4035,9 +4152,9 @@ async function saveTeamConfig(config, cwd) {
 }
 async function cleanupTeamState(teamName, cwd) {
   const root = absPath(cwd, TeamPaths.root(teamName));
-  const { rm: rm4 } = await import("fs/promises");
+  const { rm: rm3 } = await import("fs/promises");
   try {
-    await rm4(root, { recursive: true, force: true });
+    await rm3(root, { recursive: true, force: true });
   } catch {
   }
 }
@@ -4448,7 +4565,7 @@ function buildV2TaskInstruction(teamName, workerName2, task, taskId) {
     `   omc team api transition-task-status --input '{"team_name":"${teamName}","task_id":"${taskId}","from":"in_progress","to":"completed","claim_token":"<claim_token>"}' --json`,
     `4. On failure (use claim_token from step 1):`,
     `   omc team api transition-task-status --input '{"team_name":"${teamName}","task_id":"${taskId}","from":"in_progress","to":"failed","claim_token":"<claim_token>"}' --json`,
-    `5. Exit immediately after transitioning.`,
+    `5. ACK/progress replies are not a stop signal. Keep executing your assigned or next feasible work until the task is actually complete or failed, then transition and exit.`,
     ``,
     `## Task Assignment`,
     `Task ID: ${taskId}`,
@@ -4552,7 +4669,7 @@ async function spawnV2Worker(opts) {
     if (opts.agentType === "gemini") {
       return process.env.OMC_EXTERNAL_MODELS_DEFAULT_GEMINI_MODEL || process.env.OMC_GEMINI_DEFAULT_MODEL || void 0;
     }
-    return void 0;
+    return resolveClaudeWorkerModel();
   })();
   const [launchBinary, ...launchArgs] = buildWorkerArgv(opts.agentType, {
     teamName: opts.teamName,
@@ -4704,10 +4821,35 @@ async function startTeamV2(config) {
       created_at: (/* @__PURE__ */ new Date()).toISOString()
     }, null, 2), "utf-8");
   }
-  const workerNames = [];
+  const workerNames = Array.from({ length: config.workerCount }, (_, index) => `worker-${index + 1}`);
+  const workerNameSet = new Set(workerNames);
+  const startupAllocations = [];
+  const unownedTaskIndices = [];
   for (let i = 0; i < config.tasks.length; i++) {
-    const wName = `worker-${i + 1}`;
-    workerNames.push(wName);
+    const owner = config.tasks[i]?.owner;
+    if (typeof owner === "string" && workerNameSet.has(owner)) {
+      startupAllocations.push({ workerName: owner, taskIndex: i });
+    } else {
+      unownedTaskIndices.push(i);
+    }
+  }
+  if (unownedTaskIndices.length > 0) {
+    const allocationTasks = unownedTaskIndices.map((idx) => ({
+      id: String(idx),
+      subject: config.tasks[idx].subject,
+      description: config.tasks[idx].description
+    }));
+    const allocationWorkers = workerNames.map((name, i) => ({
+      name,
+      role: config.workerRoles?.[i] ?? (agentTypes[i % agentTypes.length] ?? agentTypes[0] ?? "claude"),
+      currentLoad: 0
+    }));
+    for (const r of allocateTasksToWorkers(allocationTasks, allocationWorkers)) {
+      startupAllocations.push({ workerName: r.workerName, taskIndex: Number(r.taskId) });
+    }
+  }
+  for (let i = 0; i < workerNames.length; i++) {
+    const wName = workerNames[i];
     const agentType = agentTypes[i % agentTypes.length] ?? agentTypes[0] ?? "claude";
     await ensureWorkerStateDir(sanitized, wName, leaderCwd);
     await writeWorkerOverlay({
@@ -4733,7 +4875,7 @@ async function startTeamV2(config) {
   const workersInfo = workerNames.map((wName, i) => ({
     name: wName,
     index: i + 1,
-    role: agentTypes[i % agentTypes.length] ?? agentTypes[0] ?? "claude",
+    role: config.workerRoles?.[i] ?? (agentTypes[i % agentTypes.length] ?? agentTypes[0] ?? "claude"),
     assigned_tasks: [],
     working_dir: leaderCwd
   }));
@@ -4792,20 +4934,28 @@ async function startTeamV2(config) {
     next_worker_index: teamConfig.next_worker_index
   };
   await (0, import_promises7.writeFile)(absPath(leaderCwd, TeamPaths.manifest(sanitized)), JSON.stringify(teamManifest, null, 2), "utf-8");
-  const maxConcurrent = Math.min(agentTypes.length, config.tasks.length);
-  for (let i = 0; i < maxConcurrent; i++) {
-    const wName = workerNames[i];
-    const taskId = String(i + 1);
-    const task = config.tasks[i];
-    if (!task) break;
+  const initialStartupAllocations = [];
+  const seenStartupWorkers = /* @__PURE__ */ new Set();
+  for (const decision of startupAllocations) {
+    if (seenStartupWorkers.has(decision.workerName)) continue;
+    initialStartupAllocations.push(decision);
+    seenStartupWorkers.add(decision.workerName);
+    if (initialStartupAllocations.length >= config.workerCount) break;
+  }
+  for (const decision of initialStartupAllocations) {
+    const wName = decision.workerName;
+    const workerIndex = Number.parseInt(wName.replace("worker-", ""), 10) - 1;
+    const taskId = String(decision.taskIndex + 1);
+    const task = config.tasks[decision.taskIndex];
+    if (!task || workerIndex < 0) continue;
     const workerLaunch = await spawnV2Worker({
       sessionName: sessionName2,
       leaderPaneId,
       existingWorkerPaneIds: workerPaneIds,
       teamName: sanitized,
       workerName: wName,
-      workerIndex: i,
-      agentType: agentTypes[i % agentTypes.length] ?? agentTypes[0] ?? "claude",
+      workerIndex,
+      agentType: agentTypes[workerIndex % agentTypes.length] ?? agentTypes[0] ?? "claude",
       task,
       taskId,
       cwd: leaderCwd,
@@ -4813,7 +4963,7 @@ async function startTeamV2(config) {
     });
     if (workerLaunch.paneId) {
       workerPaneIds.push(workerLaunch.paneId);
-      const workerInfo = workersInfo[i];
+      const workerInfo = workersInfo[workerIndex];
       if (workerInfo) {
         workerInfo.pane_id = workerLaunch.paneId;
         workerInfo.assigned_tasks = workerLaunch.startupAssigned ? [taskId] : [];

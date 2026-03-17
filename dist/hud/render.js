@@ -27,6 +27,7 @@ import { renderApiKeySource } from './elements/api-key-source.js';
 import { renderCallCounts } from './elements/call-counts.js';
 import { renderContextLimitWarning } from './elements/context-warning.js';
 import { renderMissionBoard } from './mission-board.js';
+import { renderSessionSummary } from './elements/session-summary.js';
 /**
  * ANSI escape sequence regex (matches SGR and other CSI sequences).
  * Used to skip escape codes when measuring/truncating visible width.
@@ -339,6 +340,12 @@ export async function render(context, config) {
         const counts = renderCallCounts(context.toolCallCount, context.agentCallCount, context.skillCallCount);
         if (counts)
             elements.push(counts);
+    }
+    // Session summary (AI-generated label)
+    if (enabledElements.sessionSummary && context.sessionSummary) {
+        const summary = renderSessionSummary(context.sessionSummary);
+        if (summary)
+            elements.push(summary);
     }
     // Context limit warning banner (shown when ctx% >= threshold)
     const ctxWarning = renderContextLimitWarning(context.contextPercent, config.contextLimitWarning.threshold, config.contextLimitWarning.autoCompact);

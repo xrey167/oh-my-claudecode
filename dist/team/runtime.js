@@ -1,7 +1,7 @@
 import { mkdir, writeFile, readFile, rm, rename } from 'fs/promises';
 import { join } from 'path';
 import { existsSync } from 'fs';
-import { buildWorkerArgv, resolveValidatedBinaryPath, getWorkerEnv as getModelWorkerEnv, isPromptModeAgent, getPromptModeArgs } from './model-contract.js';
+import { buildWorkerArgv, resolveValidatedBinaryPath, getWorkerEnv as getModelWorkerEnv, isPromptModeAgent, getPromptModeArgs, resolveClaudeWorkerModel } from './model-contract.js';
 import { validateTeamName } from './team-name.js';
 import { createTeamSession, spawnWorkerInPane, sendToWorker, isWorkerAlive, killTeamSession, waitForPaneReady, } from './tmux-session.js';
 import { composeInitialInbox, ensureWorkerStateDir, writeWorkerOverlay, generateTriggerMessage, } from './worker-bootstrap.js';
@@ -542,14 +542,15 @@ export async function spawnWorkerForTask(runtime, workerNameValue, taskIndex) {
     // for interactive agents it is sent via tmux send-keys after startup.
     const instruction = buildInitialTaskInstruction(runtime.teamName, workerNameValue, task, taskId);
     await composeInitialInbox(runtime.teamName, workerNameValue, instruction, runtime.cwd);
-    const relInboxPath = `.omc/state/team/${runtime.teamName}/workers/${workerNameValue}/inbox.md`;
     const envVars = getModelWorkerEnv(runtime.teamName, workerNameValue, agentType);
     const resolvedBinaryPath = runtime.resolvedBinaryPaths?.[agentType] ?? resolveValidatedBinaryPath(agentType);
     if (!runtime.resolvedBinaryPaths) {
         runtime.resolvedBinaryPaths = {};
     }
     runtime.resolvedBinaryPaths[agentType] = resolvedBinaryPath;
-    // Resolve model from environment variables based on agent type
+    // Resolve model from environment variables based on agent type.
+    // For Claude agents on Bedrock/Vertex, resolve the provider-specific model
+    // so workers don't fall back to invalid Anthropic API model names. (#1695)
     const modelForAgent = (() => {
         if (agentType === 'codex') {
             return process.env.OMC_EXTERNAL_MODELS_DEFAULT_CODEX_MODEL
@@ -561,7 +562,8 @@ export async function spawnWorkerForTask(runtime, workerNameValue, taskIndex) {
                 || process.env.OMC_GEMINI_DEFAULT_MODEL
                 || undefined;
         }
-        return undefined;
+        // Claude agents: resolve Bedrock/Vertex model when on those providers
+        return resolveClaudeWorkerModel();
     })();
     const [launchBinary, ...launchArgs] = buildWorkerArgv(agentType, {
         teamName: runtime.teamName,

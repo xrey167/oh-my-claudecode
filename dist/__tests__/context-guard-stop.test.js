@@ -54,5 +54,25 @@ describe('context-guard-stop safe recovery messaging (issue #1373)', () => {
         expect(out.continue).toBe(true);
         expect(out.decision).toBeUndefined();
     });
+    it('ignores invalid session_id values when tracking block retries', () => {
+        writeTranscriptWithContext(transcriptPath, 1000, 850); // 85%
+        const invalidSessionId = '../../bad-session-id';
+        const first = runContextGuardStop({
+            session_id: invalidSessionId,
+            transcript_path: transcriptPath,
+            cwd: tempDir,
+            stop_reason: 'normal',
+        });
+        const second = runContextGuardStop({
+            session_id: invalidSessionId,
+            transcript_path: transcriptPath,
+            cwd: tempDir,
+            stop_reason: 'normal',
+        });
+        expect(first.decision).toBe('block');
+        expect(second.decision).toBe('block');
+        expect(String(first.reason)).toContain('(Block 1/2)');
+        expect(String(second.reason)).toContain('(Block 1/2)');
+    });
 });
 //# sourceMappingURL=context-guard-stop.test.js.map

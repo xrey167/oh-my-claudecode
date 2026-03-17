@@ -312,7 +312,7 @@ async function runProcess(cmd, args, timeoutMs) {
     const result = await execFileAsync(cmd, args, { timeout: timeoutMs });
     return { stdout: result.stdout ?? '', stderr: result.stderr ?? '' };
 }
-async function defaultInjector(request, config, cwd) {
+async function defaultInjector(request, config, _cwd) {
     const target = defaultInjectTarget(request, config);
     if (!target)
         return { ok: false, reason: 'missing_tmux_target' };

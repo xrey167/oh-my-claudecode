@@ -104,10 +104,10 @@ export const LSP_SERVERS = {
     },
     kotlin: {
         name: 'Kotlin Language Server',
-        command: 'kotlin-language-server',
+        command: 'kotlin-lsp',
         args: [],
         extensions: ['.kt', '.kts'],
-        installHint: 'Install from https://github.com/fwcd/kotlin-language-server'
+        installHint: 'Install from https://github.com/Kotlin/kotlin-lsp (brew install JetBrains/utils/kotlin-lsp)'
     },
     elixir: {
         name: 'ElixirLS',

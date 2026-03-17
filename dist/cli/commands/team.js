@@ -222,6 +222,7 @@ export function parseTeamArgs(tokens) {
     const args = [...tokens];
     let workerCount = 3;
     let agentTypes = [];
+    let workerSpecs = [];
     let json = false;
     let newWindow = false;
     // Extract supported flags before parsing positional args
@@ -263,6 +264,7 @@ export function parseTeamArgs(tokens) {
                 workerCount += seg.count;
                 for (let i = 0; i < seg.count; i++) {
                     agentTypes.push(seg.type);
+                    workerSpecs.push({ agentType: seg.type, ...(seg.role ? { role: seg.role } : {}) });
                 }
             }
             if (workerCount > MAX_WORKER_COUNT) {
@@ -290,19 +292,34 @@ export function parseTeamArgs(tokens) {
             if (match[3])
                 role = match[3];
             agentTypes = Array.from({ length: workerCount }, () => type);
+            workerSpecs = Array.from({ length: workerCount }, () => ({ agentType: type, ...(role ? { role } : {}) }));
             filteredArgs.shift();
         }
     }
     // Default: 3 claude workers if no spec matched
     if (agentTypes.length === 0) {
         agentTypes = Array.from({ length: workerCount }, () => 'claude');
+        workerSpecs = Array.from({ length: workerCount }, () => ({ agentType: 'claude' }));
     }
     const task = filteredArgs.join(' ').trim();
     if (!task) {
         throw new Error('Usage: omc team [N:agent-type] "<task description>"');
     }
     const teamName = slugifyTask(task);
-    return { workerCount, agentTypes, role, task, teamName, json, newWindow };
+    return { workerCount, agentTypes, workerSpecs, role, task, teamName, json, newWindow };
+}
+export function buildStartupTasks(parsed) {
+    return Array.from({ length: parsed.workerCount }, (_, index) => {
+        const workerSpec = parsed.workerSpecs[index];
+        const roleLabel = workerSpec?.role ? ` (${workerSpec.role})` : '';
+        return {
+            subject: parsed.workerCount === 1
+                ? parsed.task.slice(0, 80)
+                : `Worker ${index + 1}${roleLabel}: ${parsed.task}`.slice(0, 80),
+            description: parsed.task,
+            ...(workerSpec?.role ? { owner: `worker-${index + 1}` } : {}),
+        };
+    });
 }
 function sampleValueForField(field) {
     switch (field) {
@@ -469,6 +486,7 @@ async function handleTeamStart(parsed, cwd) {
             tasks,
             cwd,
             newWindow: parsed.newWindow,
+            workerRoles: parsed.workerSpecs.map((spec) => spec.role ?? spec.agentType),
             ...(rolePrompt ? { roleName: parsed.role, rolePrompt } : {}),
         });
         const uniqueTypes = [...new Set(parsed.agentTypes)].join(',');

@@ -237,7 +237,7 @@ describe("Stop Hook Blocking Contract", () => {
         afterEach(() => {
             rmSync(tempDir, { recursive: true, force: true });
         });
-        it("returns continue: false when ralph is active", () => {
+        it("returns decision: block when ralph is active", () => {
             const sessionId = "ralph-mjs-test";
             const sessionDir = join(tempDir, ".omc", "state", "sessions", sessionId);
             mkdirSync(sessionDir, { recursive: true });
@@ -251,10 +251,9 @@ describe("Stop Hook Blocking Contract", () => {
                 prompt: "Test task",
             }));
             const output = runScript({ directory: tempDir, sessionId });
-            expect(output.continue).toBe(false);
             expect(output.decision).toBe("block");
         });
-        it("returns continue: false when ultrawork is active", () => {
+        it("returns decision: block when ultrawork is active", () => {
             const sessionId = "ultrawork-mjs-test";
             const sessionDir = join(tempDir, ".omc", "state", "sessions", sessionId);
             mkdirSync(sessionDir, { recursive: true });
@@ -267,7 +266,6 @@ describe("Stop Hook Blocking Contract", () => {
                 last_checked_at: new Date().toISOString(),
             }));
             const output = runScript({ directory: tempDir, sessionId });
-            expect(output.continue).toBe(false);
             expect(output.decision).toBe("block");
         });
         it("returns continue: true for context limit stop", () => {
@@ -477,6 +475,23 @@ describe("Stop Hook Blocking Contract", () => {
             });
             expect(output.continue).toBe(true);
             expect(output.decision).toBeUndefined();
+        });
+        it("omits cancel guidance for legacy autopilot state without a session id in cjs script", () => {
+            const stateDir = join(tempDir, ".omc", "state");
+            mkdirSync(stateDir, { recursive: true });
+            writeFileSync(join(stateDir, "autopilot-state.json"), JSON.stringify({
+                active: true,
+                phase: "execution",
+                reinforcement_count: 0,
+                last_checked_at: new Date().toISOString(),
+                started_at: new Date().toISOString(),
+            }));
+            const output = runScript({
+                directory: tempDir,
+            });
+            expect(output.decision).toBe("block");
+            expect(output.reason).toContain("AUTOPILOT");
+            expect(output.reason).not.toContain('/oh-my-claudecode:cancel');
         });
         it("fails open for unknown Team phase in cjs script", () => {
             const sessionId = "team-phase-cjs";

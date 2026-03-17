@@ -2,6 +2,7 @@ import { spawnSync } from 'child_process';
 import { isAbsolute, normalize, win32 as win32Path } from 'path';
 import { validateTeamName } from './team-name.js';
 import { normalizeToCcAlias } from '../features/delegation-enforcer.js';
+import { isBedrock, isVertexAI, isProviderSpecificModelId } from '../config/models.js';
 const resolvedPathCache = new Map();
 const UNTRUSTED_PATH_PATTERNS = [
     /^\/tmp(\/|$)/,
@@ -102,8 +103,14 @@ const CONTRACTS = {
         installInstructions: 'Install Claude CLI: https://claude.ai/download',
         buildLaunchArgs(model, extraFlags = []) {
             const args = ['--dangerously-skip-permissions'];
-            if (model)
-                args.push('--model', normalizeToCcAlias(model));
+            if (model) {
+                // Provider-specific model IDs (Bedrock, Vertex) must be passed as-is.
+                // Normalizing them to aliases like "sonnet" causes Claude Code to expand
+                // them to Anthropic API names (claude-sonnet-4-6) which are invalid on
+                // these providers. (issue #1695)
+                const resolved = isProviderSpecificModelId(model) ? model : normalizeToCcAlias(model);
+                args.push('--model', resolved);
+            }
             return [...args, ...extraFlags];
         },
         parseOutput(rawOutput) {
@@ -288,6 +295,46 @@ export function parseCliOutput(agentType, rawOutput) {
 export function isPromptModeAgent(agentType) {
     const contract = getContract(agentType);
     return !!contract.supportsPromptMode;
+}
+/**
+ * Resolve the active model for Claude team workers on Bedrock/Vertex.
+ *
+ * When running on a non-standard provider (Bedrock, Vertex), workers need
+ * the provider-specific model ID passed explicitly via --model. Without it,
+ * Claude Code falls back to its built-in default (claude-sonnet-4-6) which
+ * is invalid on these providers.
+ *
+ * Resolution order:
+ *   1. ANTHROPIC_MODEL / CLAUDE_MODEL env vars (user's explicit setting)
+ *   2. Provider tier-specific env vars (CLAUDE_CODE_BEDROCK_SONNET_MODEL, etc.)
+ *   3. undefined — let Claude Code handle its own default
+ *
+ * Returns undefined when not on Bedrock/Vertex (standard Anthropic API
+ * handles bare aliases fine).
+ */
+export function resolveClaudeWorkerModel(env = process.env) {
+    // Only needed for non-standard providers
+    if (!isBedrock() && !isVertexAI()) {
+        return undefined;
+    }
+    // Direct model env vars — highest priority
+    const directModel = env.ANTHROPIC_MODEL || env.CLAUDE_MODEL || '';
+    if (directModel) {
+        return directModel;
+    }
+    // Fallback: Bedrock tier-specific env vars (default to sonnet tier)
+    const bedrockModel = env.CLAUDE_CODE_BEDROCK_SONNET_MODEL ||
+        env.ANTHROPIC_DEFAULT_SONNET_MODEL ||
+        '';
+    if (bedrockModel) {
+        return bedrockModel;
+    }
+    // OMC tier env vars
+    const omcModel = env.OMC_MODEL_MEDIUM || '';
+    if (omcModel) {
+        return omcModel;
+    }
+    return undefined;
 }
 /**
  * Get the extra CLI args needed to pass an instruction in prompt mode.
