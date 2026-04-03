@@ -36,11 +36,11 @@ _Don't learn Claude Code. Just use OMC._
 
 | Name | GitHub |
 | --- | --- |
-| chltlgns | [@chltlgns](https://github.com/chltlgns) |
 | riftzen-bit | [@riftzen-bit](https://github.com/riftzen-bit) |
 | Seunggwan Song | [@nathan-song](https://github.com/nathan-song) |
 | JunghwanNA | [@shaun0927](https://github.com/shaun0927) |
-| devswha | [@devswha](https://github.com/devswha) |
+| Junho Yeo | [@junhoyeo](https://github.com/junhoyeo) |
+| Alex Urevick-Ackelsberg | [@AlexUrevick](https://github.com/AlexUrevick) |
 
 ## Quick Start
 
