@@ -296,6 +296,14 @@ export function checkSkillActiveState(
     ? Date.now() - new Date(agentSnapshot.lastUpdatedAt).getTime()
     : Infinity;
   if (agentSnapshot.count > 0 && agentStateAge <= ACTIVE_AGENT_RECENCY_MS) {
+    // Reset reinforcement counter so stale-window accumulations don't
+    // cause premature skill-active clearance once fresh data arrives.
+    // Mirrors ralplan's writeStopBreaker(0) at persistent-mode/index.ts:984.
+    if (state.reinforcement_count > 0) {
+      state.reinforcement_count = 0;
+      state.last_checked_at = new Date().toISOString();
+      writeModeState('skill-active', state as unknown as Record<string, unknown>, directory, sessionId);
+    }
     return { shouldBlock: false, message: '', skillName: state.skill_name };
   }
 
