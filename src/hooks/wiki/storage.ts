@@ -127,7 +127,7 @@ function parseSimpleYaml(yaml: string): Record<string, string> {
     // Strip surrounding quotes and unescape
     if ((value.startsWith('"') && value.endsWith('"')) ||
         (value.startsWith("'") && value.endsWith("'"))) {
-      value = value.slice(1, -1).replace(/\\"/g, '"').replace(/\\\\/g, '\\');
+      value = value.slice(1, -1).replace(/\\(\\|"|n|r)/g, (_, ch) => { if (ch === 'n') return '\n'; if (ch === 'r') return '\r'; return ch; });
     }
     if (key) result[key] = value;
   }
@@ -142,7 +142,7 @@ function parseYamlArray(value: string | undefined): string[] {
     return trimmed
       .slice(1, -1)
       .split(',')
-      .map(s => s.trim().replace(/^["']|["']$/g, '').replace(/\\"/g, '"').replace(/\\\\/g, '\\'))
+      .map(s => s.trim().replace(/^["']|["']$/g, '').replace(/\\(\\|"|n|r)/g, (_, ch) => { if (ch === 'n') return '\n'; if (ch === 'r') return '\r'; return ch; }))
       .filter(Boolean);
   }
   return trimmed ? [trimmed] : [];
@@ -150,7 +150,7 @@ function parseYamlArray(value: string | undefined): string[] {
 
 /** Escape a string for use inside YAML double quotes. */
 function escapeYaml(s: string): string {
-  return s.replace(/\\/g, '\\\\').replace(/"/g, '\\"');
+  return s.replace(/\\/g, '\\\\').replace(/"/g, '\\"').replace(/\n/g, '\\n').replace(/\r/g, '\\r');
 }
 
 /**
